@@ -46,3 +46,42 @@ sunposition.springdays.exception.HttpErrorExceptions$CustomServiceUnavailableExc
 sunposition.springdays.exception.HttpErrorExceptions$CustomNotFoundException: Resource not found
 2024-04-07 14:50:48 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Method not allowed
 sunposition.springdays.exception.HttpErrorExceptions$CustomMethodNotAllowedException: Method not allowed
+2024-04-07 14:58:29 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [sunposition.springdays.cache.DataCacheTest]: DataCacheTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-07 14:58:31 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Bad request
+sunposition.springdays.exception.HttpErrorExceptions$CustomBadRequestException: Bad request
+2024-04-07 14:58:31 [main] ERROR s.s.exception.GlobalExceptionHandler - CustomInternalServerErrorException occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 14:58:31 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 14:58:31 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Service unavailable
+sunposition.springdays.exception.HttpErrorExceptions$CustomServiceUnavailableException: Service unavailable
+2024-04-07 14:58:31 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Resource not found
+sunposition.springdays.exception.HttpErrorExceptions$CustomNotFoundException: Resource not found
+2024-04-07 14:58:31 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Method not allowed
+sunposition.springdays.exception.HttpErrorExceptions$CustomMethodNotAllowedException: Method not allowed
+2024-04-07 15:00:56 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [sunposition.springdays.cache.DataCacheTest]: DataCacheTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-07 15:00:58 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Bad request
+sunposition.springdays.exception.HttpErrorExceptions$CustomBadRequestException: Bad request
+2024-04-07 15:00:58 [main] ERROR s.s.exception.GlobalExceptionHandler - CustomInternalServerErrorException occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 15:00:58 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 15:00:58 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Service unavailable
+sunposition.springdays.exception.HttpErrorExceptions$CustomServiceUnavailableException: Service unavailable
+2024-04-07 15:00:58 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Resource not found
+sunposition.springdays.exception.HttpErrorExceptions$CustomNotFoundException: Resource not found
+2024-04-07 15:00:58 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Method not allowed
+sunposition.springdays.exception.HttpErrorExceptions$CustomMethodNotAllowedException: Method not allowed
+2024-04-07 15:03:47 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [sunposition.springdays.cache.DataCacheTest]: DataCacheTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-07 15:03:49 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Bad request
+sunposition.springdays.exception.HttpErrorExceptions$CustomBadRequestException: Bad request
+2024-04-07 15:03:49 [main] ERROR s.s.exception.GlobalExceptionHandler - CustomInternalServerErrorException occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 15:03:49 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 15:03:49 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Service unavailable
+sunposition.springdays.exception.HttpErrorExceptions$CustomServiceUnavailableException: Service unavailable
+2024-04-07 15:03:49 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Resource not found
+sunposition.springdays.exception.HttpErrorExceptions$CustomNotFoundException: Resource not found
+2024-04-07 15:03:49 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Method not allowed
+sunposition.springdays.exception.HttpErrorExceptions$CustomMethodNotAllowedException: Method not allowed

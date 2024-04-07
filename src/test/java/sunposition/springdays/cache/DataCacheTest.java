@@ -3,31 +3,19 @@ package sunposition.springdays.cache;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
 public class DataCacheTest {
 
-    @Mock
-    private Map<String, Object> hashMap;
-
-    @InjectMocks
     private DataCache dataCache;
 
     @Before
     public void setup() {
-        Map<String, Object> realHashMap = new HashMap<>();
-        hashMap = Mockito.spy(realHashMap);
-        dataCache.setHashMap(hashMap);
+        dataCache = new DataCache();
     }
 
     @Test
@@ -60,7 +48,6 @@ public class DataCacheTest {
         assertNull(dataCache.get(key2));
     }
 
-
     @Test
     public void testRemoveOldestEntry() {
         String key1 = "key1";
@@ -72,7 +59,9 @@ public class DataCacheTest {
         dataCache.put(key1, value1);
         dataCache.put(key2, value2);
         dataCache.put(key3, value3);
+        // Вызываем метод removeOldestEntry через экземпляр dataCache
         dataCache.removeOldestEntry();
+        // Проверяем, что первый добавленный элемент был удален
         assertNull(dataCache.get(key1));
     }
 }
