@@ -83,7 +83,6 @@ class CountryMapperTest {
 
     @Test
     void testToDtoAndToEntityWithDifferentStates() {
-        // Create a Country entity with some values
         Country country = new Country();
         country.setId(1L);
         country.setName("Test Country");
@@ -91,17 +90,13 @@ class CountryMapperTest {
         country.setPopulation(1000000L);
         country.setLanguage("Test Language");
 
-        // Map the entity to a DTO
         CountryDto countryDto = CountryMapper.toDto(country);
 
-        // Change some values in the DTO
         countryDto.setName("Updated Country");
         countryDto.setPopulation(2000000L);
 
-        // Map the DTO back to an entity
         Country updatedCountry = CountryMapper.toEntity(countryDto);
 
-        // Assert that the updated values are correctly mapped
         assertEquals(country.getId(), updatedCountry.getId());
         assertEquals(countryDto.getName(), updatedCountry.getName());
         assertEquals(country.getCapital(), updatedCountry.getCapital());
@@ -110,4 +105,3 @@ class CountryMapperTest {
     }
 
 }
-

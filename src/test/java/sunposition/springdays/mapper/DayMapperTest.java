@@ -80,7 +80,6 @@ class DayMapperTest {
 
     @Test
     void testToDtoAndToEntityWithDifferentStates() {
-        // Create a Day entity with some values
         Day day = new Day();
         day.setId(1L);
         day.setLocation("Test Location");
@@ -90,17 +89,13 @@ class DayMapperTest {
         day.setTimeOfSunset(LocalTime.parse("18:00"));
         day.setWeatherConditions("Test Weather Conditions");
 
-        // Map the entity to a DTO
         DayDto dayDto = DayMapper.toDto(day);
 
-        // Change some values in the DTO
         dayDto.setLocation("Updated Location");
         dayDto.setTimeOfSunrise(LocalTime.parse("07:00"));
 
-        // Map the DTO back to an entity
         Day updatedDay = DayMapper.toEntity(dayDto);
 
-        // Assert that the updated values are correctly mapped
         assertEquals(day.getId(), updatedDay.getId());
         assertEquals(dayDto.getLocation(), updatedDay.getLocation());
         assertEquals(day.getCoordinates(), updatedDay.getCoordinates());
