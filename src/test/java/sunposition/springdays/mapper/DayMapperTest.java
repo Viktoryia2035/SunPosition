@@ -111,7 +111,6 @@ class DayMapperTest {
         dayDto.setId(null);
         dayDto.setLocation(null);
         dayDto.setCoordinates(null);
-        dayDto.setDateOfSunriseSunset(null);
         dayDto.setTimeOfSunrise(null);
         dayDto.setTimeOfSunset(null);
         dayDto.setWeatherConditions(null);
@@ -121,11 +120,11 @@ class DayMapperTest {
         assertNull(day.getId());
         assertNull(day.getLocation());
         assertNull(day.getCoordinates());
-        assertNull(day.getDateOfSunriseSunset());
         assertNull(day.getTimeOfSunrise());
         assertNull(day.getTimeOfSunset());
         assertNull(day.getWeatherConditions());
     }
+
 
     @Test
     void testToDtoWithNullArgument() {
