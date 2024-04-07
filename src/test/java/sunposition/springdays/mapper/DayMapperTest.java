@@ -7,6 +7,7 @@ import sunposition.springdays.model.Day;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DayMapperTest {
@@ -54,5 +55,60 @@ class DayMapperTest {
         assertEquals(dayDto.getTimeOfSunset(), day.getTimeOfSunset());
         assertEquals(dayDto.getWeatherConditions(), day.getWeatherConditions());
     }
+
+    @Test
+    void testToDtoWithNullValues() {
+        Day day = new Day();
+        day.setId(null);
+        day.setLocation(null);
+        day.setCoordinates(null);
+        day.setDateOfSunriseSunset(null);
+        day.setTimeOfSunrise(null);
+        day.setTimeOfSunset(null);
+        day.setWeatherConditions(null);
+
+        DayDto dayDto = DayMapper.toDto(day);
+
+        assertNull(dayDto.getId());
+        assertNull(dayDto.getLocation());
+        assertNull(dayDto.getCoordinates());
+        assertNull(dayDto.getDateOfSunriseSunset());
+        assertNull(dayDto.getTimeOfSunrise());
+        assertNull(dayDto.getTimeOfSunset());
+        assertNull(dayDto.getWeatherConditions());
+    }
+
+    @Test
+    void testToDtoAndToEntityWithDifferentStates() {
+        // Create a Day entity with some values
+        Day day = new Day();
+        day.setId(1L);
+        day.setLocation("Test Location");
+        day.setCoordinates("Test Coordinates");
+        day.setDateOfSunriseSunset(LocalDate.parse("2023-04-01"));
+        day.setTimeOfSunrise(LocalTime.parse("06:00"));
+        day.setTimeOfSunset(LocalTime.parse("18:00"));
+        day.setWeatherConditions("Test Weather Conditions");
+
+        // Map the entity to a DTO
+        DayDto dayDto = DayMapper.toDto(day);
+
+        // Change some values in the DTO
+        dayDto.setLocation("Updated Location");
+        dayDto.setTimeOfSunrise(LocalTime.parse("07:00"));
+
+        // Map the DTO back to an entity
+        Day updatedDay = DayMapper.toEntity(dayDto);
+
+        // Assert that the updated values are correctly mapped
+        assertEquals(day.getId(), updatedDay.getId());
+        assertEquals(dayDto.getLocation(), updatedDay.getLocation());
+        assertEquals(day.getCoordinates(), updatedDay.getCoordinates());
+        assertEquals(day.getDateOfSunriseSunset(), updatedDay.getDateOfSunriseSunset());
+        assertEquals(dayDto.getTimeOfSunrise(), updatedDay.getTimeOfSunrise());
+        assertEquals(day.getTimeOfSunset(), updatedDay.getTimeOfSunset());
+        assertEquals(day.getWeatherConditions(), updatedDay.getWeatherConditions());
+    }
+
 }
 

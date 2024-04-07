@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.model.Country;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CountryMapperTest {
@@ -43,5 +44,70 @@ class CountryMapperTest {
         assertEquals(countryDto.getPopulation(), country.getPopulation());
         assertEquals(countryDto.getLanguage(), country.getLanguage());
     }
+
+    @Test
+    void testToDtoWithNullValues() {
+        Country country = new Country();
+        country.setId(null);
+        country.setName(null);
+        country.setCapital(null);
+        country.setPopulation(null);
+        country.setLanguage(null);
+
+        CountryDto countryDto = CountryMapper.toDto(country);
+
+        assertNull(countryDto.getId());
+        assertNull(countryDto.getName());
+        assertNull(countryDto.getCapital());
+        assertNull(countryDto.getPopulation());
+        assertNull(countryDto.getLanguage());
+    }
+
+    @Test
+    void testToEntityWithNullValues() {
+        CountryDto countryDto = new CountryDto();
+        countryDto.setId(null);
+        countryDto.setName(null);
+        countryDto.setCapital(null);
+        countryDto.setPopulation(null);
+        countryDto.setLanguage(null);
+
+        Country country = CountryMapper.toEntity(countryDto);
+
+        assertNull(country.getId());
+        assertNull(country.getName());
+        assertNull(country.getCapital());
+        assertNull(country.getPopulation());
+        assertNull(country.getLanguage());
+    }
+
+    @Test
+    void testToDtoAndToEntityWithDifferentStates() {
+        // Create a Country entity with some values
+        Country country = new Country();
+        country.setId(1L);
+        country.setName("Test Country");
+        country.setCapital("Test Capital");
+        country.setPopulation(1000000L);
+        country.setLanguage("Test Language");
+
+        // Map the entity to a DTO
+        CountryDto countryDto = CountryMapper.toDto(country);
+
+        // Change some values in the DTO
+        countryDto.setName("Updated Country");
+        countryDto.setPopulation(2000000L);
+
+        // Map the DTO back to an entity
+        Country updatedCountry = CountryMapper.toEntity(countryDto);
+
+        // Assert that the updated values are correctly mapped
+        assertEquals(country.getId(), updatedCountry.getId());
+        assertEquals(countryDto.getName(), updatedCountry.getName());
+        assertEquals(country.getCapital(), updatedCountry.getCapital());
+        assertEquals(countryDto.getPopulation(), updatedCountry.getPopulation());
+        assertEquals(country.getLanguage(), updatedCountry.getLanguage());
+    }
+
 }
 
