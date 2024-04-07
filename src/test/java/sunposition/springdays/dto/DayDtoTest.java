@@ -110,4 +110,87 @@ class DayDtoTest {
         DayDto dayDto = new DayDto();
         assertThrows(IllegalArgumentException.class, () -> dayDto.setDateOfSunriseSunset(null), "Date of sunrise/sunset cannot be null");
     }
+
+    @Test
+    void testEqualsWithNull() {
+        DayDto dayDto = new DayDto();
+        assertNotEquals(null, dayDto, "DayDto object should not be equal to null");
+    }
+
+    @Test
+    void testEqualsWithDifferentClass() {
+        DayDto dayDto = new DayDto();
+        String differentClassObject = "Different Class Object";
+        assertNotEquals(dayDto, differentClassObject, "DayDto object should not be equal to object of different class");
+    }
+
+    @Test
+    void testEqualsWithSameObject() {
+        DayDto dayDto = new DayDto();
+        assertEquals(dayDto, dayDto, "DayDto object should be equal to itself");
+    }
+
+    @Test
+    void testEqualsWithDifferentId() {
+        DayDto dayDto1 = new DayDto();
+        dayDto1.setId(1L);
+        DayDto dayDto2 = new DayDto();
+        dayDto2.setId(2L);
+        assertNotEquals(dayDto1, dayDto2, "DayDto objects with different IDs should not be equal");
+    }
+
+    @Test
+    void testEqualsWithDifferentLocation() {
+        DayDto dayDto1 = new DayDto();
+        dayDto1.setLocation("Location1");
+        DayDto dayDto2 = new DayDto();
+        dayDto2.setLocation("Location2");
+        assertNotEquals(dayDto1, dayDto2, "DayDto objects with different locations should not be equal");
+    }
+
+    @Test
+    void testEqualsWithDifferentCoordinates() {
+        DayDto dayDto1 = new DayDto();
+        dayDto1.setCoordinates("12.34, 56.78");
+        DayDto dayDto2 = new DayDto();
+        dayDto2.setCoordinates("12.35, 56.79");
+        assertNotEquals(dayDto1, dayDto2, "DayDto objects with different coordinates should not be equal");
+    }
+
+    @Test
+    void testEqualsWithDifferentDateOfSunriseSunset() {
+        DayDto dayDto1 = new DayDto();
+        dayDto1.setDateOfSunriseSunset(LocalDate.of(2024, 4, 7));
+        DayDto dayDto2 = new DayDto();
+        dayDto2.setDateOfSunriseSunset(LocalDate.of(2024, 4, 8));
+        assertNotEquals(dayDto1, dayDto2, "DayDto objects with different dates of sunrise/sunset should not be equal");
+    }
+
+    @Test
+    void testEqualsWithDifferentTimeOfSunrise() {
+        DayDto dayDto1 = new DayDto();
+        dayDto1.setTimeOfSunrise(LocalTime.of(6, 0));
+        DayDto dayDto2 = new DayDto();
+        dayDto2.setTimeOfSunrise(LocalTime.of(7, 0));
+        assertNotEquals(dayDto1, dayDto2, "DayDto objects with different times of sunrise should not be equal");
+    }
+
+    @Test
+    void testEqualsWithDifferentTimeOfSunset() {
+        DayDto dayDto1 = new DayDto();
+        dayDto1.setTimeOfSunset(LocalTime.of(18, 0));
+        DayDto dayDto2 = new DayDto();
+        dayDto2.setTimeOfSunset(LocalTime.of(19, 0));
+        assertNotEquals(dayDto1, dayDto2, "DayDto objects with different times of sunset should not be equal");
+    }
+
+    @Test
+    void testEqualsWithDifferentWeatherConditions() {
+        DayDto dayDto1 = new DayDto();
+        dayDto1.setWeatherConditions("Sunny");
+        DayDto dayDto2 = new DayDto();
+        dayDto2.setWeatherConditions("Cloudy");
+        assertNotEquals(dayDto1, dayDto2, "DayDto objects with different weather conditions should not be equal");
+    }
+
 }
