@@ -105,5 +105,39 @@ class DayMapperTest {
         assertEquals(day.getWeatherConditions(), updatedDay.getWeatherConditions());
     }
 
+    @Test
+    void testToEntityWithNullValues() {
+        DayDto dayDto = new DayDto();
+        dayDto.setId(null);
+        dayDto.setLocation(null);
+        dayDto.setCoordinates(null);
+        dayDto.setDateOfSunriseSunset(null);
+        dayDto.setTimeOfSunrise(null);
+        dayDto.setTimeOfSunset(null);
+        dayDto.setWeatherConditions(null);
+
+        Day day = DayMapper.toEntity(dayDto);
+
+        assertNull(day.getId());
+        assertNull(day.getLocation());
+        assertNull(day.getCoordinates());
+        assertNull(day.getDateOfSunriseSunset());
+        assertNull(day.getTimeOfSunrise());
+        assertNull(day.getTimeOfSunset());
+        assertNull(day.getWeatherConditions());
+    }
+
+    @Test
+    void testToDtoWithNullArgument() {
+        DayDto dayDto = DayMapper.toDto(null);
+        assertNull(dayDto);
+    }
+
+    @Test
+    void testToEntityWithNullArgument() {
+        Day day = DayMapper.toEntity(null);
+        assertNull(day);
+    }
+
 }
 
