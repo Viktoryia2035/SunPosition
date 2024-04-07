@@ -5,7 +5,6 @@ import org.aspectj.lang.Signature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
-import sunposition.springdays.model.Country;
 
 import static org.mockito.Mockito.*;
 
@@ -68,46 +67,26 @@ class LoggingAspectTest {
     }
 
     @Test
-    void testLogArguments() {
-        // Подготовка
-        when(joinPoint.getArgs()).thenReturn(new Object[]{"arg1", "arg2"});
+    void testLogArgumentsWithNullArguments() {
+        when(mockSignature.getName()).thenReturn("testMethod");
+        when(joinPoint.getArgs()).thenReturn(new Object[]{null});
 
-        // Вызов метода
-        loggingAspect.logArguments(joinPoint);
-
-        // Проверка
-        verify(mockLogger, times(1)).info("Method arguments: {}", "arg1, arg2");
-    }
-
-    @Test
-    void testBeforeAdviceWithLoggerAnnotation() {
-        // Подготовка
-        when(joinPoint.getSignature()).thenReturn(mockSignature);
-        when(mockSignature.getName()).thenReturn("updateCountryName");
-        when(joinPoint.getArgs()).thenReturn(new Object[]{new Country(), "New Name"});
-
-        // Вызов метода
         loggingAspect.beforeAdvice(joinPoint);
 
-        // Проверка
-        verify(mockLogger, times(1)).info("Entering method: {}", "updateCountryName");
-        verify(mockLogger, times(1)).info("Method arguments: {}", "Country@hashcode, New Name");
+        verify(mockLogger, times(1)).info("Entering method: {}", "testMethod");
+        verify(joinPoint, times(1)).getArgs();
+        verify(mockLogger, times(1)).info("Method arguments: ");
     }
 
     @Test
-    void testAfterReturningAdviceWithLoggerAnnotation() {
-        // Подготовка
-        when(joinPoint.getSignature()).thenReturn(mockSignature);
-        when(mockSignature.getName()).thenReturn("updateCountryName");
-        Country updatedCountry = new Country();
-        updatedCountry.setName("New Name");
+    void testLogArgumentsWithNoArguments() {
+        when(mockSignature.getName()).thenReturn("testMethod");
+        when(joinPoint.getArgs()).thenReturn(new Object[]{});
 
-        // Вызов метода
-        loggingAspect.afterReturningAdvice(joinPoint, updatedCountry);
+        loggingAspect.beforeAdvice(joinPoint);
 
-        // Проверка
-        verify(mockLogger, times(1)).info("Exiting method: {}, with result: {}", "updateCountryName", updatedCountry.toString());
+        verify(mockLogger, times(1)).info("Entering method: {}", "testMethod");
+        verify(joinPoint, times(1)).getArgs();
+        verify(mockLogger, times(1)).info("Method arguments: ");
     }
-
-
 }

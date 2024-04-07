@@ -42,7 +42,7 @@ public class LoggingAspect {
                 ex.getClass().getSimpleName(), ex);
     }
 
-    void logArguments(final JoinPoint joinPoint) {
+    private void logArguments(final JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
             StringBuilder argsString = new StringBuilder();
