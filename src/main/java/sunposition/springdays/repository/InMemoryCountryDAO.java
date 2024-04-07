@@ -45,7 +45,6 @@ public class InMemoryCountryDAO {
 
     public Country save(Country country) {
         entityManager.persist(country);
-        entityManager.flush();
         return country;
     }
 
