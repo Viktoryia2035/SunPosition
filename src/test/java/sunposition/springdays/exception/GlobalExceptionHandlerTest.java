@@ -51,8 +51,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void testHandleCustomServiceUnavailableException() {
         GlobalExceptionHandler handler = new GlobalExceptionHandler();
-        RuntimeException ex = mock(HttpErrorExceptions.CustomServiceUnavailableException.class);
-        when(ex.getMessage()).thenReturn("Service unavailable");
+        RuntimeException ex = new HttpErrorExceptions.CustomServiceUnavailableException("Service unavailable");
 
         ResponseEntity<Object> response = handler.handleCustomExceptions(ex);
 
