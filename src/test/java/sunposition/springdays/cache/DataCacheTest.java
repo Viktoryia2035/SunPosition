@@ -1,7 +1,7 @@
 package sunposition.springdays.cache;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -15,13 +15,13 @@ class DataCacheTest {
 
     private DataCache dataCache;
 
-    @Before
+    @BeforeEach
     void setup() {
         dataCache = new DataCache();
     }
 
     @Test
-    void testPutAndGet() {
+    void putAndGet() {
         String key = "testKey";
         Object value = new Object();
         dataCache.put(key, value);
@@ -29,7 +29,7 @@ class DataCacheTest {
     }
 
     @Test
-    void testRemove() {
+    void remove() {
         String key = "testKey";
         Object value = new Object();
         dataCache.put(key, value);
@@ -38,7 +38,14 @@ class DataCacheTest {
     }
 
     @Test
-    void testClear() {
+    void putTwiceAndGet() {
+        dataCache.put("key1", "value1");
+        dataCache.put("key1", "value2");
+        assertEquals("value2", dataCache.get("key1"));
+    }
+
+    @Test
+    void clear() {
         String key1 = "testKey1";
         String key2 = "testKey2";
         Object value1 = new Object();
@@ -51,7 +58,7 @@ class DataCacheTest {
     }
 
     @Test
-    void testClearWhenSizeExceeds() {
+    void clearWhenSizeExceeds() {
         for (int i = 0; i < DataCache.MAX_SIZE + 1; i++) {
             dataCache.put("key" + i, new Object());
         }
@@ -59,7 +66,7 @@ class DataCacheTest {
     }
 
     @Test
-    void testRemoveOldestEntry() {
+    void removeOldestEntry() {
         String key1 = "key1";
         String key2 = "key2";
         String key3 = "key3";
@@ -74,14 +81,14 @@ class DataCacheTest {
     }
 
     @Test
-    void testPutAndGetWithNullValue() {
+    void putAndGetWithNullValue() {
         String key = "testKey";
         dataCache.put(key, null);
         assertNull(dataCache.get(key));
     }
 
     @Test
-    void testCacheSizeLimit() {
+    void cacheSizeLimit() {
         for (int i = 0; i < DataCache.MAX_SIZE + 1; i++) {
             dataCache.put("key" + i, new Object());
         }
@@ -89,7 +96,7 @@ class DataCacheTest {
     }
 
     @Test
-    void testSetHashMap() {
+    void setHashMap() {
         Map<String, Object> newMap = new ConcurrentHashMap<>();
         newMap.put("newKey", new Object());
         dataCache.setHashMap(newMap);
@@ -99,7 +106,7 @@ class DataCacheTest {
     }
 
     @Test
-    void testRemoveOldestEntryDirectly() {
+    void removeOldestEntryDirectly() {
         String key1 = "key1";
         String key2 = "key2";
         Object value1 = new Object();
