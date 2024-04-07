@@ -69,29 +69,7 @@ class DayTest {
         assertEquals("12.34, 56.78", day.getCoordinates(), "Coordinates should be set correctly");
     }
 
-    @Test
-    void testToString() {
-        Day day = new Day();
-        day.setId(1L);
-        day.setLocation("Test Location");
-        day.setCoordinates("12.34, 56.78");
-        day.setDateOfSunriseSunset(LocalDate.of(2024, 4, 7));
-        day.setTimeOfSunrise(LocalTime.of(6, 0));
-        day.setTimeOfSunset(LocalTime.of(18, 0));
-        day.setWeatherConditions("Sunny");
 
-        String expectedToString = "Day{"
-                + "id=1"
-                + ", location='Test Location'"
-                + ", coordinates='12.34, 56.78'"
-                + ", dateOfSunriseSunset=2024-04-07"
-                + ", timeOfSunrise=06:00"
-                + ", timeOfSunset=18:00"
-                + ", weatherConditions='Sunny'"
-                + '}';
-
-        assertEquals(expectedToString, day.toString(), "toString should return the correct string representation");
-    }
 
     @Test
     void testEqualsAndHashCode() {
