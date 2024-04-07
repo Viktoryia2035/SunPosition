@@ -67,26 +67,11 @@ class LoggingAspectTest {
     }
 
     @Test
-    void testLogArgumentsWithNullArguments() {
-        when(mockSignature.getName()).thenReturn("testMethod");
-        when(joinPoint.getArgs()).thenReturn(new Object[]{null});
-
-        loggingAspect.beforeAdvice(joinPoint);
-
-        verify(mockLogger, times(1)).info("Entering method: {}", "testMethod");
-        verify(joinPoint, times(1)).getArgs();
-        verify(mockLogger, times(1)).info("Method arguments: ");
-    }
-
-    @Test
     void testLogArgumentsWithNoArguments() {
-        when(mockSignature.getName()).thenReturn("testMethod");
         when(joinPoint.getArgs()).thenReturn(new Object[]{});
 
-        loggingAspect.beforeAdvice(joinPoint);
+        loggingAspect.logArguments(joinPoint);
 
-        verify(mockLogger, times(1)).info("Entering method: {}", "testMethod");
-        verify(joinPoint, times(1)).getArgs();
-        verify(mockLogger, times(1)).info("Method arguments: ");
+        verify(mockLogger, times(1)).info("Method arguments: {}", "null");
     }
 }

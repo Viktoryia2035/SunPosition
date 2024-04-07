@@ -42,7 +42,7 @@ public class LoggingAspect {
                 ex.getClass().getSimpleName(), ex);
     }
 
-    private void logArguments(final JoinPoint joinPoint) {
+    void logArguments(final JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
             StringBuilder argsString = new StringBuilder();
@@ -55,6 +55,8 @@ public class LoggingAspect {
                 }
             }
             log.info("Method arguments: {}", argsString);
+        } else {
+            log.info("Method arguments: {}", "null");
         }
     }
 }
