@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class DataCache {
-    private Map<String, Object> dataCacheMap = new ConcurrentHashMap<>();
+    Map<String, Object> dataCacheMap = new ConcurrentHashMap<>();
     protected static final int MAX_SIZE = 100;
 
     public void put(final String key, final Object value) {
