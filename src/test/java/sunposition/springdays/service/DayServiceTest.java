@@ -279,4 +279,89 @@ class DayServiceTest {
         verify(dayCache, times(0)).put(anyString(), any(DayDto.class));
         verify(dayCache, times(0)).clear();
     }
+
+    @Test
+    void testSaveSunriseSunset_RepositoryException() {
+        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
+        DataCache dayCache = mock(DataCache.class);
+        DayService dayService = new DayService(repository, dayCache);
+
+        Day day = new Day();
+
+        when(repository.save(day)).thenThrow(new RuntimeException("Repository error"));
+
+        try {
+            dayService.saveSunriseSunset(day, "POST");
+            fail("Expected CustomInternalServerErrorException to be thrown");
+        } catch (HttpErrorExceptions.CustomInternalServerErrorException e) {
+            assertTrue(true);
+        } catch (Exception e) {
+            fail("Unexpected exception thrown");
+        }
+
+        verify(dayCache, times(0)).put(anyString(), any(DayDto.class));
+        verify(dayCache, times(0)).clear();
+    }
+
+    @Test
+    void testUpdateSunriseSunset_CacheUpdate() {
+        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
+        DataCache dayCache = mock(DataCache.class);
+        DayService dayService = new DayService(repository, dayCache);
+
+        Day day = new Day();
+        day.setLocation("Location");
+
+        when(repository.findByLocation("Location")).thenReturn(day);
+        when(repository.save(day)).thenReturn(day);
+
+        Day updatedDay = dayService.updateSunriseSunset("Location", "Coordinates", LocalDate.now());
+
+        assertEquals(day, updatedDay);
+
+        String locationCacheKey = LOCATION_PREFIX + "Location";
+        verify(dayCache, times(1)).remove(locationCacheKey);
+        verify(dayCache, times(2)).put(any(), any(DayDto.class));
+        verify(dayCache, times(1)).clear();
+    }
+
+    @Test
+    void testSaveSunriseSunset_TransactionRollback() {
+        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
+        DataCache dayCache = mock(DataCache.class);
+        DayService dayService = new DayService(repository, dayCache);
+
+        Day day = new Day();
+
+        when(repository.save(day)).thenThrow(new RuntimeException("Repository error"));
+
+        try {
+            dayService.saveSunriseSunset(day, "POST");
+            fail("Expected CustomInternalServerErrorException to be thrown");
+        } catch (HttpErrorExceptions.CustomInternalServerErrorException e) {
+            assertTrue(true);
+        } catch (Exception e) {
+            fail("Unexpected exception thrown");
+        }
+
+        verify(dayCache, times(0)).put(anyString(), any(DayDto.class));
+        verify(dayCache, times(0)).clear();
+    }
+
+    @Test
+    void testFindByLocation_CacheHit() {
+        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
+        DataCache dayCache = mock(DataCache.class);
+        DayService dayService = new DayService(repository, dayCache);
+
+        DayDto cachedDayDto = new DayDto();
+        cachedDayDto.setLocation("Location");
+        when(dayCache.get(LOCATION_PREFIX + "Location")).thenReturn(cachedDayDto);
+
+        Day foundDay = dayService.findByLocation("Location");
+
+        assertEquals("Location", foundDay.getLocation());
+        verify(repository, never()).findByLocation("Location");
+    }
+
 }

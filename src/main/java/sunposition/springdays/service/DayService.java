@@ -37,18 +37,21 @@ public class DayService {
 
     public Day saveSunriseSunset(final Day day, final String httpMethod) {
         if (!"POST".equalsIgnoreCase(httpMethod)) {
-            throw new HttpErrorExceptions.
-                    CustomMethodNotAllowedException("Method not allowed "
-                    + "for the provided request.");
+            throw new HttpErrorExceptions.CustomMethodNotAllowedException("Method not allowed for the provided request.");
         }
 
-        Day savedDay = repository.save(day);
-        String cacheKey = LOCATION_PREFIX + savedDay.getLocation();
-        DayDto dayDto = DayMapper.toDto(savedDay);
-        dayCache.put(cacheKey, dayDto);
-        dayCache.clear();
-        return savedDay;
+        try {
+            Day savedDay = repository.save(day);
+            String cacheKey = LOCATION_PREFIX + savedDay.getLocation();
+            DayDto dayDto = DayMapper.toDto(savedDay);
+            dayCache.put(cacheKey, dayDto);
+            dayCache.clear();
+            return savedDay;
+        } catch (RuntimeException e) {
+            throw new HttpErrorExceptions.CustomInternalServerErrorException("An error occurred while saving the day", e);
+        }
     }
+
 
     public Day findByLocation(final String location) {
         if (location == null || location.isEmpty()) {

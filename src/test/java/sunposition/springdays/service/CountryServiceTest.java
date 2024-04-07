@@ -279,4 +279,63 @@ class CountryServiceTest {
             assertTrue(false);
         }
     }
+
+    @Test
+    void testSaveCountry_RepositoryException() {
+        CountryDto countryDto = new CountryDto("Country1");
+        countryDto.setName("CountryName");
+
+        when(repositoryOfCountry.saveAndFlush(any(Country.class))).thenThrow(new RuntimeException("Repository error"));
+
+        Exception exception = assertThrows(HttpErrorExceptions.CustomInternalServerErrorException.class, () -> {
+            countryService.saveCountry(countryDto);
+        });
+
+        assertEquals("An error occurred while saving the country", exception.getMessage());
+    }
+
+    @Test
+    void testUpdateCountryByName_CacheUpdate() {
+        CountryDto countryDto = new CountryDto("Country1");
+        countryDto.setName("OldName");
+        Country existingCountry = new Country();
+        existingCountry.setName("OldName");
+
+        when(repositoryOfCountry.findByName("OldName")).thenReturn(Optional.of(existingCountry));
+        when(repositoryOfCountry.findByName("NewName")).thenReturn(Optional.empty());
+
+        CountryDto updatedCountry = countryService.updateCountryByName("OldName", "NewName");
+
+        verify(countryCache, times(2)).remove("OldName");
+        verify(countryCache, times(1)).put(eq("NewName"), any(CountryDto.class));
+
+        assertEquals("NewName", updatedCountry.getName());
+    }
+
+    @Test
+    void testSaveCountry_TransactionRollback() {
+        CountryDto countryDto = new CountryDto("Country1");
+        countryDto.setName("CountryName");
+
+        when(repositoryOfCountry.saveAndFlush(any(Country.class))).thenThrow(new RuntimeException("Repository error"));
+
+        Exception exception = assertThrows(HttpErrorExceptions.CustomInternalServerErrorException.class, () -> {
+            countryService.saveCountry(countryDto);
+        });
+
+        verify(countryCache, never()).put(any(), any(CountryDto.class));
+        verify(countryCache, never()).clear();
+    }
+
+    @Test
+    void testFindAll_CacheHit() {
+        List<CountryDto> cachedCountries = Arrays.asList(new CountryDto("Country1"), new CountryDto("Country2"));
+        when(countryCache.get("all")).thenReturn(cachedCountries);
+
+        List<CountryDto> result = countryService.findAll();
+
+        assertEquals(cachedCountries, result);
+        verify(repositoryOfCountry, never()).findAll();
+    }
+
 }
