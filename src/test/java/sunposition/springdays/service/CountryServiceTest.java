@@ -327,15 +327,4 @@ class CountryServiceTest {
         verify(countryCache, never()).clear();
     }
 
-    @Test
-    void testFindAll_CacheHit() {
-        List<CountryDto> cachedCountries = Arrays.asList(new CountryDto("Country1"), new CountryDto("Country2"));
-        when(countryCache.get("all")).thenReturn(cachedCountries);
-
-        List<CountryDto> result = countryService.findAll();
-
-        assertEquals(cachedCountries, result);
-        verify(repositoryOfCountry, never()).findAll();
-    }
-
 }

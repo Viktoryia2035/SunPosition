@@ -2100,3 +2100,9 @@ java.lang.RuntimeException: An error occurred
 2024-04-07 22:19:33 [main] INFO  s.springdays.service.DayServiceTest - Starting DayServiceTest using Java 21.0.2 with PID 12120 (started by User in D:\ПнаЯВУ Java\springdays)
 2024-04-07 22:19:33 [main] INFO  s.springdays.service.DayServiceTest - No active profile set, falling back to 1 default profile: "default"
 2024-04-07 22:19:35 [main] INFO  s.springdays.service.DayServiceTest - Started DayServiceTest in 2.553 seconds (process running for 4.051)
+2024-04-07 22:25:14 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [sunposition.springdays.service.DayServiceTest]: DayServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-07 22:25:14 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration sunposition.springdays.SpringDaysApplication for test class sunposition.springdays.service.DayServiceTest
+2024-04-07 22:25:14 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-04-07 22:25:14 [main] INFO  s.springdays.service.DayServiceTest - Starting DayServiceTest using Java 21.0.2 with PID 11020 (started by User in D:\ПнаЯВУ Java\springdays)
+2024-04-07 22:25:14 [main] INFO  s.springdays.service.DayServiceTest - No active profile set, falling back to 1 default profile: "default"
+2024-04-07 22:25:17 [main] INFO  s.springdays.service.DayServiceTest - Started DayServiceTest in 2.918 seconds (process running for 4.321)
