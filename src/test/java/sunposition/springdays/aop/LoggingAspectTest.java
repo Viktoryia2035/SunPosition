@@ -5,6 +5,7 @@ import org.aspectj.lang.Signature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
+import sunposition.springdays.model.Country;
 
 import static org.mockito.Mockito.*;
 
@@ -65,4 +66,48 @@ class LoggingAspectTest {
 
         verify(mockLogger, times(1)).error("Exception thrown in method: {} - Error: {}", "testMethod", ex.getClass().getSimpleName(), ex);
     }
+
+    @Test
+    void testLogArguments() {
+        // Подготовка
+        when(joinPoint.getArgs()).thenReturn(new Object[]{"arg1", "arg2"});
+
+        // Вызов метода
+        loggingAspect.logArguments(joinPoint);
+
+        // Проверка
+        verify(mockLogger, times(1)).info("Method arguments: {}", "arg1, arg2");
+    }
+
+    @Test
+    void testBeforeAdviceWithLoggerAnnotation() {
+        // Подготовка
+        when(joinPoint.getSignature()).thenReturn(mockSignature);
+        when(mockSignature.getName()).thenReturn("updateCountryName");
+        when(joinPoint.getArgs()).thenReturn(new Object[]{new Country(), "New Name"});
+
+        // Вызов метода
+        loggingAspect.beforeAdvice(joinPoint);
+
+        // Проверка
+        verify(mockLogger, times(1)).info("Entering method: {}", "updateCountryName");
+        verify(mockLogger, times(1)).info("Method arguments: {}", "Country@hashcode, New Name");
+    }
+
+    @Test
+    void testAfterReturningAdviceWithLoggerAnnotation() {
+        // Подготовка
+        when(joinPoint.getSignature()).thenReturn(mockSignature);
+        when(mockSignature.getName()).thenReturn("updateCountryName");
+        Country updatedCountry = new Country();
+        updatedCountry.setName("New Name");
+
+        // Вызов метода
+        loggingAspect.afterReturningAdvice(joinPoint, updatedCountry);
+
+        // Проверка
+        verify(mockLogger, times(1)).info("Exiting method: {}, with result: {}", "updateCountryName", updatedCountry.toString());
+    }
+
+
 }
