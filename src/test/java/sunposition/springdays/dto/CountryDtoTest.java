@@ -2,8 +2,7 @@ package sunposition.springdays.dto;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CountryDtoTest {
 
@@ -18,6 +17,39 @@ class CountryDtoTest {
         CountryDto countryDto = new CountryDto();
         countryDto.setName("Test Country");
         assertEquals("Test Country", countryDto.getName(), "Name should be set correctly");
+    }
+
+    @Test
+    void testSetAndGetId() {
+        CountryDto countryDto = new CountryDto();
+        countryDto.setId(1L);
+        assertEquals(1L, countryDto.getId(), "ID should be set correctly");
+    }
+
+    @Test
+    void testClearDays() {
+        CountryDto countryDto = new CountryDto();
+        DayDto dayDto = new DayDto();
+        countryDto.getDays().add(dayDto);
+        countryDto.getDays().clear();
+        assertEquals(0, countryDto.getDays().size(), "Days list should be cleared");
+    }
+
+    @Test
+    void testEqualsAndHashCodeWithDifferentProperties() {
+        CountryDto countryDto1 = new CountryDto("Country1");
+        CountryDto countryDto2 = new CountryDto("Country2");
+        assertNotEquals(countryDto1, countryDto2, "CountryDto objects with different names should not be equal");
+        assertNotEquals(countryDto1.hashCode(), countryDto2.hashCode(), "CountryDto objects with different names should not have the same hash code");
+    }
+
+
+    @Test
+    void testEqualsAndHashCodeWithNullProperties() {
+        CountryDto countryDto1 = new CountryDto();
+        CountryDto countryDto2 = new CountryDto();
+        assertNotEquals(countryDto1, countryDto2, "CountryDto objects with null names should not be equal");
+        assertNotEquals(countryDto1.hashCode(), countryDto2.hashCode(), "CountryDto objects with null names should not have the same hash code");
     }
 
     @Test
