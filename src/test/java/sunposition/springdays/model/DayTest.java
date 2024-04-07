@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class DayTest {
@@ -117,5 +116,71 @@ class DayTest {
         assertEquals(day1, day2, "Two days with the same properties should be equal");
         assertEquals(day1.hashCode(), day2.hashCode(), "Two days with the same properties should have the same hash code");
     }
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Day day1 = new Day();
+        day1.setId(1L);
+        day1.setLocation("Location1");
+        day1.setCoordinates("12.34, 56.78");
+        day1.setDateOfSunriseSunset(LocalDate.of(2024, 4, 7));
+        day1.setTimeOfSunrise(LocalTime.of(6, 0));
+        day1.setTimeOfSunset(LocalTime.of(18, 0));
+        day1.setWeatherConditions("Sunny");
+
+        Day day2 = new Day();
+        day2.setId(2L);
+        day2.setLocation("Location2");
+        day2.setCoordinates("12.35, 56.79");
+        day2.setDateOfSunriseSunset(LocalDate.of(2024, 4, 8));
+        day2.setTimeOfSunrise(LocalTime.of(7, 0));
+        day2.setTimeOfSunset(LocalTime.of(19, 0));
+        day2.setWeatherConditions("Cloudy");
+
+        assertNotEquals(day1, day2, "Days with different properties should not be equal");
+    }
+
+    @Test
+    void testHashCodeWithDifferentObjects() {
+        Day day1 = new Day();
+        day1.setId(1L);
+        day1.setLocation("Location1");
+        day1.setCoordinates("12.34, 56.78");
+        day1.setDateOfSunriseSunset(LocalDate.of(2024, 4, 7));
+        day1.setTimeOfSunrise(LocalTime.of(6, 0));
+        day1.setTimeOfSunset(LocalTime.of(18, 0));
+        day1.setWeatherConditions("Sunny");
+
+        Day day2 = new Day();
+        day2.setId(2L);
+        day2.setLocation("Location2");
+        day2.setCoordinates("12.35, 56.79");
+        day2.setDateOfSunriseSunset(LocalDate.of(2024, 4, 8));
+        day2.setTimeOfSunrise(LocalTime.of(7, 0));
+        day2.setTimeOfSunset(LocalTime.of(19, 0));
+        day2.setWeatherConditions("Cloudy");
+
+        assertNotEquals(day1.hashCode(), day2.hashCode(), "Days with different properties should have different hash codes");
+    }
+
+    @Test
+    void testEqualsWithNull() {
+        Day day = new Day();
+        assertNotEquals(null, day, "Day object should not be equal to null");
+    }
+
+    @Test
+    void testEqualsWithDifferentClass() {
+        Day day = new Day();
+        String differentClassObject = "Different Class Object";
+        assertNotEquals(day, differentClassObject, "Day object should not be equal to object of different class");
+    }
+
+    @Test
+    void testEqualsWithSameObject() {
+        Day day = new Day();
+        assertEquals(day, day, "Day object should be equal to itself");
+    }
+
 
 }
