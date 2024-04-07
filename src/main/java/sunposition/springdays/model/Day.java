@@ -2,14 +2,20 @@ package sunposition.springdays.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "day")
 public class Day {
@@ -39,17 +45,4 @@ public class Day {
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
-
-    @Override
-    public String toString() {
-        return "Day{"
-                + "id=" + id
-                + ", location='" + location + '\''
-                + ", coordinates='" + coordinates + '\''
-                + ", dateOfSunriseSunset=" + dateOfSunriseSunset
-                + ", timeOfSunrise=" + timeOfSunrise
-                + ", timeOfSunset=" + timeOfSunset
-                + ", weatherConditions='" + weatherConditions + '\''
-                + '}';
-    }
 }
