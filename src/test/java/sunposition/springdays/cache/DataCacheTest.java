@@ -51,6 +51,14 @@ public class DataCacheTest {
     }
 
     @Test
+    public void testClearWhenSizeExceeds() {
+        for (int i = 0; i < DataCache.MAX_SIZE + 1; i++) {
+            dataCache.put("key" + i, new Object());
+        }
+        assertEquals(DataCache.MAX_SIZE, dataCache.dataCacheMap.size());
+    }
+
+    @Test
     public void testRemoveOldestEntry() {
         String key1 = "key1";
         String key2 = "key2";
@@ -102,5 +110,6 @@ public class DataCacheTest {
         assertNull(dataCache.get(key1));
         assertNotNull(dataCache.get(key2));
     }
+
 
 }
