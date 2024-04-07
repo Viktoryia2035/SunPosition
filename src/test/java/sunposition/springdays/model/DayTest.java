@@ -62,4 +62,60 @@ class DayTest {
         day.setCountry(mockCountry);
         assertEquals(mockCountry, day.getCountry(), "Country should be set correctly");
     }
+
+    @Test
+    void testSetAndGetCoordinates() {
+        Day day = new Day();
+        day.setCoordinates("12.34, 56.78");
+        assertEquals("12.34, 56.78", day.getCoordinates(), "Coordinates should be set correctly");
+    }
+
+    @Test
+    void testToString() {
+        Day day = new Day();
+        day.setId(1L);
+        day.setLocation("Test Location");
+        day.setCoordinates("12.34, 56.78");
+        day.setDateOfSunriseSunset(LocalDate.of(2024, 4, 7));
+        day.setTimeOfSunrise(LocalTime.of(6, 0));
+        day.setTimeOfSunset(LocalTime.of(18, 0));
+        day.setWeatherConditions("Sunny");
+
+        String expectedToString = "Day{"
+                + "id=1"
+                + ", location='Test Location'"
+                + ", coordinates='12.34, 56.78'"
+                + ", dateOfSunriseSunset=2024-04-07"
+                + ", timeOfSunrise=06:00"
+                + ", timeOfSunset=18:00"
+                + ", weatherConditions='Sunny'"
+                + '}';
+
+        assertEquals(expectedToString, day.toString(), "toString should return the correct string representation");
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        Day day1 = new Day();
+        day1.setId(1L);
+        day1.setLocation("Test Location");
+        day1.setCoordinates("12.34, 56.78");
+        day1.setDateOfSunriseSunset(LocalDate.of(2024, 4, 7));
+        day1.setTimeOfSunrise(LocalTime.of(6, 0));
+        day1.setTimeOfSunset(LocalTime.of(18, 0));
+        day1.setWeatherConditions("Sunny");
+
+        Day day2 = new Day();
+        day2.setId(1L);
+        day2.setLocation("Test Location");
+        day2.setCoordinates("12.34, 56.78");
+        day2.setDateOfSunriseSunset(LocalDate.of(2024, 4, 7));
+        day2.setTimeOfSunrise(LocalTime.of(6, 0));
+        day2.setTimeOfSunset(LocalTime.of(18, 0));
+        day2.setWeatherConditions("Sunny");
+
+        assertEquals(day1, day2, "Two days with the same properties should be equal");
+        assertEquals(day1.hashCode(), day2.hashCode(), "Two days with the same properties should have the same hash code");
+    }
+
 }
