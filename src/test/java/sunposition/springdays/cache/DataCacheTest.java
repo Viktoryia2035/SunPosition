@@ -59,9 +59,7 @@ public class DataCacheTest {
         dataCache.put(key1, value1);
         dataCache.put(key2, value2);
         dataCache.put(key3, value3);
-        // Вызываем метод removeOldestEntry через экземпляр dataCache
         dataCache.removeOldestEntry();
-        // Проверяем, что первый добавленный элемент был удален
         assertNull(dataCache.get(key1));
     }
 }
