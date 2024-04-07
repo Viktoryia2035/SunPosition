@@ -34,3 +34,15 @@
 2024-04-07 14:24:33 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-04-07 14:24:33 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2024-04-07 14:24:33 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-04-07 14:50:48 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Bad request
+sunposition.springdays.exception.HttpErrorExceptions$CustomBadRequestException: Bad request
+2024-04-07 14:50:48 [main] ERROR s.s.exception.GlobalExceptionHandler - CustomInternalServerErrorException occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 14:50:48 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Internal server error
+sunposition.springdays.exception.HttpErrorExceptions$CustomInternalServerErrorException: Internal server error
+2024-04-07 14:50:48 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Service unavailable
+sunposition.springdays.exception.HttpErrorExceptions$CustomServiceUnavailableException: Service unavailable
+2024-04-07 14:50:48 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Resource not found
+sunposition.springdays.exception.HttpErrorExceptions$CustomNotFoundException: Resource not found
+2024-04-07 14:50:48 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Method not allowed
+sunposition.springdays.exception.HttpErrorExceptions$CustomMethodNotAllowedException: Method not allowed
