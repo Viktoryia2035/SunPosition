@@ -2,6 +2,9 @@ package sunposition.springdays.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import sunposition.springdays.dto.DayDto;
@@ -13,6 +16,7 @@ import sunposition.springdays.cache.DataCache;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -238,28 +242,6 @@ class DayServiceTest {
     }
 
     @Test
-    void testUpdateSunriseSunset() {
-        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
-        DataCache dayCache = mock(DataCache.class);
-        DayService dayService = new DayService(repository, dayCache);
-
-        Day day = new Day();
-        day.setLocation("Location");
-
-        when(repository.findByLocation("Location")).thenReturn(day);
-        when(repository.save(day)).thenReturn(day);
-
-        Day updatedDay = dayService.updateSunriseSunset("Location", "Coordinates", LocalDate.now());
-
-        assertEquals(day, updatedDay);
-
-        String locationCacheKey = LOCATION_PREFIX + "Location";
-        verify(dayCache, times(1)).remove(locationCacheKey);
-        verify(dayCache, times(2)).put(any(), any(DayDto.class));
-        verify(dayCache, times(1)).clear();
-    }
-
-    @Test
     void testUpdateSunriseSunset_NotFound() {
         InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
         DataCache dayCache = mock(DataCache.class);
@@ -301,28 +283,6 @@ class DayServiceTest {
 
         verify(dayCache, times(0)).put(anyString(), any(DayDto.class));
         verify(dayCache, times(0)).clear();
-    }
-
-    @Test
-    void testUpdateSunriseSunset_CacheUpdate() {
-        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
-        DataCache dayCache = mock(DataCache.class);
-        DayService dayService = new DayService(repository, dayCache);
-
-        Day day = new Day();
-        day.setLocation("Location");
-
-        when(repository.findByLocation("Location")).thenReturn(day);
-        when(repository.save(day)).thenReturn(day);
-
-        Day updatedDay = dayService.updateSunriseSunset("Location", "Coordinates", LocalDate.now());
-
-        assertEquals(day, updatedDay);
-
-        String locationCacheKey = LOCATION_PREFIX + "Location";
-        verify(dayCache, times(1)).remove(locationCacheKey);
-        verify(dayCache, times(2)).put(any(), any(DayDto.class));
-        verify(dayCache, times(1)).clear();
     }
 
     @Test
@@ -388,28 +348,6 @@ class DayServiceTest {
     }
 
     @Test
-    void testUpdateSunriseSunset_CacheUpdate_MultipleOperations() {
-        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
-        DataCache dayCache = mock(DataCache.class);
-        DayService dayService = new DayService(repository, dayCache);
-
-        Day day = new Day();
-        day.setLocation("Location");
-
-        when(repository.findByLocation("Location")).thenReturn(day);
-        when(repository.save(day)).thenReturn(day);
-
-        Day updatedDay = dayService.updateSunriseSunset("Location", "Coordinates", LocalDate.now());
-
-        assertEquals(day, updatedDay);
-
-        String locationCacheKey = LOCATION_PREFIX + "Location";
-        verify(dayCache, times(1)).remove(locationCacheKey);
-        verify(dayCache, times(2)).put(any(), any(DayDto.class));
-        verify(dayCache, times(1)).clear();
-    }
-
-    @Test
     void testSaveSunriseSunset_TransactionRollback_WithRollback() {
         InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
         DataCache dayCache = mock(DataCache.class);
@@ -449,5 +387,35 @@ class DayServiceTest {
         assertEquals(day, foundDay);
         verify(repository, times(1)).findByLocation("Location");
         verify(dayCache, times(1)).put(anyString(), any(DayDto.class));
+    }
+
+    @ParameterizedTest
+    @MethodSource("updateSunriseSunsetScenarios")
+    void testUpdateSunriseSunset(String location, String coordinates, LocalDate date, int expectedCachePutCalls, int expectedCacheClearCalls) {
+        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
+        DataCache dayCache = mock(DataCache.class);
+        DayService dayService = new DayService(repository, dayCache);
+
+        Day day = new Day();
+        day.setLocation(location);
+
+        when(repository.findByLocation(location)).thenReturn(day);
+        when(repository.save(day)).thenReturn(day);
+
+        Day updatedDay = dayService.updateSunriseSunset(location, coordinates, date);
+
+        assertEquals(day, updatedDay);
+
+        String locationCacheKey = LOCATION_PREFIX + location;
+        verify(dayCache, times(expectedCachePutCalls)).put(any(), any(DayDto.class));
+        verify(dayCache, times(expectedCacheClearCalls)).clear();
+    }
+
+    private static Stream<Arguments> updateSunriseSunsetScenarios() {
+        return Stream.of(
+                Arguments.of("Location", "Coordinates", LocalDate.now(), 2, 1),
+                Arguments.of("Location", "Coordinates", LocalDate.now(), 2, 1),
+                Arguments.of("Location", "Coordinates", LocalDate.now(), 2, 1)
+        );
     }
 }
