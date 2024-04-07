@@ -11,17 +11,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-public class DataCacheTest {
+class DataCacheTest {
 
     private DataCache dataCache;
 
     @Before
-    public void setup() {
+    void setup() {
         dataCache = new DataCache();
     }
 
     @Test
-    public void testPutAndGet() {
+    void testPutAndGet() {
         String key = "testKey";
         Object value = new Object();
         dataCache.put(key, value);
@@ -29,7 +29,7 @@ public class DataCacheTest {
     }
 
     @Test
-    public void testRemove() {
+    void testRemove() {
         String key = "testKey";
         Object value = new Object();
         dataCache.put(key, value);
@@ -38,7 +38,7 @@ public class DataCacheTest {
     }
 
     @Test
-    public void testClear() {
+    void testClear() {
         String key1 = "testKey1";
         String key2 = "testKey2";
         Object value1 = new Object();
@@ -51,7 +51,7 @@ public class DataCacheTest {
     }
 
     @Test
-    public void testClearWhenSizeExceeds() {
+    void testClearWhenSizeExceeds() {
         for (int i = 0; i < DataCache.MAX_SIZE + 1; i++) {
             dataCache.put("key" + i, new Object());
         }
@@ -59,7 +59,7 @@ public class DataCacheTest {
     }
 
     @Test
-    public void testRemoveOldestEntry() {
+    void testRemoveOldestEntry() {
         String key1 = "key1";
         String key2 = "key2";
         String key3 = "key3";
@@ -74,14 +74,14 @@ public class DataCacheTest {
     }
 
     @Test
-    public void testPutAndGetWithNullValue() {
+    void testPutAndGetWithNullValue() {
         String key = "testKey";
         dataCache.put(key, null);
         assertNull(dataCache.get(key));
     }
 
     @Test
-    public void testCacheSizeLimit() {
+    void testCacheSizeLimit() {
         for (int i = 0; i < DataCache.MAX_SIZE + 1; i++) {
             dataCache.put("key" + i, new Object());
         }
@@ -89,7 +89,7 @@ public class DataCacheTest {
     }
 
     @Test
-    public void testSetHashMap() {
+    void testSetHashMap() {
         Map<String, Object> newMap = new ConcurrentHashMap<>();
         newMap.put("newKey", new Object());
         dataCache.setHashMap(newMap);
@@ -99,7 +99,7 @@ public class DataCacheTest {
     }
 
     @Test
-    public void testRemoveOldestEntryDirectly() {
+    void testRemoveOldestEntryDirectly() {
         String key1 = "key1";
         String key2 = "key2";
         Object value1 = new Object();
