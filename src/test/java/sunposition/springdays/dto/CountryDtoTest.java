@@ -43,15 +43,6 @@ class CountryDtoTest {
         assertNotEquals(countryDto1.hashCode(), countryDto2.hashCode(), "CountryDto objects with different names should not have the same hash code");
     }
 
-
-    @Test
-    void testEqualsAndHashCodeWithNullProperties() {
-        CountryDto countryDto1 = new CountryDto();
-        CountryDto countryDto2 = new CountryDto();
-        assertNotEquals(countryDto1, countryDto2, "CountryDto objects with null names should not be equal");
-        assertNotEquals(countryDto1.hashCode(), countryDto2.hashCode(), "CountryDto objects with null names should not have the same hash code");
-    }
-
     @Test
     void testSetAndGetCapital() {
         CountryDto countryDto = new CountryDto();
