@@ -118,4 +118,59 @@ class InMemoryCountryDAOTest {
 
         verify(entityManager).remove(country);
     }
+
+    @Test
+    void findByName_WhenCountryExists_ReturnsOptionalWithCountry() {
+        String name = "TestCountry";
+        Country country = new Country();
+        country.setName(name);
+
+        when(entityManager.createQuery("SELECT c FROM Country c WHERE c.name = :name", Country.class))
+                .thenReturn(typedQuery);
+        when(typedQuery.setParameter("name", name)).thenReturn(typedQuery);
+        when(typedQuery.getSingleResult()).thenReturn(country);
+
+        Optional<Country> result = inMemoryCountryDAO.findByName(name);
+
+        assertTrue(result.isPresent());
+        assertEquals(country, result.get());
+        verify(entityManager).createQuery("SELECT c FROM Country c WHERE c.name = :name", Country.class);
+        verify(typedQuery).setParameter("name", name);
+        verify(typedQuery).getSingleResult();
+    }
+
+    @Test
+    void findByName_WhenCountryDoesNotExist_ReturnsEmptyOptional() {
+        String name = "TestCountry";
+
+        when(entityManager.createQuery("SELECT c FROM Country c WHERE c.name = :name", Country.class))
+                .thenReturn(typedQuery);
+        when(typedQuery.setParameter("name", name)).thenReturn(typedQuery);
+        when(typedQuery.getSingleResult()).thenThrow(new RuntimeException());
+
+        Optional<Country> result = inMemoryCountryDAO.findByName(name);
+
+        assertFalse(result.isPresent());
+        verify(entityManager).createQuery("SELECT c FROM Country c WHERE c.name = :name", Country.class);
+        verify(typedQuery).setParameter("name", name);
+        verify(typedQuery).getSingleResult();
+    }
+
+    @Test
+    void findAll_ReturnsListOfCountries() {
+        Country country1 = new Country();
+        country1.setName("Country1");
+        Country country2 = new Country();
+        country2.setName("Country2");
+        List<Country> countries = Arrays.asList(country1, country2);
+
+        when(entityManager.createQuery("SELECT c FROM Country c", Country.class)).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(countries);
+
+        List<Country> result = inMemoryCountryDAO.findAll();
+
+        assertEquals(countries, result);
+        verify(entityManager).createQuery("SELECT c FROM Country c", Country.class);
+        verify(typedQuery).getResultList();
+    }
 }
