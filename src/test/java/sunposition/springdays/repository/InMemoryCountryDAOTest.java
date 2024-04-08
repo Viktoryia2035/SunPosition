@@ -33,43 +33,89 @@ class InMemoryCountryDAOTest {
     }
 
     @Test
-    void findByName() {
-        String name = "TestCountry";
+    void saveAndFlush() {
         Country country = new Country();
-        country.setName(name);
+        country.setName("TestCountry");
 
-        when(entityManager.createQuery(anyString(), eq(Country.class))).thenReturn(typedQuery);
-        when(typedQuery.setParameter(anyString(), any())).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenReturn(country);
+        Country savedCountry = inMemoryCountryDAO.saveAndFlush(country);
 
-        Optional<Country> result = inMemoryCountryDAO.findByName(name);
-
-        assertTrue(result.isPresent());
-        assertEquals(name, result.get().getName());
-        verify(entityManager).createQuery(anyString(), eq(Country.class));
-        verify(typedQuery).setParameter(anyString(), any());
-        verify(typedQuery).getSingleResult();
+        assertNotNull(savedCountry);
+        assertEquals(country, savedCountry);
+        verify(entityManager).persist(country);
+        verify(entityManager).flush();
     }
 
     @Test
-    void findAll() {
+    void saveAll() {
         Country country1 = new Country();
         country1.setName("Country1");
         Country country2 = new Country();
         country2.setName("Country2");
         List<Country> countries = Arrays.asList(country1, country2);
 
-        when(entityManager.createQuery(anyString(), eq(Country.class))).thenReturn(typedQuery);
-        when(typedQuery.getResultList()).thenReturn(countries);
+        inMemoryCountryDAO.saveAll(countries);
 
-        List<Country> result = inMemoryCountryDAO.findAll();
-
-        assertEquals(2, result.size());
-        assertEquals("Country1", result.get(0).getName());
-        assertEquals("Country2", result.get(1).getName());
-        verify(entityManager).createQuery(anyString(), eq(Country.class));
-        verify(typedQuery).getResultList();
+        for (Country country : countries) {
+            verify(entityManager).persist(country);
+        }
+        verify(entityManager).flush();
     }
 
+    @Test
+    void save() {
+        Country country = new Country();
+        country.setName("TestCountry");
 
+        Country savedCountry = inMemoryCountryDAO.save(country);
+
+        assertNotNull(savedCountry);
+        assertEquals(country, savedCountry);
+        verify(entityManager).persist(country);
+    }
+
+    @Test
+    void findById() {
+        Long id = 1L;
+        Country country = new Country();
+        country.setId(id);
+
+        when(entityManager.find(Country.class, id)).thenReturn(country);
+
+        Optional<Country> result = inMemoryCountryDAO.findById(id);
+
+        assertTrue(result.isPresent());
+        assertEquals(country, result.get());
+        verify(entityManager).find(Country.class, id);
+    }
+
+    @Test
+    void deleteAll() {
+        Country country1 = new Country();
+        country1.setName("Country1");
+        Country country2 = new Country();
+        country2.setName("Country2");
+        List<Country> countries = Arrays.asList(country1, country2);
+
+        for (Country country : countries) {
+            when(entityManager.contains(country)).thenReturn(true);
+        }
+
+        inMemoryCountryDAO.deleteAll(countries);
+
+        for (Country country : countries) {
+            verify(entityManager).remove(country);
+        }
+    }
+
+    @Test
+    void delete() {
+        Country country = new Country();
+        country.setName("TestCountry");
+
+        when(entityManager.contains(country)).thenReturn(true);
+
+        inMemoryCountryDAO.delete(country);
+
+        verify(entityManager).remove(country);
+    }
 }
