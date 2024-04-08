@@ -50,4 +50,86 @@ class InMemoryDayDAOTest {
         verify(entityManager).createQuery(anyString(), eq(Day.class));
         verify(typedQuery).getResultList();
     }
+
+    @Test
+    void save() {
+        Day day = new Day();
+
+        Day savedDay = inMemoryDayDAO.save(day);
+
+        assertEquals(day, savedDay);
+        verify(entityManager).persist(day);
+    }
+
+    @Test
+    void findByLocation_WhenDayExists_ReturnsDay() {
+        String location = "TestLocation";
+        Day day = new Day();
+        day.setLocation(location);
+
+        when(entityManager.createQuery("SELECT d FROM Day d WHERE d.location = :location", Day.class))
+                .thenReturn(typedQuery);
+        when(typedQuery.setParameter("location", location)).thenReturn(typedQuery);
+        when(typedQuery.getSingleResult()).thenReturn(day);
+
+        Day result = inMemoryDayDAO.findByLocation(location);
+
+        assertEquals(day, result);
+        verify(entityManager).createQuery("SELECT d FROM Day d WHERE d.location = :location", Day.class);
+        verify(typedQuery).setParameter("location", location);
+        verify(typedQuery).getSingleResult();
+    }
+
+    @Test
+    void findByLocation_WhenDayDoesNotExist_ReturnsNull() {
+        String location = "TestLocation";
+
+        when(entityManager.createQuery("SELECT d FROM Day d WHERE d.location = :location", Day.class))
+                .thenReturn(typedQuery);
+        when(typedQuery.setParameter("location", location)).thenReturn(typedQuery);
+        when(typedQuery.getSingleResult()).thenThrow(new RuntimeException());
+
+        Day result = inMemoryDayDAO.findByLocation(location);
+
+        assertNull(result);
+        verify(entityManager).createQuery("SELECT d FROM Day d WHERE d.location = :location", Day.class);
+        verify(typedQuery).setParameter("location", location);
+        verify(typedQuery).getSingleResult();
+    }
+
+    @Test
+    void findByCoordinates_WhenDayExists_ReturnsDay() {
+        String coordinates = "TestCoordinates";
+        Day day = new Day();
+        day.setCoordinates(coordinates);
+
+        when(entityManager.createQuery("SELECT d FROM Day d WHERE d.coordinates = :coordinates", Day.class))
+                .thenReturn(typedQuery);
+        when(typedQuery.setParameter("coordinates", coordinates)).thenReturn(typedQuery);
+        when(typedQuery.getSingleResult()).thenReturn(day);
+
+        Day result = inMemoryDayDAO.findByCoordinates(coordinates);
+
+        assertEquals(day, result);
+        verify(entityManager).createQuery("SELECT d FROM Day d WHERE d.coordinates = :coordinates", Day.class);
+        verify(typedQuery).setParameter("coordinates", coordinates);
+        verify(typedQuery).getSingleResult();
+    }
+
+    @Test
+    void findByCoordinates_WhenDayDoesNotExist_ReturnsNull() {
+        String coordinates = "TestCoordinates";
+
+        when(entityManager.createQuery("SELECT d FROM Day d WHERE d.coordinates = :coordinates", Day.class))
+                .thenReturn(typedQuery);
+        when(typedQuery.setParameter("coordinates", coordinates)).thenReturn(typedQuery);
+        when(typedQuery.getSingleResult()).thenThrow(new RuntimeException());
+
+        Day result = inMemoryDayDAO.findByCoordinates(coordinates);
+
+        assertNull(result);
+        verify(entityManager).createQuery("SELECT d FROM Day d WHERE d.coordinates = :coordinates", Day.class);
+        verify(typedQuery).setParameter("coordinates", coordinates);
+        verify(typedQuery).getSingleResult();
+    }
 }
