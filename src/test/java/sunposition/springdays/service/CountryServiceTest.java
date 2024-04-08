@@ -329,4 +329,37 @@ class CountryServiceTest {
         verify(countryCache, never()).put(any(), any(CountryDto.class));
         verify(countryCache, never()).clear();
     }
+
+    @Test
+    void testFindAll_CacheHit() {
+        // Assuming the setup method already mocks the cache to return a list of CountryDto objects
+        List<CountryDto> result = countryService.findAll();
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        verify(countryCache, times(1)).get("all");
+        verify(repositoryOfCountry, never()).findAll();
+    }
+
+    @Test
+    void testBulkSaveDays() {
+        CountryDto countryDto = new CountryDto("Country1");
+        countryDto.setName("CountryName");
+        countryDto.setDays(Arrays.asList(new DayDto(), new DayDto()));
+
+        Country mockCountry = new Country();
+        mockCountry.setName("CountryName");
+        when(repositoryOfCountry.findByName("CountryName")).thenReturn(Optional.of(mockCountry));
+
+        doNothing().when(repositoryOfDay).saveAll(anyList());
+        doNothing().when(countryCache).clear();
+        doNothing().when(dayCache).clear();
+
+        countryService.bulkSaveDays(countryDto);
+
+        verify(repositoryOfCountry, times(1)).findByName("CountryName");
+        verify(repositoryOfDay, times(1)).saveAll(anyList());
+        verify(countryCache, times(1)).clear();
+        verify(dayCache, times(1)).clear();
+    }
 }

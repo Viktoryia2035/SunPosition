@@ -646,3 +646,11 @@ sunposition.springdays.exception.HttpErrorExceptions$CustomServiceUnavailableExc
 sunposition.springdays.exception.HttpErrorExceptions$CustomNotFoundException: Resource not found
 2024-04-08 12:46:14 [main] ERROR s.s.exception.GlobalExceptionHandler - An error occurred: Method not allowed
 sunposition.springdays.exception.HttpErrorExceptions$CustomMethodNotAllowedException: Method not allowed
+2024-04-08 13:10:06 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [sunposition.springdays.service.DayServiceTest]: DayServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-08 13:10:06 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration sunposition.springdays.SpringDaysApplication for test class sunposition.springdays.service.DayServiceTest
+2024-04-08 13:10:06 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-04-08 13:10:06 [main] INFO  s.springdays.service.DayServiceTest - Starting DayServiceTest using Java 21.0.2 with PID 13148 (started by User in D:\ПнаЯВУ Java\springdays)
+2024-04-08 13:10:06 [main] INFO  s.springdays.service.DayServiceTest - No active profile set, falling back to 1 default profile: "default"
+2024-04-08 13:10:09 [main] INFO  s.springdays.service.DayServiceTest - Started DayServiceTest in 2.721 seconds (process running for 4.261)
+2024-04-08 13:10:10 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [sunposition.springdays.service.CountryServiceTest]: CountryServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-04-08 13:10:10 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration sunposition.springdays.SpringDaysApplication for test class sunposition.springdays.service.CountryServiceTest
