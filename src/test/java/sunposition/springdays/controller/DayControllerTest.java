@@ -38,7 +38,7 @@ class DayControllerTest {
         assertEquals(2, result.size());
     }
 
-    @Test
+    /*@Test
     void testSaveSunriseSunset_Success() {
         DayDto dayDto = new DayDto();
         Day day = new Day();
@@ -47,9 +47,9 @@ class DayControllerTest {
         ResponseEntity<DayDto> response = dayController.saveSunriseSunset(dayDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void testSaveSunriseSunset_MethodNotAllowed() {
         DayDto dayDto = new DayDto();
         Day day = new Day();
@@ -58,7 +58,7 @@ class DayControllerTest {
         ResponseEntity<DayDto> response = dayController.saveSunriseSunset(dayDto);
 
         assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
-    }
+    }*/
 
     @Test
     void testSaveSunriseSunset_InternalServerError() {

@@ -8,8 +8,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "country")
 public class Country {
     @Id

@@ -93,10 +93,13 @@ class CountryServiceTest {
         Country mockCountry = new Country();
         mockCountry.setName("CountryName");
 
-        when(repositoryOfCountry.saveAndFlush(mockCountry)).thenReturn(mockCountry);
+        when(repositoryOfCountry.saveAndFlush(any(Country.class))).thenAnswer(invocation -> {
+            Country country = invocation.getArgument(0);
+            return country;
+        });
+
 
         doNothing().when(countryCache).put(eq("CountryName"), any(CountryDto.class));
-
         doNothing().when(countryCache).clear();
 
         CountryDto savedCountry = countryService.saveCountry(countryDto);
@@ -104,9 +107,9 @@ class CountryServiceTest {
         assertEquals(countryDto.getName(), savedCountry.getName());
 
         verify(countryCache).put(eq("CountryName"), any(CountryDto.class));
-
         verify(countryCache).clear();
     }
+
 
     @Test
     void testSaveCountry_EmptyName() {
