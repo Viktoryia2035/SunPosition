@@ -1554,3 +1554,78 @@ Caused by: java.lang.NullPointerException: Cannot invoke "javax.persistence.Enti
 2024-04-08 13:39:09 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
 2024-04-08 13:39:09 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
 2024-04-08 13:39:09 [main] INFO  s.springdays.SpringDaysApplication - Started SpringDaysApplication in 3.405 seconds (process running for 4.377)
+2024-04-11 00:40:08 [main] INFO  s.springdays.SpringDaysApplication - Starting SpringDaysApplication using Java 21.0.2 with PID 7768 (D:\ПнаЯВУ Java\springdays\target\classes started by User in D:\ПнаЯВУ Java\springdays)
+2024-04-11 00:40:08 [main] INFO  s.springdays.SpringDaysApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-11 00:40:08 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-04-11 00:40:10 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-11 00:40:10 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 2 JPA repository interfaces.
+2024-04-11 00:40:12 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-04-11 00:40:12 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-11 00:40:12 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-04-11 00:40:12 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-04-11 00:40:12 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-04-11 00:40:12 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3662 ms
+2024-04-11 00:40:12 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-11 00:40:13 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+2024-04-11 00:40:13 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-04-11 00:40:13 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-11 00:40:13 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-04-11 00:40:13 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5486ee92
+2024-04-11 00:40:13 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-04-11 00:40:15 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-11 00:40:15 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11 00:40:16 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-11 00:40:18 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-04-11 00:40:18 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-04-11 00:40:18 [main] INFO  s.springdays.SpringDaysApplication - Started SpringDaysApplication in 10.75 seconds (process running for 13.682)
+2024-04-11 00:40:41 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11 00:40:41 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-04-11 00:40:41 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-04-11 00:40:48 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-04-11 00:40:49 [main] INFO  s.springdays.SpringDaysApplication - Starting SpringDaysApplication using Java 21.0.2 with PID 11616 (D:\ПнаЯВУ Java\springdays\target\classes started by User in D:\ПнаЯВУ Java\springdays)
+2024-04-11 00:40:49 [main] INFO  s.springdays.SpringDaysApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-11 00:40:50 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-11 00:40:50 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 61 ms. Found 2 JPA repository interfaces.
+2024-04-11 00:40:51 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-04-11 00:40:51 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-11 00:40:51 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-04-11 00:40:51 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-04-11 00:40:51 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-04-11 00:40:51 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2175 ms
+2024-04-11 00:40:51 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-11 00:40:51 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+2024-04-11 00:40:51 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-04-11 00:40:51 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-11 00:40:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-04-11 00:40:51 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2712e8f4
+2024-04-11 00:40:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-04-11 00:40:53 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-11 00:40:53 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11 00:40:53 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-11 00:40:54 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-04-11 00:40:54 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-04-11 00:40:54 [main] INFO  s.springdays.SpringDaysApplication - Started SpringDaysApplication in 6.257 seconds (process running for 7.692)
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [sunposition.springdays.dto.CountryDto@86e63593]
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-11 00:41:06 [http-nio-8080-exec-2] INFO  s.s.controller.CountryController - Found 1 countries
+2024-04-11 00:41:19 [http-nio-8080-exec-3] INFO  s.s.controller.DayController - Finding all sunrise and sunset times
+2024-04-11 00:41:19 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Entering method: findAllSunriseSunset
+2024-04-11 00:41:19 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-11 00:41:19 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAllSunriseSunset, with result: [sunposition.springdays.model.Day@5131a356, sunposition.springdays.model.Day@17285191, sunposition.springdays.model.Day@5b393fa8]
+2024-04-11 00:41:19 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method: findAllSunriseSunset has completed
+2024-04-11 00:41:20 [http-nio-8080-exec-3] INFO  s.s.controller.DayController - Found 3 sunrise and sunset times
+2024-04-11 00:41:32 [http-nio-8080-exec-4] INFO  s.s.controller.CountryController - Saving a country
+2024-04-11 00:41:32 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Entering method: saveCountry
+2024-04-11 00:41:32 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Method arguments: sunposition.springdays.dto.CountryDto@adf13680
+2024-04-11 00:41:32 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Exiting method: saveCountry, with result: sunposition.springdays.dto.CountryDto@adf13680
+2024-04-11 00:41:32 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Method: saveCountry has completed
+2024-04-11 00:41:32 [http-nio-8080-exec-4] INFO  s.s.controller.CountryController - Country saved successfully
+2024-04-11 00:41:39 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11 00:41:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-04-11 00:41:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
