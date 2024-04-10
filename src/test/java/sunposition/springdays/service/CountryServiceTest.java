@@ -332,7 +332,6 @@ class CountryServiceTest {
 
     @Test
     void testFindAll_CacheHit() {
-        // Assuming the setup method already mocks the cache to return a list of CountryDto objects
         List<CountryDto> result = countryService.findAll();
 
         assertNotNull(result);
