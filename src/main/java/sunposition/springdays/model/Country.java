@@ -1,15 +1,15 @@
 package sunposition.springdays.model;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+@Data
 @Table(name = "country")
 public class Country {
     @Id
