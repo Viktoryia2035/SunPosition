@@ -1,9 +1,7 @@
 package sunposition.springdays.repository;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import sunposition.springdays.model.Day;
 
@@ -13,55 +11,50 @@ import java.util.List;
 @Repository
 public class InMemoryDayDAO {
 
-    private final SessionFactory sessionFactory;
+    private final HibernateTemplate hibernateTemplate;
 
     public Day findByLocation(String location) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Day> query = session.createQuery("SELECT d FROM Day d WHERE d.location = :location", Day.class);
-        query.setParameter("location", location);
-        return query.uniqueResult();
+        List<Day> days = hibernateTemplate.findByNamedParam("SELECT d FROM Day d WHERE d.location = :location", "location", location);
+        if (days.isEmpty()) {
+            return null;
+        } else {
+            return days.get(0);
+        }
     }
 
     public List<Day> findAll() {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Day> query = session.createQuery("SELECT d FROM Day d", Day.class);
-        return query.list();
+        return hibernateTemplate.loadAll(Day.class);
     }
 
     public Day save(Day day) {
-        sessionFactory.inTransaction(session -> session.persist(day));
+        hibernateTemplate.save(day);
         return day;
     }
 
     public void delete(Day day) {
-        sessionFactory.inTransaction(session -> session.delete(day));
+        hibernateTemplate.delete(day);
     }
 
     public Day findByCoordinates(String coordinates) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Day> query = session.createQuery("SELECT d FROM Day d WHERE d.coordinates = :coordinates", Day.class);
-        query.setParameter("coordinates", coordinates);
-        return query.uniqueResult();
+        List<Day> days = hibernateTemplate.findByNamedParam("FROM Day d WHERE d.coordinates = :coordinates", "coordinates", coordinates);
+        if (days.isEmpty()) {
+            return null;
+        } else {
+            return days.get(0);
+        }
     }
 
     public List<Day> findByCountryNameAndWeatherConditions(String countryName, String weatherConditions) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Day> query = session.createQuery(
-                "SELECT d FROM Day d JOIN d.country c WHERE c.name = :countryName AND d.weatherConditions = :weatherConditions",
-                Day.class);
-        query.setParameter("countryName", countryName);
-        query.setParameter("weatherConditions", weatherConditions);
-        return query.list();
+        String queryString = "SELECT d FROM Day d JOIN d.country c WHERE c.name = :countryName AND d.weatherConditions = :weatherConditions";
+        return hibernateTemplate.findByNamedParam(queryString, new String[]{"countryName", "weatherConditions"}, new Object[]{countryName, weatherConditions});
     }
 
     public List<Day> saveAll(List<Day> days) {
-        Session session = sessionFactory.getCurrentSession();
-        days.forEach(session::saveOrUpdate);
+        hibernateTemplate.saveOrUpdateAll(days);
         return days;
     }
 
     public void deleteAll(List<Day> days) {
-        Session session = sessionFactory.getCurrentSession();
-        days.forEach(session::delete);
+        hibernateTemplate.deleteAll(days);
     }
 }

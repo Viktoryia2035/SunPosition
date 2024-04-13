@@ -1,9 +1,7 @@
 package sunposition.springdays.repository;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import sunposition.springdays.model.Country;
 
@@ -14,50 +12,46 @@ import java.util.Optional;
 @Repository
 public class InMemoryCountryDAO {
 
-    private final SessionFactory sessionFactory;
+    private final HibernateTemplate hibernateTemplate;
 
     public Optional<Country> findByName(String name) {
-        return sessionFactory.getCurrentSession().createQuery("SELECT c FROM Country c WHERE c.name = :name", Country.class)
-                .setParameter("name", name)
-                .uniqueResultOptional();
+        List<Country> countries = hibernateTemplate.findByNamedParam("SELECT c FROM Country c WHERE c.name = :name", "name", name);
+        if (countries.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(countries.get(0));
+        }
     }
 
     public List<Country> findAll() {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Country> query = session.createQuery("SELECT c FROM Country c", Country.class);
-        return query.list();
+        return hibernateTemplate.loadAll(Country.class);
     }
 
     public void save(final Country country) {
-        sessionFactory.inTransaction(session -> session.persist(country));
+        hibernateTemplate.save(country);
     }
 
     public List<Country> saveAll(List<Country> countries) {
-        Session session = sessionFactory.getCurrentSession();
-        countries.forEach(session::saveOrUpdate);
+        hibernateTemplate.saveOrUpdateAll(countries);
         return countries;
     }
 
     public Optional<Country> findById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        return Optional.ofNullable(session.get(Country.class, id));
+        return Optional.ofNullable(hibernateTemplate.get(Country.class, id));
     }
 
     public void deleteAll() {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("DELETE FROM Country");
-        query.executeUpdate();
+        List<Country> countries = findAll();
+        hibernateTemplate.deleteAll(countries);
     }
 
     public void delete(Country country) {
-        Session session = sessionFactory.getCurrentSession();
-        session.delete(country);
+        hibernateTemplate.delete(country);
     }
 
     public Country saveAndFlush(Country country) {
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(country);
-        session.flush();
+        hibernateTemplate.saveOrUpdate(country);
+        hibernateTemplate.flush();
         return country;
     }
 }
