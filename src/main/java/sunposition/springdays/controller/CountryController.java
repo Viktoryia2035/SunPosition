@@ -1,6 +1,5 @@
 package sunposition.springdays.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +13,7 @@ import sunposition.springdays.exception.ErrorResponse;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.service.CountryService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
