@@ -13,7 +13,7 @@ import sunposition.springdays.exception.ErrorResponse;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.service.CountryService;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
