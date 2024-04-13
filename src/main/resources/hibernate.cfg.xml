@@ -1,0 +1,21 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- Настройки подключения к базе данных -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres?serverTimezone=Europe/Minsk&amp;useSSL=false</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">123</property>
+
+        <!--&lt;!&ndash; Настройки SQL &ndash;&gt;
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.highlight_sql">true</property>
+-->
+        <!-- Настройки схемы -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Добавьте здесь маппинги ваших сущностей -->
+        <mapping class="sunposition.springdays.model.Country"/>
+        <mapping class="sunposition.springdays.model.Day"/>
+    </session-factory>
+</hibernate-configuration>
