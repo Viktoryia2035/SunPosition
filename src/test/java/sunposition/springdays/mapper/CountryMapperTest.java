@@ -1,10 +1,10 @@
 package sunposition.springdays.mapper;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.model.Country;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CountryMapperTest {
@@ -29,7 +29,7 @@ class CountryMapperTest {
 
     @Test
     void testToEntity() {
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         countryDto.setId(1L);
         countryDto.setName("Test Country");
         countryDto.setCapital("Test Capital");
@@ -56,11 +56,11 @@ class CountryMapperTest {
 
         CountryDto countryDto = CountryMapper.toDto(country);
 
-        assertNull(countryDto.getId());
-        assertNull(countryDto.getName());
-        assertNull(countryDto.getCapital());
-        assertNull(countryDto.getPopulation());
-        assertNull(countryDto.getLanguage());
+        Assertions.assertNull(countryDto.getId());
+        Assertions.assertNull(countryDto.getName());
+        Assertions.assertNull(countryDto.getCapital());
+        Assertions.assertNull(countryDto.getPopulation());
+        Assertions.assertNull(countryDto.getLanguage());
     }
 
     @Test
@@ -74,11 +74,11 @@ class CountryMapperTest {
 
         Country country = CountryMapper.toEntity(countryDto);
 
-        assertNull(country.getId());
-        assertNull(country.getName());
-        assertNull(country.getCapital());
-        assertNull(country.getPopulation());
-        assertNull(country.getLanguage());
+        Assertions.assertNull(country.getId());
+        Assertions.assertNull(country.getName());
+        Assertions.assertNull(country.getCapital());
+        Assertions.assertNull(country.getPopulation());
+        Assertions.assertNull(country.getLanguage());
     }
 
     @Test

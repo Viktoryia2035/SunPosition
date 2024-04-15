@@ -12,15 +12,15 @@ public final class DayMapper {
         if (day == null) {
             return null;
         }
-        return new DayDto(
-                day.getId(),
-                day.getLocation(),
-                day.getCoordinates(),
-                day.getDateOfSunriseSunset(),
-                day.getTimeOfSunrise(),
-                day.getTimeOfSunset(),
-                day.getWeatherConditions()
-        );
+        DayDto dayDto = new DayDto();
+        dayDto.setId(day.getId());
+        dayDto.setLocation(day.getLocation());
+        dayDto.setCoordinates(day.getCoordinates());
+        dayDto.setDateOfSunriseSunset(day.getDateOfSunriseSunset());
+        dayDto.setTimeOfSunrise(day.getTimeOfSunrise());
+        dayDto.setTimeOfSunset(day.getTimeOfSunset());
+        dayDto.setWeatherConditions(day.getWeatherConditions());
+        return dayDto;
     }
 
     public static Day toEntity(final DayDto dayDto) {

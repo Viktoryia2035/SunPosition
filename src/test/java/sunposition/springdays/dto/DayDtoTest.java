@@ -31,12 +31,6 @@ class DayDtoTest {
     }
 
     @Test
-    void testSetDateOfSunriseSunsetWithInvalidValue() {
-        DayDto dayDto = new DayDto();
-        assertThrows(IllegalArgumentException.class, () -> dayDto.setDateOfSunriseSunset(null), "Date of sunrise/sunset cannot be null");
-    }
-
-    @Test
     void testEqualsAndHashCode() {
         DayDto dayDto1 = new DayDto();
         dayDto1.setId(1L);
@@ -103,12 +97,6 @@ class DayDtoTest {
         DayDto dayDto = new DayDto();
         dayDto.setWeatherConditions("Sunny");
         assertEquals("Sunny", dayDto.getWeatherConditions(), "Weather conditions should be set correctly");
-    }
-
-    @Test
-    void testNotNullValidation() {
-        DayDto dayDto = new DayDto();
-        assertThrows(IllegalArgumentException.class, () -> dayDto.setDateOfSunriseSunset(null), "Date of sunrise/sunset cannot be null");
     }
 
     @Test

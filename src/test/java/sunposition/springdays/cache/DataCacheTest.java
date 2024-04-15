@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -58,11 +59,15 @@ class DataCacheTest {
     }
 
     @Test
-    void clearWhenSizeExceeds() {
+    void clearWhenSizeExceeds() throws NoSuchFieldException, IllegalAccessException {
         for (int i = 0; i < DataCache.MAX_SIZE + 1; i++) {
             dataCache.put("key" + i, new Object());
         }
-        assertEquals(DataCache.MAX_SIZE, dataCache.dataCacheMap.size());
+
+        Field dataCacheMapField = DataCache.class.getDeclaredField("dataCacheMap");
+        dataCacheMapField.setAccessible(true);
+        Map<String, Object> dataCacheMap = dataCache.getDataCacheMap();
+        assertEquals(DataCache.MAX_SIZE, dataCacheMap.size());
     }
 
     @Test
@@ -92,15 +97,20 @@ class DataCacheTest {
         for (int i = 0; i < DataCache.MAX_SIZE + 1; i++) {
             dataCache.put("key" + i, new Object());
         }
-        assertEquals(DataCache.MAX_SIZE, dataCache.dataCacheMap.size());
+
+        Map<String, Object> dataCacheMap = dataCache.getDataCacheMap();
+        assertEquals(DataCache.MAX_SIZE, dataCacheMap.size());
     }
 
     @Test
     void setHashMap() {
         Map<String, Object> newMap = new ConcurrentHashMap<>();
         newMap.put("newKey", new Object());
+
         dataCache.setHashMap(newMap);
-        assertEquals(1, dataCache.dataCacheMap.size());
+
+        Map<String, Object> dataCacheMap = dataCache.getDataCacheMap();
+        assertEquals(1, dataCacheMap.size());
         assertNull(dataCache.get("testKey"));
         assertNotNull(dataCache.get("newKey"));
     }
@@ -117,6 +127,4 @@ class DataCacheTest {
         assertNull(dataCache.get(key1));
         assertNotNull(dataCache.get(key2));
     }
-
-
 }

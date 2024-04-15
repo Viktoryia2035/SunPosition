@@ -6,6 +6,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,7 +23,7 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<Object> response = handler.handleCustomExceptions(ex);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("Resource not found", ((ErrorResponse) response.getBody()).getMessage());
+        assertEquals("Resource not found", ((ErrorResponse) Objects.requireNonNull(response.getBody())).getMessage());
     }
 
     @Test
@@ -33,7 +35,7 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<Object> response = handler.handleCustomExceptions(ex);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Bad request", ((ErrorResponse) response.getBody()).getMessage());
+        assertEquals("Bad request", ((ErrorResponse) Objects.requireNonNull(response.getBody())).getMessage());
     }
 
     @Test
@@ -45,7 +47,7 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<Object> response = handler.handleCustomExceptions(ex);
 
         assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
-        assertEquals("Method not allowed", ((ErrorResponse) response.getBody()).getMessage());
+        assertEquals("Method not allowed", ((ErrorResponse) Objects.requireNonNull(response.getBody())).getMessage());
     }
 
     @Test
@@ -56,7 +58,7 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<Object> response = handler.handleCustomExceptions(ex);
 
         assertEquals(HttpStatus.SERVICE_UNAVAILABLE, response.getStatusCode());
-        assertEquals("Service unavailable", ((ErrorResponse) response.getBody()).getMessage());
+        assertEquals("Service unavailable", ((ErrorResponse) Objects.requireNonNull(response.getBody())).getMessage());
     }
 
     @Test
@@ -68,7 +70,7 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<Object> response = handler.handleCustomExceptions(ex);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("Internal server error", ((ErrorResponse) response.getBody()).getMessage());
+        assertEquals("Internal server error", ((ErrorResponse) Objects.requireNonNull(response.getBody())).getMessage());
     }
 
 }

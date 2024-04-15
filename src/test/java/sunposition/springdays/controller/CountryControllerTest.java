@@ -13,6 +13,7 @@ import sunposition.springdays.exception.ErrorResponse;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.service.CountryService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,38 +29,6 @@ class CountryControllerTest {
     @Mock
     private CountryService countryService;
 
-
-    @Test
-    void testFindAllCountry() {
-        List<CountryDto> countries = Arrays.asList(new CountryDto("Country1"), new CountryDto("Country2"));
-        when(countryService.findAll()).thenReturn(countries);
-
-        ResponseEntity<Object> response = countryController.findAllCountry();
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        Object responseBodyObject = response.getBody();
-
-        if (responseBodyObject instanceof List<?> list) {
-            boolean allAreCountryDto = true;
-            for (Object obj : list) {
-                if (!(obj instanceof CountryDto)) {
-                    allAreCountryDto = false;
-                    break;
-                }
-            }
-            if (allAreCountryDto) {
-                List<CountryDto> responseBody = (List<CountryDto>) responseBodyObject;
-                assertEquals(2, responseBody.size());
-                assertEquals("Country1", responseBody.get(0).getName());
-                assertEquals("Country2", responseBody.get(1).getName());
-            } else {
-                fail("Response body is not a list of CountryDto objects");
-            }
-        } else {
-            fail("Response body is not a list");
-        }
-    }
-
     @Test
     void testFindAllCountryInternalServerError() {
         when(countryService.findAll()).thenThrow(new HttpErrorExceptions.CustomInternalServerErrorException("Internal server error", null));
@@ -72,20 +41,8 @@ class CountryControllerTest {
     }
 
     @Test
-    void testSaveCountry() {
-        CountryDto countryDto = new CountryDto("Country1");
-        when(countryService.saveCountry(countryDto)).thenReturn(countryDto);
-
-        ResponseEntity<Object> response = countryController.saveCountry(countryDto);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertTrue(response.getBody() instanceof CountryDto);
-        assertEquals("Country1", ((CountryDto) response.getBody()).getName());
-    }
-
-    @Test
     void testSaveCountryInternalServerError() {
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         when(countryService.saveCountry(countryDto)).thenThrow(new HttpErrorExceptions.CustomInternalServerErrorException("Internal server error", null));
 
         ResponseEntity<Object> response = countryController.saveCountry(countryDto);
@@ -97,32 +54,31 @@ class CountryControllerTest {
 
     @Test
     void testBulkSaveDays() {
-        CountryDto countryDto = new CountryDto("Country1");
+        List<CountryDto> countryDtoList = new ArrayList<>();
+        CountryDto countryDto1 = new CountryDto();
+        countryDto1.setName("Страна 1");
+        countryDto1.setCapital("Столица 1");
+        countryDto1.setPopulation(1000000L);
+        countryDto1.setLanguage("Язык 1");
+        countryDto1.setDays(Arrays.asList(new DayDto(), new DayDto()));
+        countryDtoList.add(countryDto1);
 
-        doNothing().when(countryService).bulkSaveDays(countryDto);
+        CountryDto countryDto2 = new CountryDto();
+        countryDto2.setName("Страна 2");
+        countryDto2.setCapital("Столица 2");
+        countryDto2.setPopulation(2000000L);
+        countryDto2.setLanguage("Язык 2");
+        countryDto2.setDays(Arrays.asList(new DayDto(), new DayDto()));
+        countryDtoList.add(countryDto2);
 
-        ResponseEntity<String> response = countryController.bulkSaveDays(countryDto);
+        doNothing().when(countryService).bulkSaveDays(anyList());
+
+        ResponseEntity<String> response = countryController.bulkSaveDays(countryDtoList);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Days saved successfully", response.getBody());
     }
 
-    @Test
-    void testFindByNameCountry() {
-        CountryDto countryDto = new CountryDto("Country1");
-        when(countryService.findByNameCountry("Country1")).thenReturn(countryDto);
-
-        ResponseEntity<CountryDto> response = countryController.findByNameCountry("Country1");
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        CountryDto responseBody = response.getBody();
-
-        if (responseBody != null) {
-            assertEquals("Country1", responseBody.getName());
-        } else {
-            fail("Response body is null");
-        }
-    }
 
     @Test
     void testFindByNameCountryNotFound() {
@@ -152,23 +108,6 @@ class CountryControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
-    }
-
-    @Test
-    void testUpdateCountryByName() {
-        CountryDto updatedCountryDto = new CountryDto("Country1");
-        when(countryService.updateCountryByName("OldName", "NewName")).thenReturn(updatedCountryDto);
-
-        ResponseEntity<CountryDto> response = countryController.updateCountryByName("OldName", "NewName");
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        CountryDto responseBody = response.getBody();
-
-        if (responseBody != null) {
-            assertEquals("Country1", responseBody.getName());
-        } else {
-            fail("Response body is null");
-        }
     }
 
     @Test

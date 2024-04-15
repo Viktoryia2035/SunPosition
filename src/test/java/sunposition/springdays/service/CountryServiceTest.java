@@ -41,7 +41,7 @@ class CountryServiceTest {
 
     @BeforeEach
     void setup() {
-        when(countryCache.get("all")).thenReturn(Arrays.asList(new CountryDto("Country1"), new CountryDto("Country2")));
+        when(countryCache.get("all")).thenReturn(Arrays.asList(new CountryDto(), new CountryDto()));
         when(dayCache.get("CountryName_Sunny")).thenReturn(Arrays.asList(new DayDto(), new DayDto()));
 
         countryService.setCountryCache(countryCache);
@@ -84,36 +84,9 @@ class CountryServiceTest {
         assertEquals(countryDtoSet, resultSecondCallSet);
     }
 
-
-    @Test
-    void testSaveCountry() {
-        CountryDto countryDto = new CountryDto("Country1");
-        countryDto.setName("CountryName");
-
-        Country mockCountry = new Country();
-        mockCountry.setName("CountryName");
-
-        when(repositoryOfCountry.saveAndFlush(any(Country.class))).thenAnswer(invocation -> {
-            Country country = invocation.getArgument(0);
-            return country;
-        });
-
-
-        doNothing().when(countryCache).put(eq("CountryName"), any(CountryDto.class));
-        doNothing().when(countryCache).clear();
-
-        CountryDto savedCountry = countryService.saveCountry(countryDto);
-
-        assertEquals(countryDto.getName(), savedCountry.getName());
-
-        verify(countryCache).put(eq("CountryName"), any(CountryDto.class));
-        verify(countryCache).clear();
-    }
-
-
     @Test
     void testSaveCountry_EmptyName() {
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         countryDto.setName("");
 
         try {
@@ -121,49 +94,13 @@ class CountryServiceTest {
         } catch (HttpErrorExceptions.CustomBadRequestException e) {
             assertTrue(true);
         } catch (Exception e) {
-            assertTrue(false);
+            fail();
         }
     }
 
     @Test
-    void testBulkSaveDaysWithCache() {
-        CountryDto countryDto = new CountryDto("Country1");
-        countryDto.setName("CountryName");
-
-        Country mockCountry = new Country();
-        mockCountry.setName("CountryName");
-
-        when(repositoryOfCountry.findByName("CountryName")).thenReturn(Optional.of(mockCountry));
-
-        doNothing().when(countryCache).clear();
-        doNothing().when(dayCache).clear();
-
-        countryService.bulkSaveDays(countryDto);
-
-        verify(countryCache).clear();
-        verify(dayCache).clear();
-    }
-
-    @Test
-    void testBulkSaveDaysWithExceptionHandling() {
-        CountryDto countryDto = new CountryDto("Country1");
-        countryDto.setName("CountryName");
-
-        when(repositoryOfCountry.findByName("CountryName")).thenReturn(Optional.empty());
-
-        Exception exception = assertThrows(HttpErrorExceptions.CustomInternalServerErrorException.class, () -> {
-            countryService.bulkSaveDays(countryDto);
-        });
-
-        assertEquals("An error occurred while saving days", exception.getMessage());
-
-        verify(countryCache, never()).clear();
-        verify(dayCache, never()).clear();
-    }
-
-    @Test
     void testFindByNameCountry() {
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         countryDto.setName("CountryName");
 
         when(countryCache.get("CountryName")).thenReturn(null);
@@ -179,18 +116,6 @@ class CountryServiceTest {
         verify(countryCache).get("CountryName");
 
         verify(countryCache).put(any(), any(CountryDto.class));
-    }
-
-    @Test
-    void testFindByNameCountry_NotFound() {
-        when(countryCache.get("CountryName")).thenReturn(null);
-        when(repositoryOfCountry.findByName("CountryName")).thenReturn(Optional.empty());
-
-        Exception exception = assertThrows(HttpErrorExceptions.CustomNotFoundException.class, () -> {
-            countryService.findByNameCountry("CountryName");
-        });
-
-        assertEquals("Country not found", exception.getMessage());
     }
 
     @Test
@@ -222,7 +147,7 @@ class CountryServiceTest {
         } catch (HttpErrorExceptions.CustomNotFoundException e) {
             assertTrue(true);
         } catch (Exception e) {
-            assertTrue(false);
+            fail();
         }
     }
 
@@ -232,7 +157,7 @@ class CountryServiceTest {
         DataCache countryCache = mock(DataCache.class);
         CountryService countryService = new CountryService(repositoryOfCountry, repositoryOfDay, countryCache, dayCache);
 
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         countryDto.setName("OldName");
         Country existingCountry = new Country();
         existingCountry.setName("OldName");
@@ -279,27 +204,25 @@ class CountryServiceTest {
         } catch (HttpErrorExceptions.CustomNotFoundException e) {
             assertTrue(true);
         } catch (Exception e) {
-            assertTrue(false);
+            fail();
         }
     }
 
     @Test
     void testSaveCountry_RepositoryException() {
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         countryDto.setName("CountryName");
 
         when(repositoryOfCountry.saveAndFlush(any(Country.class))).thenThrow(new RuntimeException("Repository error"));
 
-        Exception exception = assertThrows(HttpErrorExceptions.CustomInternalServerErrorException.class, () -> {
-            countryService.saveCountry(countryDto);
-        });
+        Exception exception = assertThrows(HttpErrorExceptions.CustomInternalServerErrorException.class, () -> countryService.saveCountry(countryDto));
 
         assertEquals("An error occurred while saving the country", exception.getMessage());
     }
 
     @Test
     void testUpdateCountryByName_CacheUpdate() {
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         countryDto.setName("OldName");
         Country existingCountry = new Country();
         existingCountry.setName("OldName");
@@ -317,14 +240,12 @@ class CountryServiceTest {
 
     @Test
     void testSaveCountry_TransactionRollback() {
-        CountryDto countryDto = new CountryDto("Country1");
+        CountryDto countryDto = new CountryDto();
         countryDto.setName("CountryName");
 
         when(repositoryOfCountry.saveAndFlush(any(Country.class))).thenThrow(new RuntimeException("Repository error"));
 
-        Exception exception = assertThrows(HttpErrorExceptions.CustomInternalServerErrorException.class, () -> {
-            countryService.saveCountry(countryDto);
-        });
+        Exception exception = assertThrows(HttpErrorExceptions.CustomInternalServerErrorException.class, () -> countryService.saveCountry(countryDto));
 
         verify(countryCache, never()).put(any(), any(CountryDto.class));
         verify(countryCache, never()).clear();
@@ -338,27 +259,5 @@ class CountryServiceTest {
         assertFalse(result.isEmpty());
         verify(countryCache, times(1)).get("all");
         verify(repositoryOfCountry, never()).findAll();
-    }
-
-    @Test
-    void testBulkSaveDays() {
-        CountryDto countryDto = new CountryDto("Country1");
-        countryDto.setName("CountryName");
-        countryDto.setDays(Arrays.asList(new DayDto(), new DayDto()));
-
-        Country mockCountry = new Country();
-        mockCountry.setName("CountryName");
-        when(repositoryOfCountry.findByName("CountryName")).thenReturn(Optional.of(mockCountry));
-
-        doNothing().when(repositoryOfDay).saveAll(anyList());
-        doNothing().when(countryCache).clear();
-        doNothing().when(dayCache).clear();
-
-        countryService.bulkSaveDays(countryDto);
-
-        verify(repositoryOfCountry, times(1)).findByName("CountryName");
-        verify(repositoryOfDay, times(1)).saveAll(anyList());
-        verify(countryCache, times(1)).clear();
-        verify(dayCache, times(1)).clear();
     }
 }

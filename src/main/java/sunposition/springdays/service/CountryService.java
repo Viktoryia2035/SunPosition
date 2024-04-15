@@ -1,5 +1,7 @@
 package sunposition.springdays.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import sunposition.springdays.model.Day;
 import sunposition.springdays.repository.InMemoryCountryDAO;
 import sunposition.springdays.repository.InMemoryDayDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,7 @@ public class CountryService {
     private InMemoryDayDAO repositoryOfDay;
     private DataCache countryCache;
     private DataCache dayCache;
+    private static final String ERROR_OCCURRED_MESSAGE = "An error occurred ";
 
     public void setCountryCache(final DataCache newCountryCache) {
         this.countryCache = newCountryCache;
@@ -38,12 +42,20 @@ public class CountryService {
     public static final String MESSAGE_COUNTRY_ALREADY_EXISTS =
             "Country with the same name already exists";
 
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(CountryService.class);
+
     public List<CountryDto> findAll() {
+        CounterService.incrementRequestCount();
+        int requestCount = CounterService.getRequestCount();
+        LOGGER.info("Текущее количество запросов: {}", requestCount);
         try {
             Object cachedObject = countryCache.get("all");
             if (cachedObject instanceof List<?> list
                     && !list.isEmpty() && list.get(0) instanceof CountryDto) {
-                return (List<CountryDto>) list;
+                return list.stream()
+                        .map(CountryDto.class::cast)
+                        .toList();
             }
             List<Country> countries = repositoryOfCountry.findAll();
             List<CountryDto> countryDtos = countries.stream()
@@ -56,8 +68,8 @@ public class CountryService {
             throw e;
         } catch (Exception e) {
             throw new HttpErrorExceptions.
-                    CustomInternalServerErrorException("An error occurred "
-                    + "while fetching countries", e);
+                    CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE
+                    +"while fetching countries", e);
         }
 
     }
@@ -90,34 +102,43 @@ public class CountryService {
             return countryDto;
         } catch (Exception e) {
             throw new HttpErrorExceptions.
-                    CustomInternalServerErrorException("An error occurred "
+                    CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE
                     + "while saving the country", e);
         }
     }
 
-    public void bulkSaveDays(final CountryDto countryDto) {
+    public void bulkSaveDays(final List<CountryDto> countryDtoList) {
         try {
-            Country country = repositoryOfCountry.
-                    findByName(countryDto.getName())
-                    .orElseThrow(() -> new HttpErrorExceptions.
-                            CustomNotFoundException(MESSAGE_OF_COUNTRY));
+            List<Country> countriesToSave = new ArrayList<>();
 
-            List<Day> days = countryDto.getDays().stream()
-                    .map(dayDto -> {
-                        Day day = DayMapper.toEntity(dayDto);
-                        day.setCountry(country);
-                        return day;
-                    })
-                    .toList();
+            for (CountryDto countryDto : countryDtoList) {
+                Optional<Country> existingCountry = repositoryOfCountry.findByName(countryDto.getName());
 
-            repositoryOfDay.saveAll(days);
-            country.setDays(days);
-            repositoryOfCountry.save(country);
+                if (existingCountry.isPresent()) {
+                    throw new HttpErrorExceptions.CustomBadRequestException("Country already exists: " + countryDto.getName());
+                }
+
+                Country country = CountryMapper.toEntity(countryDto);
+                countriesToSave.add(country);
+
+                List<Day> days = new ArrayList<>();
+
+                for (DayDto dayDto : countryDto.getDays()) {
+                    Day day = DayMapper.toEntity(dayDto);
+                    day.setCountry(country);
+                    days.add(day);
+                }
+
+                country.setDays(days);
+            }
+
+            repositoryOfCountry.saveAll(countriesToSave);
+
             countryCache.clear();
             dayCache.clear();
         } catch (Exception e) {
             throw new HttpErrorExceptions.CustomInternalServerErrorException(
-                    "An error occurred while saving days", e);
+                    ERROR_OCCURRED_MESSAGE + " while saving days", e);
         }
     }
 
@@ -137,11 +158,10 @@ public class CountryService {
             CountryDto countryDto = CountryMapper.toDto(country);
             countryCache.put(name, countryDto);
             return countryDto;
-        } catch (HttpErrorExceptions.CustomNotFoundException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HttpErrorExceptions.CustomInternalServerErrorException(
-                    "Error when searching for a country by name", e);
+            throw new HttpErrorExceptions.
+                    CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE
+                    + "while fetching the country", e);
         }
     }
 

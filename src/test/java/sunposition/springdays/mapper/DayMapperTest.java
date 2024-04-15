@@ -1,5 +1,6 @@
 package sunposition.springdays.mapper;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.model.Day;
@@ -69,13 +70,13 @@ class DayMapperTest {
 
         DayDto dayDto = DayMapper.toDto(day);
 
-        assertNull(dayDto.getId());
-        assertNull(dayDto.getLocation());
-        assertNull(dayDto.getCoordinates());
-        assertNull(dayDto.getDateOfSunriseSunset());
-        assertNull(dayDto.getTimeOfSunrise());
-        assertNull(dayDto.getTimeOfSunset());
-        assertNull(dayDto.getWeatherConditions());
+        Assertions.assertNull(dayDto.getId());
+        Assertions.assertNull(dayDto.getLocation());
+        Assertions.assertNull(dayDto.getCoordinates());
+        Assertions.assertNull(dayDto.getDateOfSunriseSunset());
+        Assertions.assertNull(dayDto.getTimeOfSunrise());
+        Assertions.assertNull(dayDto.getTimeOfSunset());
+        Assertions.assertNull(dayDto.getWeatherConditions());
     }
 
     @Test
@@ -117,12 +118,12 @@ class DayMapperTest {
 
         Day day = DayMapper.toEntity(dayDto);
 
-        assertNull(day.getId());
-        assertNull(day.getLocation());
-        assertNull(day.getCoordinates());
-        assertNull(day.getTimeOfSunrise());
-        assertNull(day.getTimeOfSunset());
-        assertNull(day.getWeatherConditions());
+        Assertions.assertNull(day.getId());
+        Assertions.assertNull(day.getLocation());
+        Assertions.assertNull(day.getCoordinates());
+        Assertions.assertNull(day.getTimeOfSunrise());
+        Assertions.assertNull(day.getTimeOfSunset());
+        Assertions.assertNull(day.getWeatherConditions());
     }
 
 

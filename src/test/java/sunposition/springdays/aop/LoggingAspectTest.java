@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
+import java.lang.reflect.Field;
+
 import static org.mockito.Mockito.*;
 
 class LoggingAspectTest {
@@ -16,14 +18,16 @@ class LoggingAspectTest {
     private Signature mockSignature;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws NoSuchFieldException, IllegalAccessException {
         loggingAspect = new LoggingAspect();
         joinPoint = mock(JoinPoint.class);
         mockLogger = mock(Logger.class);
         mockSignature = mock(Signature.class);
-        LoggingAspect.log = mockLogger;
-
         when(joinPoint.getSignature()).thenReturn(mockSignature);
+
+        Field logField = LoggingAspect.class.getDeclaredField("log");
+        logField.setAccessible(true);
+        logField.set(loggingAspect, mockLogger);
     }
 
     @Test

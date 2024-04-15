@@ -1,7 +1,12 @@
 package sunposition.springdays.aop;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.After;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -10,13 +15,17 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LoggingAspect {
 
-    protected static Logger log = LoggerFactory.getLogger(LoggingAspect.class);
+    private static Logger log = LoggerFactory.getLogger(LoggingAspect.class);
+    protected static Logger getLogger() {
+        return log;
+    }
 
     @Pointcut("execution(* sunposition.springdays.service.DayService.*(..))")
     public void dayServiceMethods() {
     }
 
-    @Pointcut("execution(* sunposition.springdays.service.CountryService.*(..))")
+    @Pointcut("execution"
+            + "(* sunposition.springdays.service.CountryService.*(..))")
     public void countryServiceMethods() {
     }
 
@@ -26,19 +35,29 @@ public class LoggingAspect {
         logArguments(joinPoint);
     }
 
-    @AfterReturning(value = "dayServiceMethods() || countryServiceMethods()", returning = "result")
-    public void afterReturningAdvice(final JoinPoint joinPoint, final Object result) {
-        log.info("Exiting method: {}, with result: {}", joinPoint.getSignature().getName(), result);
+    @AfterReturning(
+            value = "dayServiceMethods() || countryServiceMethods()",
+            returning = "result")
+    public void afterReturningAdvice(
+            final JoinPoint joinPoint, final Object result) {
+        log.info(
+                "Exiting method: {}, with result: {}",
+                joinPoint.getSignature().getName(), result
+        );
     }
 
     @After(value = "dayServiceMethods() || countryServiceMethods()")
     public void afterAdvice(final JoinPoint joinPoint) {
-        log.info("Method: {} has completed", joinPoint.getSignature().getName());
+        log.info("Method: {} has completed",
+                joinPoint.getSignature().getName());
     }
 
-    @AfterThrowing(value = "dayServiceMethods() || countryServiceMethods()", throwing = "ex")
-    public void afterThrowingAdvice(final JoinPoint joinPoint, final Throwable ex) {
-        log.error("Exception thrown in method: {} - Error: {}", joinPoint.getSignature().getName(),
+    @AfterThrowing(value = "dayServiceMethods() || "
+            + "countryServiceMethods()", throwing = "ex")
+    public void afterThrowingAdvice(final JoinPoint joinPoint,
+                                    final Throwable ex) {
+        log.error("Exception thrown in method: {} - Error: {}",
+                joinPoint.getSignature().getName(),
                 ex.getClass().getSimpleName(), ex);
     }
 

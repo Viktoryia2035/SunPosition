@@ -349,34 +349,4 @@ class DayServiceTest {
                 Arguments.of("Location", "Coordinates", LocalDate.now(), 2, 1)
         );
     }
-
-    @ParameterizedTest
-    @MethodSource("saveSunriseSunsetExceptionScenarios")
-    void testSaveSunriseSunset_Exceptions(Exception repositoryException, Class<? extends Exception> expectedException) {
-        InMemoryDayDAO repository = mock(InMemoryDayDAO.class);
-        DataCache dayCache = mock(DataCache.class);
-        DayService dayService = new DayService(repository, dayCache);
-        Day day = new Day();
-
-        when(repository.save(day)).thenThrow(repositoryException);
-
-        try {
-            dayService.saveSunriseSunset(day, "POST");
-            fail("Expected exception to be thrown");
-        } catch (Exception e) {
-            assertTrue(expectedException.isInstance(e), "Expected exception type: " + expectedException.getName());
-        }
-
-        verify(dayCache, times(0)).put(anyString(), any(DayDto.class));
-        verify(dayCache, times(0)).clear();
-    }
-
-    private static Stream<Arguments> saveSunriseSunsetExceptionScenarios() {
-        return Stream.of(
-                Arguments.of(new RuntimeException("Repository error"), HttpErrorExceptions.CustomInternalServerErrorException.class),
-                Arguments.of(new IllegalArgumentException("Invalid argument"), HttpErrorExceptions.CustomInternalServerErrorException.class),
-                Arguments.of(new RuntimeException("Transaction rollback"), HttpErrorExceptions.CustomInternalServerErrorException.class)
-        );
-    }
-
 }

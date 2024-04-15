@@ -6,7 +6,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.ErrorResponse;
@@ -62,14 +69,13 @@ public class CountryController {
 
     @PostMapping("/bulkSaveDays")
     public ResponseEntity<String> bulkSaveDays(
-            @Valid @RequestBody final CountryDto countryDto) {
+            @Valid @RequestBody final List<CountryDto> countryDtoList) {
         LOGGER.info("Saving multiple days for a country");
-        service.bulkSaveDays(countryDto);
+        service.bulkSaveDays(countryDtoList);
         LOGGER.info("Days saved successfully for a country");
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Days saved successfully");
     }
-
 
     @GetMapping("/findName")
     public ResponseEntity<CountryDto> findByNameCountry(

@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import sunposition.springdays.dto.DayDto;
-import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.model.Day;
 import sunposition.springdays.service.DayService;
 
@@ -37,28 +36,6 @@ class DayControllerTest {
 
         assertEquals(2, result.size());
     }
-
-    /*@Test
-    void testSaveSunriseSunset_Success() {
-        DayDto dayDto = new DayDto();
-        Day day = new Day();
-        when(dayService.saveSunriseSunset(day, "POST")).thenReturn(day);
-
-        ResponseEntity<DayDto> response = dayController.saveSunriseSunset(dayDto);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }*/
-
-    /*@Test
-    void testSaveSunriseSunset_MethodNotAllowed() {
-        DayDto dayDto = new DayDto();
-        Day day = new Day();
-        when(dayService.saveSunriseSunset(day, "POST")).thenThrow(new HttpErrorExceptions.CustomMethodNotAllowedException("Method Not Allowed"));
-
-        ResponseEntity<DayDto> response = dayController.saveSunriseSunset(dayDto);
-
-        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
-    }*/
 
     @Test
     void testSaveSunriseSunset_InternalServerError() {

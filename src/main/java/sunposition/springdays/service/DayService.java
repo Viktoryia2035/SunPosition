@@ -26,7 +26,7 @@ public class DayService {
 
     public List<Day> findAllSunriseSunset() {
         List<Day> allDays = repository.findAll();
-        allDays.stream().forEach(day -> {
+        allDays.forEach(day -> {
             String cacheKey = LOCATION_PREFIX + day.getLocation();
             DayDto dayDto = DayMapper.toDto(day);
             dayCache.put(cacheKey, dayDto);
@@ -37,9 +37,11 @@ public class DayService {
 
     public Day saveSunriseSunset(final Day day, final String httpMethod) {
         if (!"POST".equalsIgnoreCase(httpMethod)) {
-            throw new HttpErrorExceptions.CustomMethodNotAllowedException("Method not allowed for the provided request.");
+            throw new HttpErrorExceptions.
+                    CustomMethodNotAllowedException(
+                            "Method not allowed for the provided request."
+            );
         }
-
         try {
             Day savedDay = repository.save(day);
             String cacheKey = LOCATION_PREFIX + savedDay.getLocation();
@@ -48,10 +50,12 @@ public class DayService {
             dayCache.clear();
             return savedDay;
         } catch (RuntimeException e) {
-            throw new HttpErrorExceptions.CustomInternalServerErrorException("An error occurred while saving the day", e);
+            throw new HttpErrorExceptions.
+                    CustomInternalServerErrorException(
+                            "An error occurred while saving the day",
+                    e);
         }
     }
-
 
     public Day findByLocation(final String location) {
         if (location == null || location.isEmpty()) {
