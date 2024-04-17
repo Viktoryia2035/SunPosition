@@ -1,11 +1,14 @@
 package sunposition.springdays.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import sunposition.springdays.dto.DayDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.mapper.DayMapper;
 import sunposition.springdays.model.Day;
@@ -23,14 +25,16 @@ import sunposition.springdays.service.DayService;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/v2/sunrise_sunset")
+@Tag(name = "Day Controller", description = "API для работы с восходом и закатом солнца")
 @AllArgsConstructor
 public class DayController {
     private final DayService service;
 
     static final Logger LOGGER = LogManager.getLogger(DayController.class);
 
+    @Operation(method = "GET", summary = "Получить все события восхода и заката", description = "Возвращает список всех событий восхода и заката")
     @GetMapping
     public List<Day> findAllSunriseSunset() {
         LOGGER.info("Finding all sunrise and sunset times");
@@ -39,6 +43,7 @@ public class DayController {
         return days;
     }
 
+    @Operation(method = "POST", summary = "Сохранить событие восхода и заката", description = "Сохраняет новое событие восхода и заката в базе данных")
     @PostMapping("/saveSunriseSunset")
     public ResponseEntity<DayDto> saveSunriseSunset(
             @Valid @RequestBody final DayDto dayDto) {
@@ -60,6 +65,7 @@ public class DayController {
         }
     }
 
+    @Operation(method = "GET", summary = "Поиск события по местоположению", description = "Возвращает событие восхода и заката по его местоположению")
     @GetMapping("/findByLocation")
     public ResponseEntity<DayDto> findByLocation(
             @RequestParam final String location) {
@@ -80,6 +86,7 @@ public class DayController {
         }
     }
 
+    @Operation(method = "GET", summary = "Поиск события по координатам", description = "Возвращает событие восхода и заката по его координатам")
     @GetMapping("/findByCoordinates")
     public ResponseEntity<DayDto> findByCoordinates(
             @RequestParam(required = false) final String coordinates) {
@@ -106,6 +113,7 @@ public class DayController {
     }
 
 
+    @Operation(method = "DELETE", summary = "Удалить город по координатам", description = "Удаляет город из базы данных по его координатам")
     @DeleteMapping("/deleteByCoordinates")
     public ResponseEntity<String> deleteCityByCoordinates(
             @RequestParam final String coordinates) {
@@ -122,6 +130,7 @@ public class DayController {
         }
     }
 
+    @Operation(method = "PUT", summary = "Обновить событие восхода и заката", description = "Обновляет событие восхода и заката в базе данных")
     @PutMapping("/updateSunriseSunset")
     public ResponseEntity<DayDto> updateSunriseSunset(
             @RequestParam final String location,

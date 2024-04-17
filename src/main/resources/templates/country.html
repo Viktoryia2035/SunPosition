@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Солнце восход и закат</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Список событий</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Дата</th>
+        <th>Время восхода</th>
+        <th>Время заката</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="day : ${days}">
+        <td th:text="${day.date}"></td>
+        <td th:text="${day.sunriseTime}"></td>
+        <td th:text="${day.sunsetTime}"></td>
+        <td>
+            <a th:href="@{/api/v2/sunrise_sunset/findByLocation(location=${day.location})}">Подробнее</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

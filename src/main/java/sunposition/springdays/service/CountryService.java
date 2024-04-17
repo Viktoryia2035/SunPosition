@@ -17,6 +17,7 @@ import sunposition.springdays.repository.InMemoryCountryDAO;
 import sunposition.springdays.repository.InMemoryDayDAO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,7 +83,9 @@ public class CountryService {
         try {
             Country country = CountryMapper.toEntity(countryDto);
             Country savedCountry = repositoryOfCountry.saveAndFlush(country);
-            List<Day> days = countryDto.getDays().stream()
+            List<Day> days = Optional.ofNullable(countryDto.getDays())
+                    .orElse(Collections.emptyList())
+                    .stream()
                     .map(dayDto -> {
                         Day day = DayMapper.toEntity(dayDto);
                         day.setCountry(country);
