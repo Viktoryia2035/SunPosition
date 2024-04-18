@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.ui.Model;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.ErrorResponse;
-import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.service.CountryService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -35,24 +35,21 @@ public class CountryController {
 
     static final Logger LOGGER = LogManager.getLogger(CountryController.class);
 
-    @Operation(method = "GET", summary = "Получить все страны", description = "Возвращает список всех стран")
+    @Operation(method = "GET",
+            summary = "Получить все страны",
+            description = "Возвращает список всех стран")
     @GetMapping
-    public ResponseEntity<Object> findAllCountry() {
-        try {
-            LOGGER.info("Finding all countries");
-            List<CountryDto> countries = service.findAll();
-            LOGGER.info("Found {} countries", countries.size());
-            return ResponseEntity.ok(countries);
-        } catch (HttpErrorExceptions.CustomInternalServerErrorException e) {
-            LOGGER.error("Error fetching countries", e);
-            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-            return new ResponseEntity<>(errorResponse,
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public String findAllCountry(final Model model) {
+        LOGGER.info("Finding all countries");
+        List<CountryDto> countries = service.findAll();
+        LOGGER.info("Found {} countries", countries.size());
+        model.addAttribute("countries", countries);
+        return "countries";
     }
 
-    @Operation(method = "POST", summary = "Сохранить страну", description = "Сохраняет новую страну в базе данных")
+    @Operation(method = "POST",
+            summary = "Сохранить страну",
+            description = "Сохраняет новую страну в базе данных")
     @PostMapping("/saveCountry")
     public ResponseEntity<Object> saveCountry(
             @Valid @RequestBody final CountryDto countryDto) {
@@ -72,7 +69,9 @@ public class CountryController {
         }
     }
 
-    @Operation(method = "POST", summary = "Массовое сохранение дней", description = "Сохраняет множество дней для страны")
+    @Operation(method = "POST",
+            summary = "Массовое сохранение дней",
+            description = "Сохраняет множество дней для страны")
     @PostMapping("/bulkSaveDays")
     public ResponseEntity<String> bulkSaveDays(
             @Valid @RequestBody final List<CountryDto> countryDtoList) {
@@ -83,7 +82,9 @@ public class CountryController {
                 .body("Days saved successfully");
     }
 
-    @Operation(method = "GET", summary = "Поиск страны по имени", description = "Возвращает страну по её имени")
+    @Operation(method = "GET",
+            summary = "Поиск страны по имени",
+            description = "Возвращает страну по её имени")
     @GetMapping("/findName")
     public ResponseEntity<CountryDto> findByNameCountry(
             @RequestParam final String name) {
@@ -98,7 +99,9 @@ public class CountryController {
         }
     }
 
-    @Operation(method = "DELETE", summary = "Удалить страну по ID", description = "Удаляет страну из базы данных по её ID")
+    @Operation(method = "DELETE",
+            summary = "Удалить страну по ID",
+            description = "Удаляет страну из базы данных по её ID")
     @DeleteMapping("/deleteById")
     public ResponseEntity<String> deleteCountryById(
             @RequestParam final Long id) {
@@ -114,7 +117,9 @@ public class CountryController {
     }
 
 
-    @Operation(method = "PATCH", summary = "Обновить страну по имени", description = "Обновляет имя страны в базе данных")
+    @Operation(method = "PATCH",
+            summary = "Обновить страну по имени",
+            description = "Обновляет имя страны в базе данных")
     @PatchMapping("/updateByName")
     public ResponseEntity<CountryDto> updateCountryByName(
             @RequestParam final String name,
@@ -127,7 +132,10 @@ public class CountryController {
         return ResponseEntity.ok(updatedCountryDto);
     }
 
-    @Operation(method = "GET", summary = "Поиск дней по имени страны и погодным условиям", description = "Возвращает дни, соответствующие заданным погодным условиям для страны")
+    @Operation(method = "GET",
+            summary = "Поиск дней по имени страны и погодным условиям",
+            description = "Возвращает дни,"
+                    + "соответствующие заданным погодным условиям для страны")
     @GetMapping("/findByNameAndWeather")
     public ResponseEntity<List<DayDto>> findByCountryNameAndWeatherConditions(
             @RequestParam final String countryName,

@@ -70,7 +70,7 @@ public class CountryService {
         } catch (Exception e) {
             throw new HttpErrorExceptions.
                     CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE
-                    +"while fetching countries", e);
+                    + "while fetching countries", e);
         }
 
     }
@@ -115,10 +115,13 @@ public class CountryService {
             List<Country> countriesToSave = new ArrayList<>();
 
             for (CountryDto countryDto : countryDtoList) {
-                Optional<Country> existingCountry = repositoryOfCountry.findByName(countryDto.getName());
+                Optional<Country> existingCountry = repositoryOfCountry.
+                        findByName(countryDto.getName());
 
                 if (existingCountry.isPresent()) {
-                    throw new HttpErrorExceptions.CustomBadRequestException("Country already exists: " + countryDto.getName());
+                    throw new HttpErrorExceptions.
+                            CustomBadRequestException("Country already exists: "
+                            + countryDto.getName());
                 }
 
                 Country country = CountryMapper.toEntity(countryDto);
