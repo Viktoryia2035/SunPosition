@@ -6,8 +6,10 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.ui.Model;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,17 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.ErrorResponse;
-import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.service.CountryService;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/v2/country")
 @Tag(name = "Country Controller", description = "API для работы со странами")
 @AllArgsConstructor
@@ -39,19 +39,12 @@ public class CountryController {
             summary = "Получить все страны",
             description = "Возвращает список всех стран")
     @GetMapping
-    public ResponseEntity<Object> findAllCountry() {
-        try {
-            LOGGER.info("Finding all countries");
-            List<CountryDto> countries = service.findAll();
-            LOGGER.info("Found {} countries", countries.size());
-            return ResponseEntity.ok(countries);
-        } catch (HttpErrorExceptions.CustomInternalServerErrorException e) {
-            LOGGER.error("Error fetching countries", e);
-            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-            return new ResponseEntity<>(errorResponse,
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public String findAllCountry(final Model model) {
+        LOGGER.info("Finding all countries");
+        List<CountryDto> countries = service.findAll();
+        LOGGER.info("Found {} countries", countries.size());
+        model.addAttribute("countries", countries);
+        return "countries";
     }
 
     @Operation(method = "POST",
