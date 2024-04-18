@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import sunposition.springdays.dto.DayDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,12 +39,11 @@ public class DayController {
             summary = "Получить все события восхода и заката",
             description = "Возвращает список всех событий восхода и заката")
     @GetMapping
-    public String findAllSunriseSunset(final Model model) {
+    public List<Day> findAllSunriseSunset() {
         LOGGER.info("Finding all sunrise and sunset times");
         List<Day> days = service.findAllSunriseSunset();
         LOGGER.info("Found {} sunrise and sunset times", days.size());
-        model.addAttribute("days", days);
-        return "days";
+        return days;
     }
 
     @Operation(method = "POST",
