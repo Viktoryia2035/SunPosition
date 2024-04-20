@@ -1,0 +1,42 @@
+<!--
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление события</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Ruda:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        button {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        a, h2, p, form {
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body class="container-md">
+
+<h2>Удалить событие</h2>
+
+<p>Вы уверены, что хотите удалить событие "<span th:text="${day.location}"></span>"?</p>
+
+<form th:method="DELETE"
+      th:action="@{/api/v2/sunrise_sunset/deleteByCoordinates}"
+      th:object="${day}">
+    <button type="submit">Удалить</button>
+</form>
+<a class="btn btn-secondary" th:href="@{/api/v2/country}">Вернуться на главную</a>
+</body>
+</html>-->

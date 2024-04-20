@@ -10,14 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sunposition.springdays.dto.DayDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.mapper.DayMapper;
 import sunposition.springdays.model.Day;
@@ -35,6 +31,10 @@ public class DayController {
     private final DayService service;
 
     static final Logger LOGGER = LogManager.getLogger(DayController.class);
+    private static final String REDIRECT = "redirect:/api/v2/sunrise_sunset";
+    private static final String ERROR_MESSAGE = "errorMessage";
+    private static final String ERROR_REDIRECT = "days/error";
+    private static final String ATTRIBUTE = "day";
 
     @Operation(method = "GET",
             summary = "Получить все события восхода и заката",
@@ -48,14 +48,23 @@ public class DayController {
         return "days";
     }
 
+    @GetMapping("/saveSunriseSunset")
+    public String createDay(@ModelAttribute("day") DayDto dayDto) {
+        return "createDay";
+    }
+
     @Operation(method = "POST",
             summary = "Сохранить событие "
                     + "восхода и заката",
             description = "Сохраняет новое событие "
                     + "восхода и заката в базе данных")
     @PostMapping("/saveSunriseSunset")
-    public ResponseEntity<DayDto> saveSunriseSunset(
-            @Valid @RequestBody final DayDto dayDto) {
+    public String saveSunriseSunset(
+            @Valid @ModelAttribute("day") final DayDto dayDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
+            return "createDay";
+        }
         try {
             LOGGER.info("Saving sunrise and sunset time");
             Day day = DayMapper.toEntity(dayDto);
@@ -64,13 +73,16 @@ public class DayController {
             LOGGER.info(
                     "Sunrise and sunset time saved successfully: {}",
                     savedDayDto.getDate());
-            return new ResponseEntity<>(savedDayDto, HttpStatus.CREATED);
+            redirectAttributes.addFlashAttribute("successMessage", "Day saved successfully");
+            return REDIRECT;
         } catch (HttpErrorExceptions.CustomMethodNotAllowedException e) {
             LOGGER.error("Method Not Allowed: {}", e.getMessage(), e);
-            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Error saving day: " + e.getMessage());
+            return "redirect:/createDay";
         } catch (Exception e) {
             LOGGER.error("An error occurred: {}", e.getMessage(), e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Error saving day: " + e.getMessage());
+            return "redirect:/createDay";
         }
     }
 
@@ -128,22 +140,34 @@ public class DayController {
     }
 
 
+    @GetMapping("/deleteByCoordinates")
+    public String deleteCity(@RequestParam String coordinates, Model model) {
+        try {
+            final Day day = service.findByCoordinates(coordinates);
+            model.addAttribute(ATTRIBUTE, day);
+            return "deleteDay";
+        } catch (Exception e) {
+            LOGGER.error("Error deleting city by coordinates", e);
+            model.addAttribute(ERROR_MESSAGE, e.getMessage());
+            return ERROR_REDIRECT;
+        }
+    }
+
     @Operation(method = "DELETE",
             summary = "Удалить город по координатам",
             description = "Удаляет город из базы данных по его координатам")
     @DeleteMapping("/deleteByCoordinates")
-    public ResponseEntity<String> deleteCityByCoordinates(
-            @RequestParam final String coordinates) {
+    public String deleteCityByCoordinates(
+            @RequestParam final String coordinates, Model model) {
         LOGGER.info("Deleting city by coordinates");
         try {
             service.deleteDayByCoordinates(coordinates);
             LOGGER.info("City deleted successfully by coordinates");
-            return new ResponseEntity<>("The deletion was successful",
-                    HttpStatus.OK);
+            return "deleteDay";
         } catch (Exception e) {
             LOGGER.error("Error deleting city by coordinates", e);
-            return new ResponseEntity<>("Error deleting city",
-                    HttpStatus.NOT_FOUND);
+            model.addAttribute(ERROR_MESSAGE, e.getMessage());
+            return ERROR_REDIRECT;
         }
     }
 
