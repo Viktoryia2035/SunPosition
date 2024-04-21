@@ -183,6 +183,7 @@ public class DayController {
                 LOGGER.error("Sunrise and sunset time not updated");
                 return ERROR_REDIRECT;
             }
+
             DayDto updatedDayDto = DayMapper.toDto(updatedDay);
             LOGGER.info("Sunrise and sunset time updated successfully");
             return REDIRECT;
