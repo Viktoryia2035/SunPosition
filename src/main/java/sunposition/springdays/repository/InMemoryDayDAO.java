@@ -20,4 +20,8 @@ public interface InMemoryDayDAO extends JpaRepository<Day, Long> {
             @Param("countryName") String countryName,
             @Param("weatherConditions") String weatherConditions
     );
+
+    Day deleteDayById(final Long id);
+
+    Day findDayById(final Long id);
 }

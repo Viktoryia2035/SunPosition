@@ -1,5 +1,6 @@
 package sunposition.springdays.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,17 +32,7 @@ public class CountryService {
     private DataCache dayCache;
     private static final String ERROR_OCCURRED_MESSAGE = "An error occurred ";
 
-    public void setCountryCache(final DataCache newCountryCache) {
-        this.countryCache = newCountryCache;
-    }
-
-    public void setDayCache(final DataCache newDayCache) {
-        this.dayCache = newDayCache;
-    }
-
     public static final String MESSAGE_OF_COUNTRY = "Country not found";
-    public static final String MESSAGE_COUNTRY_ALREADY_EXISTS =
-            "Country with the same name already exists";
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(CountryService.class);
@@ -75,7 +66,7 @@ public class CountryService {
 
     }
 
-    public CountryDto saveCountry(final CountryDto countryDto) {
+    public void saveCountry(final CountryDto countryDto) {
         if (countryDto.getName() == null || countryDto.getName().isEmpty()) {
             throw new HttpErrorExceptions.
                     CustomBadRequestException("Country name cannot be empty");
@@ -102,7 +93,6 @@ public class CountryService {
             countryCache.put(savedCountry.getName(),
                     CountryMapper.toDto(savedCountry));
             countryCache.clear();
-            return countryDto;
         } catch (Exception e) {
             throw new HttpErrorExceptions.
                     CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE
@@ -171,9 +161,9 @@ public class CountryService {
         }
     }
 
-    public void deleteCountryById(final Long id) {
+    public void deleteCountryByName(final String name) {
         try {
-            Country countryToDelete = repositoryOfCountry.findById(id)
+            Country countryToDelete = repositoryOfCountry.findByName(name)
                     .orElseThrow(() -> new HttpErrorExceptions.
                             CustomNotFoundException(MESSAGE_OF_COUNTRY));
             List<Day> daysToDelete = countryToDelete.getDays();
@@ -192,42 +182,22 @@ public class CountryService {
         }
     }
 
-    public CountryDto updateCountryByName(
-            final String name, final String newName) {
-        try {
-            if (newName == null || newName.isEmpty()) {
-                throw new HttpErrorExceptions.
-                        CustomBadRequestException("New country name "
-                        + "cannot be empty");
-            }
+    public CountryDto updateCountryById(Long id, String newName) {
+        Country country = repositoryOfCountry.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Страна с ID " + id + " не найдена"));
+        country.setName(newName);
+        Country updatedCountry = repositoryOfCountry.save(country);
+        return CountryMapper.toDto(updatedCountry);
+    }
 
-            Country existingCountry = repositoryOfCountry.findByName(name)
-                    .orElseThrow(() -> new HttpErrorExceptions.
-                            CustomNotFoundException(MESSAGE_OF_COUNTRY));
 
-            if (repositoryOfCountry.findByName(newName).isPresent()) {
-                throw new HttpErrorExceptions.
-                        CustomBadRequestException(
-                        MESSAGE_COUNTRY_ALREADY_EXISTS
-                );
-            }
-
-            existingCountry.setName(newName);
-            repositoryOfCountry.save(existingCountry);
-
-            countryCache.remove(name);
-            countryCache.put(newName, CountryMapper.toDto(existingCountry));
-            countryCache.remove(name);
-            countryCache.remove(newName);
-
-            return CountryMapper.toDto(existingCountry);
-        } catch (HttpErrorExceptions.CustomNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new HttpErrorExceptions.
-                    CustomInternalServerErrorException("Error when updating "
-                    + "the country name", e);
+    public Optional<Country> findById(final Long id) {
+        Optional<Country> country = repositoryOfCountry.findById(id);
+        if (country == null) {
+            throw new EntityNotFoundException(
+                    "Agency with ID " + id + " not found");
         }
+        return country;
     }
 
     public List<DayDto> findByCountryNameAndWeatherConditions(

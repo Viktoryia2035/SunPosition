@@ -105,11 +105,11 @@ public class DayService {
         }
     }
 
-    public void deleteDayByCoordinates(final String coordinates) {
-        Day dayToDelete = repository.findByCoordinates(coordinates);
+    public void deleteDayByLocation(final String location) {
+        Day dayToDelete = repository.findByLocation(location);
         if (dayToDelete != null) {
             repository.delete(dayToDelete);
-            dayCache.remove(COORDINATES_PREFIX + coordinates);
+            dayCache.remove(COORDINATES_PREFIX + location);
             dayCache.clear();
         } else {
             throw new HttpErrorExceptions.
@@ -142,4 +142,15 @@ public class DayService {
                     CustomNotFoundException(MESSAGE_OF_DAY);
         }
     }
+
+
+    public void deleteDayById(Long id) {
+        repository.deleteById(id);
+    }
+
+    public DayDto findDayById(Long id) {
+        Day day = repository.findById(id).orElseThrow(() -> new HttpErrorExceptions.CustomNotFoundException("Day not found with id: " + id));
+        return DayMapper.toDto(day);
+    }
+
 }

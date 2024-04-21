@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
+import sunposition.springdays.model.Country;
 import sunposition.springdays.service.CountryService;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/v2/country")
@@ -106,47 +108,67 @@ public class CountryController {
     @Operation(method = "DELETE",
             summary = "Удалить страну по ID",
             description = "Удаляет страну из базы данных по её ID")
-    @DeleteMapping("/deleteById")
-    public String deleteCountryById(
-            @RequestParam final Long id) {
-        LOGGER.info("Deleting country by id: {}", id);
+    @PostMapping(value = "/{name}", params = "_method=DELETE")
+    public String deleteCountryByName(
+            @PathVariable final String name, Model model) {
+        LOGGER.info("Deleting country by name: {}", name);
         try {
-            service.deleteCountryById(id);
-            LOGGER.info("Country deleted successfully: {}", id);
+            service.deleteCountryByName(name);
+            LOGGER.info("Country deleted successfully: {}", name);
             return REDIRECT;
         } catch (EntityNotFoundException e) {
-            LOGGER.error("Country not found: {}", id);
-            return "redirect:/countries";
-        }
-    }
-    @GetMapping("/deleteById")
-    public String deleteCountry(@RequestParam Long name, Model model) {
-        try {
-            final CountryDto countries = service.findByNameCountry(String.valueOf(name));
-            model.addAttribute("countries", countries);
-            return "deleteCountry";
-        } catch (EntityNotFoundException e) {
-            LOGGER.error("Error deleting country by id", e.getMessage());
+            LOGGER.error("Country not found: {}", name);
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }
     }
 
-
-    @Operation(method = "PATCH",
-            summary = "Обновить страну по имени",
-            description = "Обновляет имя страны в базе данных")
-    @PatchMapping("/updateByName")
-    public ResponseEntity<CountryDto> updateCountryByName(
-            @RequestParam final String name,
-            @RequestParam final String newName) {
-        LOGGER.info("Updating country name");
-        CountryDto updatedCountryDto = service.
-                updateCountryByName(name, newName);
-        LOGGER.info("Country updated successfully: {}",
-                updatedCountryDto.getName());
-        return ResponseEntity.ok(updatedCountryDto);
+    @GetMapping("/delete/{name}")
+    public String showDeleteForm(@PathVariable String name, Model model) {
+        try {
+            final CountryDto countries = service.findByNameCountry(name);
+            model.addAttribute("countries", countries);
+            return "deleteCountry";
+        } catch (Exception e) {
+            LOGGER.error("Error deleting country by name", e.getMessage());
+            model.addAttribute(ERROR_MESSAGE, e.getMessage());
+            return ERROR_REDIRECT;
+        }
     }
+
+    @Operation(method = "PUT",
+            summary = "Обновить страну по ID",
+            description = "Обновляет имя страны в базе данных")
+    @PutMapping("/{id}")
+    public String updateCountryById(
+            @PathVariable final Long id,
+            @RequestBody final CountryDto countryDto,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "updateCountry";
+        LOGGER.info("Updating country name");
+        CountryDto updatedCountryDto = service.updateCountryById(id, countryDto.getName());
+        LOGGER.info("Country updated successfully: {}", updatedCountryDto.getName());
+        return REDIRECT;
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateCountry(@PathVariable Long id, Model model) {
+        try {
+            final Optional<Country> countryOptional = service.findById(id);
+            if (countryOptional.isPresent()) {
+                Country country = countryOptional.get();
+                model.addAttribute("country", country);
+                return "updateCountry";
+            } else {
+                model.addAttribute(ERROR_MESSAGE, "Страна с ID " + id + " не найдена");
+                return ERROR_REDIRECT;
+            }
+        } catch (EntityNotFoundException e) {
+            model.addAttribute(ERROR_MESSAGE, e.getMessage());
+            return ERROR_REDIRECT;
+        }
+    }
+
 
     @Operation(method = "GET",
             summary = "Поиск дней по имени страны и погодным условиям",

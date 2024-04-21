@@ -29,6 +29,11 @@
             padding: 20px;
         }
 
+        .card-text {
+            color: #fff; /* Добавлено для изменения цвета текста на белый */
+            margin-bottom: 20px;
+        }
+
         .card-container {
             display: flex;
             flex-wrap: wrap;
@@ -103,6 +108,11 @@
                 flex: 0 0 100%;
             }
         }
+
+        .button-container .btn {
+            flex-grow: 1;
+        }
+
     </style>
 </head>
 <body>
@@ -117,10 +127,13 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${country.name}">Country</h5>
-                    <p class="card-text" th:text="${country.days}">Days</p>
-                    <a class="btn" th:href="@{/api/v2/country/findName(name=${country.name})}">Подробнее</a>
-                    <a class="btn" th:href="@{/api/v2/country/updateByName}">Изменить</a>
-                    <a class="btn btn-danger" th:href="@{/api/v2/country/deleteById}">Удалить</a>
+                    <p class="card-text" th:text="'Столица: ' + ${country.capital}"></p>
+                    <p class="card-text" th:text="'Население: ' + ${country.population}"></p>
+                    <p class="card-text" th:text="'Язык: ' + ${country.language}"></p>
+                    <div class="d-flex justify-content-between gap-2">
+                        <a class="btn btn-block btn-info" th:href="@{/api/v2/country/update/{id}(id=${country.id})}">Изменить</a>
+                        <a class="btn btn-block btn-danger" th:href="@{/api/v2/country/delete/{name}(name=${country.name})}">Удалить</a>
+                    </div>
                 </div>
             </div>
         </div>

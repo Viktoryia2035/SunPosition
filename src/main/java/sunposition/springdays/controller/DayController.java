@@ -91,24 +91,21 @@ public class DayController {
             description = "Возвращает событие "
                     + "восхода и заката по его местоположению")
     @GetMapping("/findByLocation")
-    public ResponseEntity<DayDto> findByLocation(
-            @RequestParam final String location) {
-        LOGGER.info("Finding sunrise and sunset time by location");
+    public ResponseEntity<DayDto> findByLocation(@RequestParam final String location) {
         try {
             Day day = service.findByLocation(location);
             if (day == null) {
-                LOGGER.error("Sunrise and sunset time not found for location");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             DayDto dayDto = DayMapper.toDto(day);
-            LOGGER.info("Sunrise and sunset time found for location");
             return new ResponseEntity<>(dayDto, HttpStatus.OK);
+        } catch (HttpErrorExceptions.CustomNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            LOGGER.error(
-                    "Error finding sunrise and sunset time by location", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @Operation(method = "GET",
             summary = "Поиск события по координатам",
@@ -139,33 +136,31 @@ public class DayController {
         }
     }
 
-
-    @GetMapping("/deleteByCoordinates")
-    public String deleteCity(@RequestParam String coordinates, Model model) {
+    @GetMapping("/delete/{location}")
+    public String showDeleteForm(@PathVariable String location, Model model) {
         try {
-            final Day day = service.findByCoordinates(coordinates);
+            final Day day = service.findByLocation(location);
             model.addAttribute(ATTRIBUTE, day);
             return "deleteDay";
         } catch (Exception e) {
-            LOGGER.error("Error deleting city by coordinates", e);
+            LOGGER.error("Error deleting day by location", e.getMessage());
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }
     }
 
     @Operation(method = "DELETE",
-            summary = "Удалить город по координатам",
-            description = "Удаляет город из базы данных по его координатам")
-    @DeleteMapping("/deleteByCoordinates")
-    public String deleteCityByCoordinates(
-            @RequestParam final String coordinates, Model model) {
-        LOGGER.info("Deleting city by coordinates");
+            summary = "Удалить город по местоположению",
+            description = "Удаляет город из базы данных по его местоположению")
+    @PostMapping(value = "/{location}", params = "_method=DELETE")
+    public String deleteDayByLocation(@PathVariable final String location, Model model) {
+        LOGGER.info("Deleting city by location");
         try {
-            service.deleteDayByCoordinates(coordinates);
-            LOGGER.info("City deleted successfully by coordinates");
-            return "deleteDay";
+            service.deleteDayByLocation(location);
+            LOGGER.info("City deleted successfully by location");
+            return REDIRECT;
         } catch (Exception e) {
-            LOGGER.error("Error deleting city by coordinates", e);
+            LOGGER.error("Error deleting city by location", e);
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }
@@ -174,8 +169,8 @@ public class DayController {
     @Operation(method = "PUT",
             summary = "Обновить событие восхода и заката",
             description = "Обновляет событие восхода и заката в базе данных")
-    @PutMapping("/updateSunriseSunset")
-    public ResponseEntity<DayDto> updateSunriseSunset(
+    @PutMapping("/{id}")
+    public String updateSunriseSunset(
             @RequestParam final String location,
             @RequestParam final String coordinates,
             @RequestParam final LocalDate dateOfSunriseSunset) {
@@ -186,15 +181,14 @@ public class DayController {
                             location, coordinates, dateOfSunriseSunset);
             if (updatedDay == null) {
                 LOGGER.error("Sunrise and sunset time not updated");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return ERROR_REDIRECT;
             }
             DayDto updatedDayDto = DayMapper.toDto(updatedDay);
             LOGGER.info("Sunrise and sunset time updated successfully");
-            return new ResponseEntity<>(updatedDayDto, HttpStatus.OK);
+            return REDIRECT;
         } catch (Exception e) {
             LOGGER.error("Error updating sunrise and sunset time", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ERROR_REDIRECT;
         }
     }
-
 }

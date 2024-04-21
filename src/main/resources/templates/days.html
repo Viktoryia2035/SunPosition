@@ -133,7 +133,7 @@
                     </p>
                     <div class="button-container">
                         <a class="btn" th:href="@{/api/v2/sunrise_sunset/updateSunriseSunset}">Изменить</a>
-                        <a class="btn btn-danger" th:href="@{/api/v2/sunrise_sunset/deleteByCoordinates}">Удалить</a>
+                        <a class="btn btn-danger" th:href="@{/api/v2/sunrise_sunset/delete/{location}(location=${day.location})}">Удалить</a>
                     </div>
                 </div>
             </div>
