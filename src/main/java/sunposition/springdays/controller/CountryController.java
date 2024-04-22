@@ -144,7 +144,6 @@ public class CountryController {
             model.addAttribute("countries", countries);
             return "deleteCountry";
         } catch (Exception e) {
-            LOGGER.error("Error deleting country by name", e.getMessage());
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }

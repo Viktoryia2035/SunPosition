@@ -160,7 +160,6 @@ public class DayController {
             model.addAttribute(ATTRIBUTE, day);
             return "deleteDay";
         } catch (Exception e) {
-            LOGGER.error("Error deleting day by location", e.getMessage());
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }
