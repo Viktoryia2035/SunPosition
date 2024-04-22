@@ -37,6 +37,7 @@ public class CountryController {
     private static final String REDIRECT = "redirect:/api/v2/country";
     private static final String ERROR_MESSAGE = "errorMessage";
     private static final String ERROR_REDIRECT = "days/error";
+    private static final String COUNTRIES_VIEW = "countries";
 
     @Operation(method = "GET",
             summary = "Получить все страны",
@@ -46,8 +47,8 @@ public class CountryController {
         LOGGER.info("Finding all countries");
         List<CountryDto> countries = service.findAll();
         LOGGER.info("Found {} countries", countries.size());
-        model.addAttribute("countries", countries);
-        return "countries";
+        model.addAttribute(COUNTRIES_VIEW, countries);
+        return COUNTRIES_VIEW;
     }
 
     @GetMapping("/saveCountry")
@@ -84,7 +85,7 @@ public class CountryController {
             redirectAttributes.
                     addFlashAttribute(ERROR_MESSAGE,
                             "Error saving country: " + e.getMessage());
-            return "countries/create";
+            return ERROR_REDIRECT;
         }
     }
 
@@ -141,7 +142,7 @@ public class CountryController {
                                  final Model model) {
         try {
             final CountryDto countries = service.findByIdCountry(id);
-            model.addAttribute("countries", countries);
+            model.addAttribute(COUNTRIES_VIEW, countries);
             return "deleteCountry";
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
