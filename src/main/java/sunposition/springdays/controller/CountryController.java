@@ -11,23 +11,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
-import sunposition.springdays.mapper.CountryMapper;
-import sunposition.springdays.mapper.DayMapper;
-import sunposition.springdays.model.Country;
-import sunposition.springdays.model.Day;
-import sunposition.springdays.service.CounterService;
 import sunposition.springdays.service.CountryService;
 
 import jakarta.persistence.EntityNotFoundException;
-import sunposition.springdays.service.DayService;
 
 import java.util.List;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/api/v2/country")
 @Tag(name = "Country Controller", description = "API для работы со странами")
@@ -35,9 +33,6 @@ import java.util.Optional;
 public class CountryController {
 
     private final CountryService service;
-    private final DayService dayService;
-
-
     static final Logger LOGGER = LogManager.getLogger(CountryController.class);
     private static final String REDIRECT = "redirect:/api/v2/country";
     private static final String ERROR_MESSAGE = "errorMessage";
@@ -56,7 +51,8 @@ public class CountryController {
     }
 
     @GetMapping("/saveCountry")
-    public String createCountry(@ModelAttribute("country") CountryDto countryDto) {
+    public String createCountry(final @ModelAttribute("country")
+                                    CountryDto countryDto) {
         return "createCountry";
     }
 
@@ -65,20 +61,29 @@ public class CountryController {
             description = "Сохраняет новую страну в базе данных")
     @PostMapping("/saveCountry")
     public String saveCountry(
-            @Valid @ModelAttribute("country") final CountryDto countryDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+            @Valid @ModelAttribute("country") final CountryDto countryDto,
+            final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
+            bindingResult.getAllErrors().
+                    forEach(error -> redirectAttributes.
+                            addFlashAttribute(ERROR_MESSAGE,
+                                    error.getDefaultMessage()));
             return "countries/create";
         }
         try {
             LOGGER.info("Saving a country");
             service.saveCountry(countryDto);
             LOGGER.info("Country saved successfully");
-            redirectAttributes.addFlashAttribute("successMessage", "Country saved successfully");
+            redirectAttributes.
+                    addFlashAttribute("successMessage",
+                            "Country saved successfully");
             return "countries/create";
         } catch (RuntimeException e) {
             LOGGER.error("Error saving country", e);
-            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Error saving country: " + e.getMessage());
+            redirectAttributes.
+                    addFlashAttribute(ERROR_MESSAGE,
+                            "Error saving country: " + e.getMessage());
             return "countries/create";
         }
     }
@@ -118,7 +123,7 @@ public class CountryController {
             description = "Удаляет страну из базы данных по её ID")
     @PostMapping(value = "/{id}", params = "_method=DELETE")
     public String deleteCountryById(
-            @PathVariable final Long id, Model model) {
+            @PathVariable final Long id, final Model model) {
         LOGGER.info("Deleting country by name: {}", id);
         try {
             service.deleteCountryById(id);
@@ -132,7 +137,8 @@ public class CountryController {
     }
 
     @GetMapping("/delete/{id}")
-    public String showDeleteForm(@PathVariable Long id, Model model) {
+    public String showDeleteForm(final @PathVariable Long id,
+                                 final Model model) {
         try {
             final CountryDto countries = service.findByIdCountry(id);
             model.addAttribute("countries", countries);
@@ -145,23 +151,30 @@ public class CountryController {
     }
 
     @PostMapping(value = "/{id}", params = "_method=PATCH")
-    public String updateCountry(@PathVariable Long id,
-                                @Valid @ModelAttribute("country") CountryDto countryDto,
-                                BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
+    public String updateCountry(final @PathVariable Long id,
+                                final @Valid
+                                @ModelAttribute("country")
+                                CountryDto countryDto,
+                                final BindingResult bindingResult,
+                                final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
+            bindingResult.getAllErrors().
+                    forEach(error -> redirectAttributes.
+                            addFlashAttribute(ERROR_MESSAGE,
+                                    error.getDefaultMessage()));
             return "redirect:/api/v2/country/update/" + id;
         }
         try {
             LOGGER.info("Updating a country");
             service.updateCountry(id, countryDto);
             LOGGER.info("Country updated successfully");
-            redirectAttributes.addFlashAttribute("successMessage", "Country updated successfully");
+            redirectAttributes.addFlashAttribute(
+                    "successMessage", "Country updated successfully");
             return REDIRECT;
         } catch (EntityNotFoundException e) {
             LOGGER.error("Country not found", e);
-            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Country not found: " + e.getMessage());
+            redirectAttributes.addFlashAttribute(
+                    ERROR_MESSAGE, "Country not found: " + e.getMessage());
             return ERROR_REDIRECT;
         }
     }
@@ -173,10 +186,12 @@ public class CountryController {
             summary = "Отобразить форму обновления страны",
             description = "Отображает форму для обновления данных страны")
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable Long id, Model model) {
+    public String showUpdateForm(final @PathVariable Long id,
+                                 final Model model) {
         CountryDto countryDto = service.findByIdCountry(id);
         if (countryDto == null) {
-            model.addAttribute(ERROR_MESSAGE, "Страна с ID " + id + " не найдена");
+            model.addAttribute(ERROR_MESSAGE,
+                    "Страна с ID " + id + " не найдена");
             return ERROR_REDIRECT;
         }
         model.addAttribute("country", countryDto);

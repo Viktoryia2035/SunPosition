@@ -16,9 +16,6 @@ import org.springframework.stereotype.Component;
 public class LoggingAspect {
 
     private static Logger log = LoggerFactory.getLogger(LoggingAspect.class);
-    protected static Logger getLogger() {
-        return log;
-    }
 
     @Pointcut("execution(* sunposition.springdays.service.DayService.*(..))")
     public void dayServiceMethods() {

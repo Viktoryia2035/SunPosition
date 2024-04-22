@@ -5,12 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import sunposition.springdays.cache.DataCache;
-import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.HttpErrorExceptions;
-import sunposition.springdays.mapper.CountryMapper;
 import sunposition.springdays.mapper.DayMapper;
-import sunposition.springdays.model.Country;
 import sunposition.springdays.model.Day;
 import sunposition.springdays.repository.InMemoryDayDAO;
 
@@ -122,39 +119,39 @@ public class DayService {
 
     public DayDto findDayById(final Long id) {
         try {
-            String idAsString = String.valueOf(id); // Преобразование id в строку
-            Object cachedObject = dayCache.get(idAsString); // Использование строкового ключа
+            String idAsString = String.valueOf(id);
+            Object cachedObject = dayCache.get(idAsString);
             if (cachedObject instanceof DayDto dayDto) {
                 return dayDto;
             }
             Optional<Day> optionalDay = repository.findById(id);
             if (optionalDay.isEmpty()) {
-                throw new HttpErrorExceptions.CustomNotFoundException(MESSAGE_OF_DAY);
+                throw new HttpErrorExceptions.
+                        CustomNotFoundException(MESSAGE_OF_DAY);
             }
             Day day = optionalDay.get();
             DayDto dayDto = DayMapper.toDto(day);
-            dayCache.put(idAsString, dayDto); // Использование строкового ключа
+            dayCache.put(idAsString, dayDto);
             return dayDto;
         } catch (Exception e) {
-            throw new HttpErrorExceptions.CustomInternalServerErrorException("An error occurred while fetching the country", e);
+            throw new HttpErrorExceptions.
+                    CustomInternalServerErrorException(
+                            "An error occurred while fetching the country", e);
         }
     }
 
-    public void updateDay(Long id, DayDto dayDto) {
+    public void updateDay(final Long id, final DayDto dayDto) {
         Day existingDay = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Day with ID " + id + " not found"));
-
-        // Update the fields of the existing Day entity with the values from the DayDto
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Day with ID " + id + " not found"));
         existingDay.setLocation(dayDto.getLocation());
         existingDay.setCoordinates(dayDto.getCoordinates());
         existingDay.setDateOfSunriseSunset(dayDto.getDateOfSunriseSunset());
         existingDay.setTimeOfSunrise(dayDto.getTimeOfSunrise());
         existingDay.setTimeOfSunset(dayDto.getTimeOfSunset());
         existingDay.setWeatherConditions(dayDto.getWeatherConditions());
-
-        // Save the updated Day entity back to the database
         repository.save(existingDay);
-        dayCache.remove(String.valueOf(id)); // Удаление кэша для обновленной страны
+        dayCache.remove(String.valueOf(id));
         dayCache.clear();
     }
 }

@@ -163,46 +163,54 @@ public class CountryService {
 
     public CountryDto findByIdCountry(final Long id) {
         try {
-            String idAsString = String.valueOf(id); // Преобразование id в строку
-            Object cachedObject = countryCache.get(idAsString); // Использование строкового ключа
+            String idAsString = String.valueOf(id);
+            Object cachedObject = countryCache.get(idAsString);
             if (cachedObject instanceof CountryDto countryDto) {
                 return countryDto;
             }
-            Optional<Country> optionalCountry = repositoryOfCountry.findById(id);
+            Optional<Country> optionalCountry =
+                    repositoryOfCountry.findById(id);
             if (optionalCountry.isEmpty()) {
-                throw new HttpErrorExceptions.CustomNotFoundException(MESSAGE_OF_COUNTRY);
+                throw new HttpErrorExceptions.
+                        CustomNotFoundException(MESSAGE_OF_COUNTRY);
             }
             Country country = optionalCountry.get();
             CountryDto countryDto = CountryMapper.toDto(country);
-            countryCache.put(idAsString, countryDto); // Использование строкового ключа
+            countryCache.put(idAsString, countryDto);
             return countryDto;
         } catch (Exception e) {
-            throw new HttpErrorExceptions.CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE + "while fetching the country", e);
+            throw new HttpErrorExceptions.
+                    CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE
+                    + "while fetching the country", e);
         }
     }
 
     public void deleteCountryById(final Long id) {
         try {
             Country countryToDelete = repositoryOfCountry.findById(id)
-                    .orElseThrow(() -> new HttpErrorExceptions.CustomNotFoundException(MESSAGE_OF_COUNTRY));
+                    .orElseThrow(() -> new HttpErrorExceptions.
+                            CustomNotFoundException(MESSAGE_OF_COUNTRY));
             List<Day> daysToDelete = countryToDelete.getDays();
             if (daysToDelete != null && !daysToDelete.isEmpty()) {
                 repositoryOfDay.deleteAll(daysToDelete);
             }
             repositoryOfCountry.delete(countryToDelete);
-            String idAsString = String.valueOf(id); // Преобразование id в строку
-            countryCache.remove(idAsString); // Использование строкового ключа
+            String idAsString = String.valueOf(id);
+            countryCache.remove(idAsString);
             countryCache.clear();
         } catch (HttpErrorExceptions.CustomNotFoundException e) {
             throw e;
         } catch (Exception e) {
-            throw new HttpErrorExceptions.CustomInternalServerErrorException("Error deleting a country by ID", e);
+            throw new HttpErrorExceptions.
+                    CustomInternalServerErrorException(
+                            "Error deleting a country by ID", e);
         }
     }
 
     public void updateCountry(final Long id, final CountryDto updatedCountry) {
         Country countryToUpdate = repositoryOfCountry.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Country with ID " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Country with ID " + id + " not found"));
 
         countryToUpdate.setName(updatedCountry.getName());
         countryToUpdate.setCapital(updatedCountry.getCapital());
@@ -210,8 +218,8 @@ public class CountryService {
         countryToUpdate.setLanguage(updatedCountry.getLanguage());
 
         repositoryOfCountry.save(countryToUpdate);
-        countryCache.remove(String.valueOf(id)); // Удаление кэша для обновленной страны
-        countryCache.clear(); // Очистка кэша для обеспечения актуальности данных
+        countryCache.remove(String.valueOf(id));
+        countryCache.clear();
     }
 
     public List<DayDto> findByCountryNameAndWeatherConditions(

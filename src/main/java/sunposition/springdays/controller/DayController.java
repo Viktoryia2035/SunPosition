@@ -12,18 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.mapper.DayMapper;
 import sunposition.springdays.model.Day;
-import sunposition.springdays.service.CounterService;
 import sunposition.springdays.service.DayService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/v2/sunrise_sunset")
@@ -52,7 +54,7 @@ public class DayController {
     }
 
     @GetMapping("/saveSunriseSunset")
-    public String createDay(@ModelAttribute("day") DayDto dayDto) {
+    public String createDay(final @ModelAttribute("day") DayDto dayDto) {
         return "createDay";
     }
 
@@ -63,9 +65,14 @@ public class DayController {
                     + "восхода и заката в базе данных")
     @PostMapping("/saveSunriseSunset")
     public String saveSunriseSunset(
-            @Valid @ModelAttribute("day") final DayDto dayDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+            @Valid @ModelAttribute("day") final DayDto dayDto,
+            final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
+            bindingResult.
+                    getAllErrors().forEach(error -> redirectAttributes.
+                            addFlashAttribute(ERROR_MESSAGE,
+                                    error.getDefaultMessage()));
             return "createDay";
         }
         try {
@@ -76,15 +83,21 @@ public class DayController {
             LOGGER.info(
                     "Sunrise and sunset time saved successfully: {}",
                     savedDayDto.getDate());
-            redirectAttributes.addFlashAttribute("successMessage", "Day saved successfully");
+            redirectAttributes.
+                    addFlashAttribute("successMessage",
+                            "Day saved successfully");
             return REDIRECT;
         } catch (HttpErrorExceptions.CustomMethodNotAllowedException e) {
             LOGGER.error("Method Not Allowed: {}", e.getMessage(), e);
-            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Error saving day: " + e.getMessage());
+            redirectAttributes.
+                    addFlashAttribute(ERROR_MESSAGE,
+                            "Error saving day: " + e.getMessage());
             return "redirect:/createDay";
         } catch (Exception e) {
             LOGGER.error("An error occurred: {}", e.getMessage(), e);
-            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Error saving day: " + e.getMessage());
+            redirectAttributes.
+                    addFlashAttribute(ERROR_MESSAGE,
+                            "Error saving day: " + e.getMessage());
             return "redirect:/createDay";
         }
     }
@@ -94,7 +107,8 @@ public class DayController {
             description = "Возвращает событие "
                     + "восхода и заката по его местоположению")
     @GetMapping("/findByLocation")
-    public ResponseEntity<DayDto> findByLocation(@RequestParam final String location) {
+    public ResponseEntity<DayDto> findByLocation(
+            @RequestParam final String location) {
         try {
             Day day = service.findByLocation(location);
             if (day == null) {
@@ -139,7 +153,8 @@ public class DayController {
     }
 
     @GetMapping("/delete/{location}")
-    public String showDeleteForm(@PathVariable String location, Model model) {
+    public String showDeleteForm(
+            final @PathVariable String location, final Model model) {
         try {
             final Day day = service.findByLocation(location);
             model.addAttribute(ATTRIBUTE, day);
@@ -155,7 +170,8 @@ public class DayController {
             summary = "Удалить город по местоположению",
             description = "Удаляет город из базы данных по его местоположению")
     @PostMapping(value = "/{location}", params = "_method=DELETE")
-    public String deleteDayByLocation(@PathVariable final String location, Model model) {
+    public String deleteDayByLocation(
+            @PathVariable final String location, final Model model) {
         LOGGER.info("Deleting city by location");
         try {
             service.deleteDayByLocation(location);
@@ -169,23 +185,32 @@ public class DayController {
     }
 
     @PostMapping(value = "/{id}", params = "_method=PATCH")
-    public String updateSunriseSunsetById(@PathVariable Long id,
-                                @Valid @ModelAttribute("day") DayDto dayDto,
-                                BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
+    public String updateSunriseSunsetById(final @PathVariable Long id,
+                                final @Valid @ModelAttribute("day")
+                                DayDto dayDto,
+                                          final BindingResult bindingResult,
+                                final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
+            bindingResult.getAllErrors().
+                    forEach(error -> redirectAttributes.
+                            addFlashAttribute(ERROR_MESSAGE,
+                                    error.getDefaultMessage()));
             return "redirect:/api/v2/sunrise_sunset/update/" + id;
         }
         try {
             LOGGER.info("Updating a country");
             service.updateDay(id, dayDto);
             LOGGER.info("Day updated successfully");
-            redirectAttributes.addFlashAttribute("successMessage", "Country updated successfully");
+            redirectAttributes.
+                    addFlashAttribute("successMessage",
+                            "Country updated successfully");
             return REDIRECT;
         } catch (EntityNotFoundException e) {
             LOGGER.error("Day not found", e);
-            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Country not found: " + e.getMessage());
+            redirectAttributes.
+                    addFlashAttribute(
+                            ERROR_MESSAGE, "Country not found: "
+                                    + e.getMessage());
             return ERROR_REDIRECT;
         }
     }
@@ -195,10 +220,12 @@ public class DayController {
             summary = "Отобразить форму обновления страны",
             description = "Отображает форму для обновления данных страны")
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable Long id, Model model) {
+    public String showUpdateForm(final @PathVariable Long id,
+                                 final Model model) {
         DayDto dayDto = service.findDayById(id);
         if (dayDto == null) {
-            model.addAttribute(ERROR_MESSAGE, "Страна с ID " + id + " не найдена");
+            model.addAttribute(
+                    ERROR_MESSAGE, "Страна с ID " + id + " не найдена");
             return ERROR_REDIRECT;
         }
         model.addAttribute("day", dayDto);
