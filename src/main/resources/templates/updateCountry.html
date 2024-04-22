@@ -72,11 +72,10 @@
 <div class="container">
     <h1>Обновление страны</h1>
 
-    <form th:method="PUT"
-          th:action="@{/api/v2/sunrise_sunset/{id}(id=${day.id})}"
-          th:object="${day}">
-
-
+    <form th:method="POST"
+          th:action="@{/api/v2/country/{id}(id=${country.id})}"
+          th:object="${country}">
+        <input type="hidden" name="_method" value="PATCH"> <!-- Эта строка эмулирует PATCH запрос -->
         <div class="mb-3">
             <label for="name" class="form-label">Название страны:</label>
             <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Название страны">
@@ -106,6 +105,9 @@
             <a class="btn btn-secondary" th:href="@{/api/v2/country}">Вернуться на главную</a>
         </div>
     </form>
+    </form>
+
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

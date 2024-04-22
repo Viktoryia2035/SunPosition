@@ -161,45 +161,57 @@ public class CountryService {
         }
     }
 
-    public void deleteCountryByName(final String name) {
+    public CountryDto findByIdCountry(final Long id) {
         try {
-            Country countryToDelete = repositoryOfCountry.findByName(name)
-                    .orElseThrow(() -> new HttpErrorExceptions.
-                            CustomNotFoundException(MESSAGE_OF_COUNTRY));
+            String idAsString = String.valueOf(id); // Преобразование id в строку
+            Object cachedObject = countryCache.get(idAsString); // Использование строкового ключа
+            if (cachedObject instanceof CountryDto countryDto) {
+                return countryDto;
+            }
+            Optional<Country> optionalCountry = repositoryOfCountry.findById(id);
+            if (optionalCountry.isEmpty()) {
+                throw new HttpErrorExceptions.CustomNotFoundException(MESSAGE_OF_COUNTRY);
+            }
+            Country country = optionalCountry.get();
+            CountryDto countryDto = CountryMapper.toDto(country);
+            countryCache.put(idAsString, countryDto); // Использование строкового ключа
+            return countryDto;
+        } catch (Exception e) {
+            throw new HttpErrorExceptions.CustomInternalServerErrorException(ERROR_OCCURRED_MESSAGE + "while fetching the country", e);
+        }
+    }
+
+    public void deleteCountryById(final Long id) {
+        try {
+            Country countryToDelete = repositoryOfCountry.findById(id)
+                    .orElseThrow(() -> new HttpErrorExceptions.CustomNotFoundException(MESSAGE_OF_COUNTRY));
             List<Day> daysToDelete = countryToDelete.getDays();
             if (daysToDelete != null && !daysToDelete.isEmpty()) {
                 repositoryOfDay.deleteAll(daysToDelete);
             }
             repositoryOfCountry.delete(countryToDelete);
-            countryCache.remove(countryToDelete.getName());
+            String idAsString = String.valueOf(id); // Преобразование id в строку
+            countryCache.remove(idAsString); // Использование строкового ключа
             countryCache.clear();
         } catch (HttpErrorExceptions.CustomNotFoundException e) {
             throw e;
         } catch (Exception e) {
-            throw new HttpErrorExceptions.
-                    CustomInternalServerErrorException(
-                    "Error deleting a country by ID", e);
+            throw new HttpErrorExceptions.CustomInternalServerErrorException("Error deleting a country by ID", e);
         }
     }
 
-    public void updateCountryById(Long id, String newName, String newCapital, Long newPopulation, String newLanguage) {
-        Country country = repositoryOfCountry.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Страна с ID " + id + " не найдена"));
-        country.setName(newName);
-        country.setCapital(newCapital);
-        country.setPopulation(newPopulation);
-        country.setLanguage(newLanguage);
-        Country updatedCountry = repositoryOfCountry.save(country);
-        CountryMapper.toDto(updatedCountry);
-    }
+    public void updateCountry(final Long id, final CountryDto updatedCountry) {
+        Country countryToUpdate = repositoryOfCountry.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Country with ID " + id + " not found"));
 
-    public Optional<Country> findById(final Long id) {
-        Optional<Country> country = repositoryOfCountry.findById(id);
-        if (country == null) {
-            throw new EntityNotFoundException(
-                    "Agency with ID " + id + " not found");
-        }
-        return country;
+        countryToUpdate.setName(updatedCountry.getName());
+        countryToUpdate.setCapital(updatedCountry.getCapital());
+        countryToUpdate.setPopulation(updatedCountry.getPopulation());
+        countryToUpdate.setLanguage(updatedCountry.getLanguage());
+
+        repositoryOfCountry.save(countryToUpdate);
+        countryCache.remove(String.valueOf(id)); // Удаление кэша для обновленной страны
+        countryCache.clear(); // Очистка кэша для обеспечения актуальности данных
     }
 
     public List<DayDto> findByCountryNameAndWeatherConditions(

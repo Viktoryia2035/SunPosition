@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
+import sunposition.springdays.mapper.CountryMapper;
 import sunposition.springdays.mapper.DayMapper;
 import sunposition.springdays.model.Country;
 import sunposition.springdays.model.Day;
+import sunposition.springdays.service.CounterService;
 import sunposition.springdays.service.CountryService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -111,41 +113,28 @@ public class CountryController {
         }
     }
 
-    @PostMapping("/addEvent")
-    public String addEvent(@ModelAttribute("day") DayDto dayDto, Model model)  {
-        Day day = DayMapper.toEntity(dayDto);
-        dayService.saveSunriseSunset(day, "POST");
-        return REDIRECT;
-    }
-
-    @GetMapping("/addEvent")
-    public String showCreateCountryForm(Model model) {
-        model.addAttribute("country", new CountryDto());
-        return "create";
-    }
-
     @Operation(method = "DELETE",
             summary = "Удалить страну по ID",
             description = "Удаляет страну из базы данных по её ID")
-    @PostMapping(value = "/{name}", params = "_method=DELETE")
-    public String deleteCountryByName(
-            @PathVariable final String name, Model model) {
-        LOGGER.info("Deleting country by name: {}", name);
+    @PostMapping(value = "/{id}", params = "_method=DELETE")
+    public String deleteCountryById(
+            @PathVariable final Long id, Model model) {
+        LOGGER.info("Deleting country by name: {}", id);
         try {
-            service.deleteCountryByName(name);
-            LOGGER.info("Country deleted successfully: {}", name);
+            service.deleteCountryById(id);
+            LOGGER.info("Country deleted successfully: {}", id);
             return REDIRECT;
         } catch (EntityNotFoundException e) {
-            LOGGER.error("Country not found: {}", name);
+            LOGGER.error("Country not found: {}", id);
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }
     }
 
-    @GetMapping("/delete/{name}")
-    public String showDeleteForm(@PathVariable String name, Model model) {
+    @GetMapping("/delete/{id}")
+    public String showDeleteForm(@PathVariable Long id, Model model) {
         try {
-            final CountryDto countries = service.findByNameCountry(name);
+            final CountryDto countries = service.findByIdCountry(id);
             model.addAttribute("countries", countries);
             return "deleteCountry";
         } catch (Exception e) {
@@ -155,31 +144,45 @@ public class CountryController {
         }
     }
 
-    @Operation(method = "PUT",
-            summary = "Обновить страну по ID",
-            description = "Обновляет имя страны в базе данных")
-    @PutMapping("/{id}")
-    public String updateCountryById(
-            @PathVariable final Long id,
-            @Valid @ModelAttribute("country") final CountryDto countryDto,
-            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "updateCountry";
-        service.updateCountryById(id, countryDto.getName(), countryDto.getCapital(), countryDto.getPopulation(), countryDto.getLanguage());
-        LOGGER.info("Update Agency");
-        return REDIRECT;
-    }
-
-    @GetMapping("/update/{id}")
-    public String updateCountry(@PathVariable Long id, Model model) {
+    @PostMapping(value = "/{id}", params = "_method=PATCH")
+    public String updateCountry(@PathVariable Long id,
+                                @Valid @ModelAttribute("country") CountryDto countryDto,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
+            return "redirect:/api/v2/country/update/" + id;
+        }
         try {
-            final Optional<Country> countries = service.findById(id);
-            model.addAttribute("countries", countries);
-            return "updateCountry";
+            LOGGER.info("Updating a country");
+            service.updateCountry(id, countryDto);
+            LOGGER.info("Country updated successfully");
+            redirectAttributes.addFlashAttribute("successMessage", "Country updated successfully");
+            return REDIRECT;
         } catch (EntityNotFoundException e) {
-            model.addAttribute(ERROR_MESSAGE, e.getMessage());
+            LOGGER.error("Country not found", e);
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Country not found: " + e.getMessage());
             return ERROR_REDIRECT;
         }
     }
+
+
+
+
+    @Operation(method = "GET",
+            summary = "Отобразить форму обновления страны",
+            description = "Отображает форму для обновления данных страны")
+    @GetMapping("/update/{id}")
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        CountryDto countryDto = service.findByIdCountry(id);
+        if (countryDto == null) {
+            model.addAttribute(ERROR_MESSAGE, "Страна с ID " + id + " не найдена");
+            return ERROR_REDIRECT;
+        }
+        model.addAttribute("country", countryDto);
+        return "updateCountry";
+    }
+
 
     @Operation(method = "GET",
             summary = "Поиск дней по имени страны и погодным условиям",

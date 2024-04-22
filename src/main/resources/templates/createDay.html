@@ -74,6 +74,7 @@
 <form th:method="POST"
       th:action="@{/api/v2/sunrise_sunset/saveSunriseSunset}"
       th:object="${day}">
+
     <div class="mb-3">
         <label for="location" class="form-label">Введите местоположение:</label>
         <input type="text" th:field="*{location}" class="form-control" id="location" placeholder="Местоположение">

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.mapper.DayMapper;
@@ -167,56 +168,40 @@ public class DayController {
         }
     }
 
-    @Operation(method = "PUT",
-            summary = "Обновить событие восхода и заката",
-            description = "Обновляет местоположение события в базе данных")
-    @PutMapping("/{id}")
-    public String updateSunriseSunsetById(
-            @Valid @ModelAttribute("day") DayDto dayDto,
-            BindingResult bindingResult,
-            @PathVariable Long id,
-            Model model) {
+    @PostMapping(value = "/{id}", params = "_method=PATCH")
+    public String updateSunriseSunsetById(@PathVariable Long id,
+                                @Valid @ModelAttribute("day") DayDto dayDto,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ERROR_MESSAGE, "Ошибка валидации данных");
-            return "updateDay";
+            bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
+            return "redirect:/api/v2/sunrise_sunset/update/" + id;
         }
         try {
-            CounterService.incrementRequestCount();
-            int requestCount = CounterService.getRequestCount();
-            LOGGER.info("Текущее количество запросов: {}", requestCount);
-
-            LOGGER.info("Обновление события восхода и заката по id");
-            service.updateDayById(id, dayDto);
-            LOGGER.info("Событие обновлено успешно");
+            LOGGER.info("Updating a country");
+            service.updateDay(id, dayDto);
+            LOGGER.info("Day updated successfully");
+            redirectAttributes.addFlashAttribute("successMessage", "Country updated successfully");
             return REDIRECT;
         } catch (EntityNotFoundException e) {
-            model.addAttribute(ERROR_MESSAGE, e.getMessage());
-            return ERROR_REDIRECT;
-        } catch (Exception e) {
-            LOGGER.error("Ошибка обновления события: {}", e.getMessage(), e);
-            model.addAttribute(ERROR_MESSAGE, "Ошибка обновления события: " + e.getMessage());
+            LOGGER.error("Day not found", e);
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Country not found: " + e.getMessage());
             return ERROR_REDIRECT;
         }
     }
 
 
+    @Operation(method = "GET",
+            summary = "Отобразить форму обновления страны",
+            description = "Отображает форму для обновления данных страны")
     @GetMapping("/update/{id}")
-    public String updateDayById(@PathVariable Long id, Model model) {
-        try {
-            final Optional<Day> dayOptional = service.findById(id);
-            model.addAttribute(ATTRIBUTE, dayOptional);
-            if (dayOptional.isPresent()) {
-                Day day = dayOptional.get();
-                model.addAttribute("day", day);
-                return "updateDay";
-            } else {
-                model.addAttribute(ERROR_MESSAGE, "Событие с ID " + id + " не найдено");
-                return ERROR_REDIRECT;
-            }
-        } catch (EntityNotFoundException e) {
-            LOGGER.error("Error deleting city by location", e.getMessage());
-            model.addAttribute(ERROR_MESSAGE, e.getMessage());
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        DayDto dayDto = service.findDayById(id);
+        if (dayDto == null) {
+            model.addAttribute(ERROR_MESSAGE, "Страна с ID " + id + " не найдена");
             return ERROR_REDIRECT;
         }
+        model.addAttribute("day", dayDto);
+        return "updateDay";
     }
 }

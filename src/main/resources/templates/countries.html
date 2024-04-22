@@ -132,7 +132,7 @@
                     <p class="card-text" th:text="'Язык: ' + ${country.language}"></p>
                     <div class="d-flex justify-content-between gap-2">
                         <a class="btn btn-block btn-info" th:href="@{/api/v2/country/update/{id}(id=${country.id})}">Изменить</a>
-                        <a class="btn btn-block btn-danger" th:href="@{/api/v2/country/delete/{name}(name=${country.name})}">Удалить</a>
+                        <a class="btn btn-block btn-danger" th:href="@{/api/v2/country/delete/{id}(id=${country.id})}">Удалить</a>
                     </div>
                 </div>
             </div>

@@ -74,7 +74,7 @@
 
     <p>Вы уверены, что хотите удалить страну "<span th:text="${countries.name}"></span>"?</p>
 
-    <form th:action="@{/api/v2/country/{name}(name=${countries.name})}"
+    <form th:action="@{/api/v2/country/{id}(id=${countries.id})}"
           th:object="${countries}" method="post">
         <input type="hidden" name="_method" value="DELETE" />
         <button type="submit">Удалить</button>

@@ -5,14 +5,15 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import sunposition.springdays.cache.DataCache;
+import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.HttpErrorExceptions;
+import sunposition.springdays.mapper.CountryMapper;
 import sunposition.springdays.mapper.DayMapper;
+import sunposition.springdays.model.Country;
 import sunposition.springdays.model.Day;
 import sunposition.springdays.repository.InMemoryDayDAO;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,17 +120,27 @@ public class DayService {
         }
     }
 
-    public Optional<Day> findById(final Long id) {
-        Optional<Day> day = repository.findById(id);
-        if (day == null) {
-            throw new EntityNotFoundException(
-                    "Agency with ID " + id + " not found");
+    public DayDto findDayById(final Long id) {
+        try {
+            String idAsString = String.valueOf(id); // Преобразование id в строку
+            Object cachedObject = dayCache.get(idAsString); // Использование строкового ключа
+            if (cachedObject instanceof DayDto dayDto) {
+                return dayDto;
+            }
+            Optional<Day> optionalDay = repository.findById(id);
+            if (optionalDay.isEmpty()) {
+                throw new HttpErrorExceptions.CustomNotFoundException(MESSAGE_OF_DAY);
+            }
+            Day day = optionalDay.get();
+            DayDto dayDto = DayMapper.toDto(day);
+            dayCache.put(idAsString, dayDto); // Использование строкового ключа
+            return dayDto;
+        } catch (Exception e) {
+            throw new HttpErrorExceptions.CustomInternalServerErrorException("An error occurred while fetching the country", e);
         }
-        return day;
     }
 
-    public void updateDayById(Long id, DayDto dayDto) {
-        // Fetch the existing Day entity by ID
+    public void updateDay(Long id, DayDto dayDto) {
         Day existingDay = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Day with ID " + id + " not found"));
 
@@ -143,5 +154,7 @@ public class DayService {
 
         // Save the updated Day entity back to the database
         repository.save(existingDay);
+        dayCache.remove(String.valueOf(id)); // Удаление кэша для обновленной страны
+        dayCache.clear();
     }
 }

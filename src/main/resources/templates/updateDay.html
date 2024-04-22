@@ -72,18 +72,10 @@
 <div class="container">
     <h1>Обновление события</h1>
 
-    <form th:method="PUT"
+    <form th:method="POST"
           th:action="@{/api/v2/sunrise_sunset/{id}(id=${day.id})}"
           th:object="${day}">
-
-        <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{location}" />
-        <input type="hidden" th:field="*{coordinates}" />
-        <input type="hidden" th:field="*{dateOfSunriseSunset}" />
-        <input type="hidden" th:field="*{timeOfSunrise}" />
-        <input type="hidden" th:field="*{timeOfSunset}" />
-        <input type="hidden" th:field="*{weatherConditions}" />
-
+        <input type="hidden" name="_method" value="PATCH">
 
         <div class="mb-3">
             <label for="location" class="form-label">Местоположение:</label>
