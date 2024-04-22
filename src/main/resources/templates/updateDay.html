@@ -73,15 +73,47 @@
     <h1>Обновление события</h1>
 
     <form th:method="PUT"
-          th:action="@{/api/v2/sunrise_sunset/{id}(id=${country.id})}"
-          th:object="${country}">
+          th:action="@{/api/v2/sunrise_sunset/{id}(id=${day.id})}"
+          th:object="${day}">
 
-        <input type="hidden" th:field="*{name}" />
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{location}" />
+        <input type="hidden" th:field="*{coordinates}" />
+        <input type="hidden" th:field="*{dateOfSunriseSunset}" />
+        <input type="hidden" th:field="*{timeOfSunrise}" />
+        <input type="hidden" th:field="*{timeOfSunset}" />
+        <input type="hidden" th:field="*{weatherConditions}" />
+
 
         <div class="mb-3">
-            <label for="location" class="form-label">Новое местоположение:</label>
-            <input type="text" th:field="*{location}" class="form-control" id="location" placeholder="Новое местоположение">
-            <div class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">location</div>
+            <label for="location" class="form-label">Местоположение:</label>
+            <input type="text" th:field="*{location}" class="form-control" id="location" placeholder="Местоположение">
+            <div style="color:red" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">location</div>
+        </div>
+        <div class="mb-3">
+            <label for="coordinates" class="form-label">Координаты:</label>
+            <input type="text" th:field="*{coordinates}" class="form-control" id="coordinates" placeholder="Координаты">
+            <div style="color:red" th:if="${#fields.hasErrors('coordinates')}" th:errors="*{coordinates}">coordinates</div>
+        </div>
+        <div class="mb-3">
+            <label for="dateOfSunriseSunset" class="form-label">Дата восхода/заката:</label>
+            <input type="date" th:field="*{dateOfSunriseSunset}" class="form-control" id="dateOfSunriseSunset" placeholder="Дата восхода/заката">
+            <div style="color:red" th:if="${#fields.hasErrors('dateOfSunriseSunset')}" th:errors="*{dateOfSunriseSunset}">dateOfSunriseSunset</div>
+        </div>
+        <div class="mb-3">
+            <label for="timeOfSunrise" class="form-label">Время восхода:</label>
+            <input type="time" th:field="*{timeOfSunrise}" class="form-control" id="timeOfSunrise" placeholder="Время восхода">
+            <div style="color:red" th:if="${#fields.hasErrors('timeOfSunrise')}" th:errors="*{timeOfSunrise}">timeOfSunrise</div>
+        </div>
+        <div class="mb-3">
+            <label for="timeOfSunset" class="form-label">Время заката:</label>
+            <input type="time" th:field="*{timeOfSunset}" class="form-control" id="timeOfSunset" placeholder="Время заката">
+            <div style="color:red" th:if="${#fields.hasErrors('timeOfSunset')}" th:errors="*{timeOfSunset}">timeOfSunset</div>
+        </div>
+        <div class="mb-3">
+            <label for="weatherConditions" class="form-label">Погодные условия:</label>
+            <input type="text" th:field="*{weatherConditions}" class="form-control" id="weatherConditions" placeholder="Погодные условия">
+            <div style="color:red" th:if="${#fields.hasErrors('weatherConditions')}" th:errors="*{weatherConditions}">weatherConditions</div>
         </div>
 
         <div class="d-flex justify-content-between align-items-center">

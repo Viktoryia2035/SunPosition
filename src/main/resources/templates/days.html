@@ -132,7 +132,7 @@
                         Погодные условия: <span th:text="${day.weatherConditions}">Weather Conditions</span>
                     </p>
                     <div class="button-container">
-                        <a class="btn" th:href="@{/api/v2/sunrise_sunset/updateSunriseSunset}">Изменить</a>
+                        <a class="btn" th:href="@{/api/v2/sunrise_sunset/update/{id}(id=${day.id})}">Изменить</a>
                         <a class="btn btn-danger" th:href="@{/api/v2/sunrise_sunset/delete/{location}(location=${day.location})}">Удалить</a>
                     </div>
                 </div>

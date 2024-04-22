@@ -73,15 +73,32 @@
     <h1>Обновление страны</h1>
 
     <form th:method="PUT"
-          th:action="@{/api/v2/country/{id}(id=${country.id})}"
-          th:object="${country}">
+          th:action="@{/api/v2/sunrise_sunset/{id}(id=${day.id})}"
+          th:object="${day}">
 
-        <input type="hidden" th:field="*{name}" />
 
         <div class="mb-3">
             <label for="name" class="form-label">Название страны:</label>
             <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Название страны">
             <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="capital" class="form-label">Столица:</label>
+            <input type="text" th:field="*{capital}" class="form-control" id="capital" placeholder="Столица">
+            <div class="error" th:if="${#fields.hasErrors('capital')}" th:errors="*{capital}">capital</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="population" class="form-label">Население:</label>
+            <input type="number" th:field="*{population}" class="form-control" id="population" placeholder="Население">
+            <div class="error" th:if="${#fields.hasErrors('population')}" th:errors="*{population}">population</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="language" class="form-label">Язык:</label>
+            <input type="text" th:field="*{language}" class="form-control" id="language" placeholder="Язык">
+            <div class="error" th:if="${#fields.hasErrors('language')}" th:errors="*{language}">language</div>
         </div>
 
         <div class="d-flex justify-content-between align-items-center">

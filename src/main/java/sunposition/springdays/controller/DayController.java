@@ -2,6 +2,7 @@ package sunposition.springdays.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -17,10 +18,11 @@ import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.mapper.DayMapper;
 import sunposition.springdays.model.Day;
+import sunposition.springdays.service.CounterService;
 import sunposition.springdays.service.DayService;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/v2/sunrise_sunset")
@@ -106,7 +108,6 @@ public class DayController {
         }
     }
 
-
     @Operation(method = "GET",
             summary = "Поиск события по координатам",
             description = "Возвращает событие "
@@ -168,27 +169,53 @@ public class DayController {
 
     @Operation(method = "PUT",
             summary = "Обновить событие восхода и заката",
-            description = "Обновляет событие восхода и заката в базе данных")
+            description = "Обновляет местоположение события в базе данных")
     @PutMapping("/{id}")
-    public String updateSunriseSunset(
-            @RequestParam final String location,
-            @RequestParam final String coordinates,
-            @RequestParam final LocalDate dateOfSunriseSunset) {
-        LOGGER.info("Updating sunrise and sunset time");
+    public String updateSunriseSunsetById(
+            @Valid @ModelAttribute("day") DayDto dayDto,
+            BindingResult bindingResult,
+            @PathVariable Long id,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(ERROR_MESSAGE, "Ошибка валидации данных");
+            return "updateDay";
+        }
         try {
-            Day updatedDay = service.
-                    updateSunriseSunset(
-                            location, coordinates, dateOfSunriseSunset);
-            if (updatedDay == null) {
-                LOGGER.error("Sunrise and sunset time not updated");
+            CounterService.incrementRequestCount();
+            int requestCount = CounterService.getRequestCount();
+            LOGGER.info("Текущее количество запросов: {}", requestCount);
+
+            LOGGER.info("Обновление события восхода и заката по id");
+            service.updateDayById(id, dayDto);
+            LOGGER.info("Событие обновлено успешно");
+            return REDIRECT;
+        } catch (EntityNotFoundException e) {
+            model.addAttribute(ERROR_MESSAGE, e.getMessage());
+            return ERROR_REDIRECT;
+        } catch (Exception e) {
+            LOGGER.error("Ошибка обновления события: {}", e.getMessage(), e);
+            model.addAttribute(ERROR_MESSAGE, "Ошибка обновления события: " + e.getMessage());
+            return ERROR_REDIRECT;
+        }
+    }
+
+
+    @GetMapping("/update/{id}")
+    public String updateDayById(@PathVariable Long id, Model model) {
+        try {
+            final Optional<Day> dayOptional = service.findById(id);
+            model.addAttribute(ATTRIBUTE, dayOptional);
+            if (dayOptional.isPresent()) {
+                Day day = dayOptional.get();
+                model.addAttribute("day", day);
+                return "updateDay";
+            } else {
+                model.addAttribute(ERROR_MESSAGE, "Событие с ID " + id + " не найдено");
                 return ERROR_REDIRECT;
             }
-
-            DayDto updatedDayDto = DayMapper.toDto(updatedDay);
-            LOGGER.info("Sunrise and sunset time updated successfully");
-            return REDIRECT;
-        } catch (Exception e) {
-            LOGGER.error("Error updating sunrise and sunset time", e);
+        } catch (EntityNotFoundException e) {
+            LOGGER.error("Error deleting city by location", e.getMessage());
+            model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }
     }

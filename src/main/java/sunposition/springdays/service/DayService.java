@@ -1,5 +1,6 @@
 package sunposition.springdays.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,9 @@ import sunposition.springdays.model.Day;
 import sunposition.springdays.repository.InMemoryDayDAO;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,7 +36,6 @@ public class DayService {
         });
         return allDays;
     }
-
 
     public Day saveSunriseSunset(final Day day, final String httpMethod) {
         if (!"POST".equalsIgnoreCase(httpMethod)) {
@@ -117,40 +119,29 @@ public class DayService {
         }
     }
 
-    public Day updateSunriseSunset(
-            final String location,
-            final String coordinates,
-            final LocalDate dateOfSunriseSunset) {
-        Day existingDay = repository.findByLocation(location);
-        if (existingDay != null) {
-            existingDay.setCoordinates(coordinates);
-            existingDay.setDateOfSunriseSunset(dateOfSunriseSunset);
-            Day updatedDay = repository.save(existingDay);
-            dayCache.remove(LOCATION_PREFIX + location);
-            dayCache.put(
-                    COORDINATES_PREFIX + coordinates,
-                    DayMapper.toDto(updatedDay)
-            );
-            dayCache.put(
-                    "date_" + dateOfSunriseSunset.toString(),
-                    DayMapper.toDto(updatedDay)
-            );
-            dayCache.clear();
-            return updatedDay;
-        } else {
-            throw new HttpErrorExceptions.
-                    CustomNotFoundException(MESSAGE_OF_DAY);
+    public Optional<Day> findById(final Long id) {
+        Optional<Day> day = repository.findById(id);
+        if (day == null) {
+            throw new EntityNotFoundException(
+                    "Agency with ID " + id + " not found");
         }
+        return day;
     }
 
+    public void updateDayById(Long id, DayDto dayDto) {
+        // Fetch the existing Day entity by ID
+        Day existingDay = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Day with ID " + id + " not found"));
 
-    public void deleteDayById(Long id) {
-        repository.deleteById(id);
+        // Update the fields of the existing Day entity with the values from the DayDto
+        existingDay.setLocation(dayDto.getLocation());
+        existingDay.setCoordinates(dayDto.getCoordinates());
+        existingDay.setDateOfSunriseSunset(dayDto.getDateOfSunriseSunset());
+        existingDay.setTimeOfSunrise(dayDto.getTimeOfSunrise());
+        existingDay.setTimeOfSunset(dayDto.getTimeOfSunset());
+        existingDay.setWeatherConditions(dayDto.getWeatherConditions());
+
+        // Save the updated Day entity back to the database
+        repository.save(existingDay);
     }
-
-    public DayDto findDayById(Long id) {
-        Day day = repository.findById(id).orElseThrow(() -> new HttpErrorExceptions.CustomNotFoundException("Day not found with id: " + id));
-        return DayMapper.toDto(day);
-    }
-
 }

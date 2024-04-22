@@ -182,14 +182,16 @@ public class CountryService {
         }
     }
 
-    public CountryDto updateCountryById(Long id, String newName) {
+    public void updateCountryById(Long id, String newName, String newCapital, Long newPopulation, String newLanguage) {
         Country country = repositoryOfCountry.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Страна с ID " + id + " не найдена"));
         country.setName(newName);
+        country.setCapital(newCapital);
+        country.setPopulation(newPopulation);
+        country.setLanguage(newLanguage);
         Country updatedCountry = repositoryOfCountry.save(country);
-        return CountryMapper.toDto(updatedCountry);
+        CountryMapper.toDto(updatedCountry);
     }
-
 
     public Optional<Country> findById(final Long id) {
         Optional<Country> country = repositoryOfCountry.findById(id);

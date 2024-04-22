@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sunposition.springdays.dto.CountryDto;
 import sunposition.springdays.dto.DayDto;
+import sunposition.springdays.mapper.DayMapper;
 import sunposition.springdays.model.Country;
+import sunposition.springdays.model.Day;
 import sunposition.springdays.service.CountryService;
 
 import jakarta.persistence.EntityNotFoundException;
+import sunposition.springdays.service.DayService;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +33,8 @@ import java.util.Optional;
 public class CountryController {
 
     private final CountryService service;
+    private final DayService dayService;
+
 
     static final Logger LOGGER = LogManager.getLogger(CountryController.class);
     private static final String REDIRECT = "redirect:/api/v2/country";
@@ -60,18 +66,18 @@ public class CountryController {
             @Valid @ModelAttribute("country") final CountryDto countryDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(error -> redirectAttributes.addFlashAttribute(ERROR_MESSAGE, error.getDefaultMessage()));
-            return "createCountry";
+            return "countries/create";
         }
         try {
             LOGGER.info("Saving a country");
             service.saveCountry(countryDto);
             LOGGER.info("Country saved successfully");
             redirectAttributes.addFlashAttribute("successMessage", "Country saved successfully");
-            return REDIRECT;
+            return "countries/create";
         } catch (RuntimeException e) {
             LOGGER.error("Error saving country", e);
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Error saving country: " + e.getMessage());
-            return "redirect:/createCountry";
+            return "countries/create";
         }
     }
 
@@ -103,6 +109,19 @@ public class CountryController {
             LOGGER.info("Country not found");
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/addEvent")
+    public String addEvent(@ModelAttribute("day") DayDto dayDto, Model model)  {
+        Day day = DayMapper.toEntity(dayDto);
+        dayService.saveSunriseSunset(day, "POST");
+        return REDIRECT;
+    }
+
+    @GetMapping("/addEvent")
+    public String showCreateCountryForm(Model model) {
+        model.addAttribute("country", new CountryDto());
+        return "create";
     }
 
     @Operation(method = "DELETE",
@@ -142,33 +161,25 @@ public class CountryController {
     @PutMapping("/{id}")
     public String updateCountryById(
             @PathVariable final Long id,
-            @RequestBody final CountryDto countryDto,
+            @Valid @ModelAttribute("country") final CountryDto countryDto,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "updateCountry";
-        LOGGER.info("Updating country name");
-        CountryDto updatedCountryDto = service.updateCountryById(id, countryDto.getName());
-        LOGGER.info("Country updated successfully: {}", updatedCountryDto.getName());
+        service.updateCountryById(id, countryDto.getName(), countryDto.getCapital(), countryDto.getPopulation(), countryDto.getLanguage());
+        LOGGER.info("Update Agency");
         return REDIRECT;
     }
 
     @GetMapping("/update/{id}")
     public String updateCountry(@PathVariable Long id, Model model) {
         try {
-            final Optional<Country> countryOptional = service.findById(id);
-            if (countryOptional.isPresent()) {
-                Country country = countryOptional.get();
-                model.addAttribute("country", country);
-                return "updateCountry";
-            } else {
-                model.addAttribute(ERROR_MESSAGE, "Страна с ID " + id + " не найдена");
-                return ERROR_REDIRECT;
-            }
+            final Optional<Country> countries = service.findById(id);
+            model.addAttribute("countries", countries);
+            return "updateCountry";
         } catch (EntityNotFoundException e) {
             model.addAttribute(ERROR_MESSAGE, e.getMessage());
             return ERROR_REDIRECT;
         }
     }
-
 
     @Operation(method = "GET",
             summary = "Поиск дней по имени страны и погодным условиям",
