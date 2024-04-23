@@ -22,10 +22,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.mapper.DayMapper;
+import sunposition.springdays.model.Country;
 import sunposition.springdays.model.Day;
+import sunposition.springdays.service.CountryService;
 import sunposition.springdays.service.DayService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/v2/sunrise_sunset")
@@ -34,6 +37,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DayController {
     private final DayService service;
+    private final CountryService countryService;
 
     static final Logger LOGGER = LogManager.getLogger(DayController.class);
     private static final String REDIRECT = "redirect:/api/v2/sunrise_sunset";
@@ -69,16 +73,24 @@ public class DayController {
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            bindingResult.
-                    getAllErrors().forEach(error -> redirectAttributes.
+
+            bindingResult.getAllErrors().
+                    forEach(error -> redirectAttributes.
                             addFlashAttribute(ERROR_MESSAGE,
                                     error.getDefaultMessage()));
             return "createDay";
         }
         try {
             LOGGER.info("Saving sunrise and sunset time");
+            Optional<Country> country = countryService.
+                    findByName(dayDto.getNameCountry());
+            if (!country.isPresent()) {
+                throw new HttpErrorExceptions.
+                        CustomNotFoundException("Country not found");
+            }
             Day day = DayMapper.toEntity(dayDto);
-            Day savedDay = service.saveSunriseSunset(day, "POST");
+            day.setCountry(country.get());
+            Day savedDay = service.saveSunriseSunset(day);
             DayDto savedDayDto = DayMapper.toDto(savedDay);
             LOGGER.info(
                     "Sunrise and sunset time saved successfully: {}",
@@ -87,11 +99,10 @@ public class DayController {
                     addFlashAttribute("successMessage",
                             "Day saved successfully");
             return REDIRECT;
-        } catch (HttpErrorExceptions.CustomMethodNotAllowedException e) {
-            LOGGER.error("Method Not Allowed: {}", e.getMessage(), e);
-            redirectAttributes.
-                    addFlashAttribute(ERROR_MESSAGE,
-                            "Error saving day: " + e.getMessage());
+        } catch (HttpErrorExceptions.CustomNotFoundException e) {
+            LOGGER.error("Country Not Found: {}", e.getMessage(), e);
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
+                    "Error saving day: " + e.getMessage());
             return "redirect:/createDay";
         } catch (Exception e) {
             LOGGER.error("An error occurred: {}", e.getMessage(), e);
@@ -101,6 +112,9 @@ public class DayController {
             return "redirect:/createDay";
         }
     }
+
+
+
 
     @Operation(method = "GET",
             summary = "Поиск события по местоположению",

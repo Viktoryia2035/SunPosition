@@ -38,6 +38,7 @@ public class CountryController {
     private static final String ERROR_MESSAGE = "errorMessage";
     private static final String ERROR_REDIRECT = "days/error";
     private static final String COUNTRIES_VIEW = "countries";
+    private static final String SUCCESS_MESSAGE = "successMessage";
 
     @Operation(method = "GET",
             summary = "Получить все страны",
@@ -70,16 +71,16 @@ public class CountryController {
                     forEach(error -> redirectAttributes.
                             addFlashAttribute(ERROR_MESSAGE,
                                     error.getDefaultMessage()));
-            return "countries/create";
+            return "createCountry";
         }
         try {
             LOGGER.info("Saving a country");
             service.saveCountry(countryDto);
             LOGGER.info("Country saved successfully");
             redirectAttributes.
-                    addFlashAttribute("successMessage",
+                    addFlashAttribute(SUCCESS_MESSAGE,
                             "Country saved successfully");
-            return "countries/create";
+            return REDIRECT;
         } catch (RuntimeException e) {
             LOGGER.error("Error saving country", e);
             redirectAttributes.
@@ -169,7 +170,7 @@ public class CountryController {
             service.updateCountry(id, countryDto);
             LOGGER.info("Country updated successfully");
             redirectAttributes.addFlashAttribute(
-                    "successMessage", "Country updated successfully");
+                    SUCCESS_MESSAGE, "Country updated successfully");
             return REDIRECT;
         } catch (EntityNotFoundException e) {
             LOGGER.error("Country not found", e);
@@ -178,8 +179,6 @@ public class CountryController {
             return ERROR_REDIRECT;
         }
     }
-
-
 
 
     @Operation(method = "GET",

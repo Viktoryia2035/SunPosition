@@ -76,6 +76,12 @@
       th:object="${day}">
 
     <div class="mb-3">
+        <label for="nameCountry" class="form-label">Название страны:</label>
+        <input type="text" th:field="*{nameCountry}" class="form-control" id="nameCountry" placeholder="Название страны">
+        <div style="color:red" th:if="${#fields.hasErrors('nameCountry')}" th:errors="*{nameCountry}">nameCountry</div>
+    </div>
+
+    <div class="mb-3">
         <label for="location" class="form-label">Введите местоположение:</label>
         <input type="text" th:field="*{location}" class="form-control" id="location" placeholder="Местоположение">
         <div style="color:red" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">location</div>

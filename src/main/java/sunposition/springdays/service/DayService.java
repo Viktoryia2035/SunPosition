@@ -8,6 +8,7 @@ import sunposition.springdays.cache.DataCache;
 import sunposition.springdays.dto.DayDto;
 import sunposition.springdays.exception.HttpErrorExceptions;
 import sunposition.springdays.mapper.DayMapper;
+import sunposition.springdays.model.Country;
 import sunposition.springdays.model.Day;
 import sunposition.springdays.repository.InMemoryDayDAO;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 @Transactional
 public class DayService {
     private final InMemoryDayDAO repository;
+    private CountryService countryService;
     private final DataCache dayCache;
 
     public static final String MESSAGE_OF_DAY = "Sunrise/sunset not found";
@@ -35,26 +37,16 @@ public class DayService {
         return allDays;
     }
 
-    public Day saveSunriseSunset(final Day day, final String httpMethod) {
-        if (!"POST".equalsIgnoreCase(httpMethod)) {
-            throw new HttpErrorExceptions.
-                    CustomMethodNotAllowedException(
-                            "Method not allowed for the provided request."
-            );
+    public Day saveSunriseSunset(final Day day) {
+        if (day.getCountry() != null && day.getCountry().getName() != null) {
+            Country country = countryService.
+                    findByName(day.getCountry().
+                            getName()).
+                    orElseThrow(() -> new HttpErrorExceptions.
+                            CustomNotFoundException("Country not found"));
+            day.setCountry(country);
         }
-        try {
-            Day savedDay = repository.save(day);
-            String cacheKey = LOCATION_PREFIX + savedDay.getLocation();
-            DayDto dayDto = DayMapper.toDto(savedDay);
-            dayCache.put(cacheKey, dayDto);
-            dayCache.clear();
-            return savedDay;
-        } catch (RuntimeException e) {
-            throw new HttpErrorExceptions.
-                    CustomInternalServerErrorException(
-                            "An error occurred while saving the day",
-                    e);
-        }
+        return repository.save(day);
     }
 
     public Day findByLocation(final String location) {

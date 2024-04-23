@@ -24,6 +24,8 @@ public class DayDto {
     private LocalTime timeOfSunset;
     private String weatherConditions;
 
+    private String nameCountry;
+
     public LocalDate getDate() {
         return dateOfSunriseSunset;
     }

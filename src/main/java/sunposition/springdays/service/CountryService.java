@@ -99,6 +99,9 @@ public class CountryService {
                     + "while saving the country", e);
         }
     }
+    public Optional<Country> findByName(final String name) {
+        return repositoryOfCountry.findByName(name);
+    }
 
     public void bulkSaveDays(final List<CountryDto> countryDtoList) {
         try {

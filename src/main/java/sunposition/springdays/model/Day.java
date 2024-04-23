@@ -31,7 +31,7 @@ public class Day {
     @Column(name = "coordinates")
     private String coordinates;
 
-    @Column(name = "date")
+    @Column(name = "date_of_sunrise_sunset")
     private LocalDate dateOfSunriseSunset;
 
     @Column(name = "sunrise")
