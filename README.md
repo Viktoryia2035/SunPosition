@@ -72,4 +72,4 @@ P.S. For inspiration, use examples of sites that you use yourself: Google, Yande
 ***
 
 ## SonarCloud
-You can view the results of Sonar Cloud at this link: https://sonarcloud.io/project/overview?id=Viktoryia2035_JavaLabs
+You can view the results of Sonar Cloud at this link: [https://sonarcloud.io/project/overview?id=Viktoryia2035_JavaLabs](https://sonarcloud.io/summary/new_code?id=Viktoryia2035_SunPosition)
