@@ -1,0 +1,234 @@
+﻿2024-04-23 09:18:00 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-04-23 09:18:00 [main] INFO  s.springdays.SpringDaysApplication - Starting SpringDaysApplication using Java 21.0.2 with PID 8840 (D:\ПнаЯВУ Java\springdays\target\classes started by User in D:\ПнаЯВУ Java\springdays)
+2024-04-23 09:18:00 [main] INFO  s.springdays.SpringDaysApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-23 09:18:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-23 09:18:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 79 ms. Found 2 JPA repository interfaces.
+2024-04-23 09:18:02 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-04-23 09:18:02 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-23 09:18:02 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-04-23 09:18:02 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-23 09:18:02 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-04-23 09:18:02 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2180 ms
+2024-04-23 09:18:02 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-23 09:18:02 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-23 09:18:02 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-04-23 09:18:03 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-23 09:18:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-04-23 09:18:03 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7e5e6573
+2024-04-23 09:18:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-04-23 09:18:04 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-23 09:18:04 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 09:18:04 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-23 09:18:06 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-04-23 09:18:06 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-04-23 09:18:06 [main] INFO  s.springdays.SpringDaysApplication - Started SpringDaysApplication in 6.502 seconds (process running for 7.772)
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  s.springdays.service.CountryService - Текущее количество запросов: 1
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null)]
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 09:18:23 [http-nio-8080-exec-1] INFO  s.s.controller.CountryController - Found 5 countries
+2024-04-23 09:18:24 [http-nio-8080-exec-2] WARN  o.s.web.servlet.PageNotFound - No mapping for GET /favicon.ico
+2024-04-23 09:18:53 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Saving a country
+2024-04-23 09:18:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Entering method: saveCountry
+2024-04-23 09:18:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method arguments: CountryDto(id=null, name=Россия, capital=Москва, population=48000000, language=Русский, days=null)
+2024-04-23 09:18:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Exiting method: saveCountry, with result: null
+2024-04-23 09:18:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method: saveCountry has completed
+2024-04-23 09:18:53 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Country saved successfully
+2024-04-23 09:18:53 [http-nio-8080-exec-5] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 09:18:53 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 09:18:53 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:18:53 [http-nio-8080-exec-5] INFO  s.springdays.service.CountryService - Текущее количество запросов: 2
+2024-04-23 09:18:53 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=48000000, language=Русский, days=null)]
+2024-04-23 09:18:53 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 09:18:53 [http-nio-8080-exec-5] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 09:19:35 [http-nio-8080-exec-8] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 09:19:35 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 09:19:35 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:19:35 [http-nio-8080-exec-8] INFO  s.springdays.service.CountryService - Текущее количество запросов: 3
+2024-04-23 09:19:35 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=48000000, language=Русский, days=null)]
+2024-04-23 09:19:35 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 09:19:35 [http-nio-8080-exec-8] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 09:19:36 [http-nio-8080-exec-9] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 09:19:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 09:19:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:19:36 [http-nio-8080-exec-9] INFO  s.springdays.service.CountryService - Текущее количество запросов: 4
+2024-04-23 09:19:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=48000000, language=Русский, days=null)]
+2024-04-23 09:19:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 09:19:36 [http-nio-8080-exec-9] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 09:20:37 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Entering method: findByIdCountry
+2024-04-23 09:20:37 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method arguments: 8
+2024-04-23 09:20:37 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Exiting method: findByIdCountry, with result: CountryDto(id=8, name=Россия, capital=Москва, population=48000000, language=Русский, days=null)
+2024-04-23 09:20:37 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method: findByIdCountry has completed
+2024-04-23 09:20:45 [http-nio-8080-exec-3] INFO  s.s.controller.CountryController - Updating a country
+2024-04-23 09:20:45 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Entering method: updateCountry
+2024-04-23 09:20:45 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method arguments: 8, CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)
+2024-04-23 09:20:45 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Exiting method: updateCountry, with result: null
+2024-04-23 09:20:45 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method: updateCountry has completed
+2024-04-23 09:20:45 [http-nio-8080-exec-3] INFO  s.s.controller.CountryController - Country updated successfully
+2024-04-23 09:20:45 [http-nio-8080-exec-4] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 09:20:45 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 09:20:45 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:20:45 [http-nio-8080-exec-4] INFO  s.springdays.service.CountryService - Текущее количество запросов: 5
+2024-04-23 09:20:45 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 09:20:45 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 09:20:45 [http-nio-8080-exec-4] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 09:20:47 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 09:20:47 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 09:20:47 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:20:47 [http-nio-8080-exec-6] INFO  s.springdays.service.CountryService - Текущее количество запросов: 6
+2024-04-23 09:20:47 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 09:20:47 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 09:20:47 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 09:20:54 [http-nio-8080-exec-7] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 09:20:54 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 09:20:54 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:20:54 [http-nio-8080-exec-7] INFO  s.springdays.service.CountryService - Текущее количество запросов: 7
+2024-04-23 09:20:54 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 09:20:54 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 09:20:54 [http-nio-8080-exec-7] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 09:20:55 [http-nio-8080-exec-8] INFO  s.s.controller.DayController - Finding all sunrise and sunset times
+2024-04-23 09:20:55 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Entering method: findAllSunriseSunset
+2024-04-23 09:20:55 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 09:20:55 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAllSunriseSunset, with result: [Day{id=4, location='Барселона', coordinates='41.3851, 2.1734', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:20, timeOfSunset=20:20, weatherConditions='Ясно'}, Day{id=5, location='Мадрид', coordinates='40.4168, -3.7038', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:30, timeOfSunset=20:30, weatherConditions='Облачно'}, Day{id=6, location='Токио', coordinates='35.6895, 139.6917', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:40, timeOfSunset=20:40, weatherConditions='Ясно'}, Day{id=7, location='Осака', coordinates='34.6937, 135.5021', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:50, timeOfSunset=20:50, weatherConditions='Облачно'}, Day{id=8, location='Шанхай', coordinates='31.2304, 121.4737', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:00, timeOfSunset=21:00, weatherConditions='Ясно'}, Day{id=9, location='Гуанчжоу', coordinates='23.1291, 113.2644', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:10, timeOfSunset=21:10, weatherConditions='Облачно'}, Day{id=10, location='Мумбаи', coordinates='19.0760, 72.8777', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:20, timeOfSunset=21:20, weatherConditions='Ясно'}, Day{id=11, location='Дели', coordinates='28.7041, 77.1025', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:30, timeOfSunset=21:30, weatherConditions='Облачно'}, Day{id=12, location='Лион', coordinates='34.6937, 135.502', dateOfSunriseSunset=2024-04-17, timeOfSunrise=06:34, timeOfSunset=19:33, weatherConditions='Холодно'}]
+2024-04-23 09:20:55 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Method: findAllSunriseSunset has completed
+2024-04-23 09:20:55 [http-nio-8080-exec-8] INFO  s.s.controller.DayController - Found 9 sunrise and sunset times
+2024-04-23 09:21:55 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 09:21:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-04-23 09:21:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-04-23 11:00:36 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-04-23 11:00:36 [main] INFO  s.springdays.SpringDaysApplication - Starting SpringDaysApplication using Java 21.0.2 with PID 9988 (D:\ПнаЯВУ Java\springdays\target\classes started by User in D:\ПнаЯВУ Java\springdays)
+2024-04-23 11:00:36 [main] INFO  s.springdays.SpringDaysApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-23 11:00:37 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-23 11:00:37 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 2 JPA repository interfaces.
+2024-04-23 11:00:38 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-04-23 11:00:38 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-23 11:00:38 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-04-23 11:00:38 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-23 11:00:38 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-04-23 11:00:38 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2068 ms
+2024-04-23 11:00:38 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-23 11:00:38 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-23 11:00:38 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-04-23 11:00:38 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-23 11:00:39 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-04-23 11:00:39 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@577f9dfd
+2024-04-23 11:00:39 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-04-23 11:00:40 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-23 11:00:40 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 11:00:40 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-23 11:00:41 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-04-23 11:00:41 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-04-23 11:00:41 [main] INFO  s.springdays.SpringDaysApplication - Started SpringDaysApplication in 6.209 seconds (process running for 7.412)
+2024-04-23 11:00:44 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-23 11:00:44 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-04-23 11:00:44 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-04-23 11:00:44 [http-nio-8080-exec-1] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:00:44 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:00:44 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:00:44 [http-nio-8080-exec-1] INFO  s.springdays.service.CountryService - Текущее количество запросов: 1
+2024-04-23 11:00:45 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:00:45 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:00:45 [http-nio-8080-exec-1] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:00:45 [http-nio-8080-exec-2] WARN  o.s.web.servlet.PageNotFound - No mapping for GET /favicon.ico
+2024-04-23 11:00:48 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Entering method: findByIdCountry
+2024-04-23 11:00:48 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Method arguments: 3
+2024-04-23 11:00:48 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Exiting method: findByIdCountry, with result: CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null)
+2024-04-23 11:00:48 [http-nio-8080-exec-4] INFO  s.springdays.aop.LoggingAspect - Method: findByIdCountry has completed
+2024-04-23 11:00:50 [http-nio-8080-exec-3] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:00:50 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:00:50 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:00:50 [http-nio-8080-exec-3] INFO  s.springdays.service.CountryService - Текущее количество запросов: 2
+2024-04-23 11:00:50 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:00:50 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:00:50 [http-nio-8080-exec-3] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:00:58 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:00:58 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:00:58 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:00:58 [http-nio-8080-exec-6] INFO  s.springdays.service.CountryService - Текущее количество запросов: 3
+2024-04-23 11:00:58 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:00:58 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:00:58 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:00:59 [http-nio-8080-exec-7] INFO  s.s.controller.DayController - Finding all sunrise and sunset times
+2024-04-23 11:00:59 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Entering method: findAllSunriseSunset
+2024-04-23 11:00:59 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:00:59 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAllSunriseSunset, with result: [Day{id=4, location='Барселона', coordinates='41.3851, 2.1734', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:20, timeOfSunset=20:20, weatherConditions='Ясно'}, Day{id=5, location='Мадрид', coordinates='40.4168, -3.7038', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:30, timeOfSunset=20:30, weatherConditions='Облачно'}, Day{id=6, location='Токио', coordinates='35.6895, 139.6917', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:40, timeOfSunset=20:40, weatherConditions='Ясно'}, Day{id=7, location='Осака', coordinates='34.6937, 135.5021', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:50, timeOfSunset=20:50, weatherConditions='Облачно'}, Day{id=8, location='Шанхай', coordinates='31.2304, 121.4737', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:00, timeOfSunset=21:00, weatherConditions='Ясно'}, Day{id=9, location='Гуанчжоу', coordinates='23.1291, 113.2644', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:10, timeOfSunset=21:10, weatherConditions='Облачно'}, Day{id=10, location='Мумбаи', coordinates='19.0760, 72.8777', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:20, timeOfSunset=21:20, weatherConditions='Ясно'}, Day{id=11, location='Дели', coordinates='28.7041, 77.1025', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:30, timeOfSunset=21:30, weatherConditions='Облачно'}, Day{id=12, location='Лион', coordinates='34.6937, 135.502', dateOfSunriseSunset=2024-04-17, timeOfSunrise=06:34, timeOfSunset=19:33, weatherConditions='Холодно'}]
+2024-04-23 11:00:59 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Method: findAllSunriseSunset has completed
+2024-04-23 11:00:59 [http-nio-8080-exec-7] INFO  s.s.controller.DayController - Found 9 sunrise and sunset times
+2024-04-23 11:01:19 [http-nio-8080-exec-1] INFO  s.s.controller.DayController - Finding all sunrise and sunset times
+2024-04-23 11:01:19 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Entering method: findAllSunriseSunset
+2024-04-23 11:01:19 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:01:19 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAllSunriseSunset, with result: [Day{id=4, location='Барселона', coordinates='41.3851, 2.1734', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:20, timeOfSunset=20:20, weatherConditions='Ясно'}, Day{id=5, location='Мадрид', coordinates='40.4168, -3.7038', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:30, timeOfSunset=20:30, weatherConditions='Облачно'}, Day{id=6, location='Токио', coordinates='35.6895, 139.6917', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:40, timeOfSunset=20:40, weatherConditions='Ясно'}, Day{id=7, location='Осака', coordinates='34.6937, 135.5021', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:50, timeOfSunset=20:50, weatherConditions='Облачно'}, Day{id=8, location='Шанхай', coordinates='31.2304, 121.4737', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:00, timeOfSunset=21:00, weatherConditions='Ясно'}, Day{id=9, location='Гуанчжоу', coordinates='23.1291, 113.2644', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:10, timeOfSunset=21:10, weatherConditions='Облачно'}, Day{id=10, location='Мумбаи', coordinates='19.0760, 72.8777', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:20, timeOfSunset=21:20, weatherConditions='Ясно'}, Day{id=11, location='Дели', coordinates='28.7041, 77.1025', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:30, timeOfSunset=21:30, weatherConditions='Облачно'}, Day{id=12, location='Лион', coordinates='34.6937, 135.502', dateOfSunriseSunset=2024-04-17, timeOfSunrise=06:34, timeOfSunset=19:33, weatherConditions='Холодно'}]
+2024-04-23 11:01:19 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method: findAllSunriseSunset has completed
+2024-04-23 11:01:19 [http-nio-8080-exec-1] INFO  s.s.controller.DayController - Found 9 sunrise and sunset times
+2024-04-23 11:01:21 [http-nio-8080-exec-2] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:01:21 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:01:21 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:01:21 [http-nio-8080-exec-2] INFO  s.springdays.service.CountryService - Текущее количество запросов: 4
+2024-04-23 11:01:21 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:01:21 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:01:21 [http-nio-8080-exec-2] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:40:53 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:40:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:40:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:40:53 [http-nio-8080-exec-6] INFO  s.springdays.service.CountryService - Текущее количество запросов: 5
+2024-04-23 11:40:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:40:53 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:40:53 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:41:43 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m4s22ms716µs400ns).
+2024-04-23 11:50:36 [http-nio-8080-exec-9] INFO  s.s.controller.DayController - Finding all sunrise and sunset times
+2024-04-23 11:50:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Entering method: findAllSunriseSunset
+2024-04-23 11:50:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:50:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAllSunriseSunset, with result: [Day{id=4, location='Барселона', coordinates='41.3851, 2.1734', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:20, timeOfSunset=20:20, weatherConditions='Ясно'}, Day{id=5, location='Мадрид', coordinates='40.4168, -3.7038', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:30, timeOfSunset=20:30, weatherConditions='Облачно'}, Day{id=6, location='Токио', coordinates='35.6895, 139.6917', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:40, timeOfSunset=20:40, weatherConditions='Ясно'}, Day{id=7, location='Осака', coordinates='34.6937, 135.5021', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:50, timeOfSunset=20:50, weatherConditions='Облачно'}, Day{id=8, location='Шанхай', coordinates='31.2304, 121.4737', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:00, timeOfSunset=21:00, weatherConditions='Ясно'}, Day{id=9, location='Гуанчжоу', coordinates='23.1291, 113.2644', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:10, timeOfSunset=21:10, weatherConditions='Облачно'}, Day{id=10, location='Мумбаи', coordinates='19.0760, 72.8777', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:20, timeOfSunset=21:20, weatherConditions='Ясно'}, Day{id=11, location='Дели', coordinates='28.7041, 77.1025', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:30, timeOfSunset=21:30, weatherConditions='Облачно'}, Day{id=12, location='Лион', coordinates='34.6937, 135.502', dateOfSunriseSunset=2024-04-17, timeOfSunrise=06:34, timeOfSunset=19:33, weatherConditions='Холодно'}]
+2024-04-23 11:50:36 [http-nio-8080-exec-9] INFO  s.springdays.aop.LoggingAspect - Method: findAllSunriseSunset has completed
+2024-04-23 11:50:36 [http-nio-8080-exec-9] INFO  s.s.controller.DayController - Found 9 sunrise and sunset times
+2024-04-23 11:50:42 [http-nio-8080-exec-1] INFO  s.s.controller.DayController - Finding all sunrise and sunset times
+2024-04-23 11:50:42 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Entering method: findAllSunriseSunset
+2024-04-23 11:50:42 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:50:42 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAllSunriseSunset, with result: [Day{id=4, location='Барселона', coordinates='41.3851, 2.1734', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:20, timeOfSunset=20:20, weatherConditions='Ясно'}, Day{id=5, location='Мадрид', coordinates='40.4168, -3.7038', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:30, timeOfSunset=20:30, weatherConditions='Облачно'}, Day{id=6, location='Токио', coordinates='35.6895, 139.6917', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:40, timeOfSunset=20:40, weatherConditions='Ясно'}, Day{id=7, location='Осака', coordinates='34.6937, 135.5021', dateOfSunriseSunset=2024-09-06, timeOfSunrise=05:50, timeOfSunset=20:50, weatherConditions='Облачно'}, Day{id=8, location='Шанхай', coordinates='31.2304, 121.4737', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:00, timeOfSunset=21:00, weatherConditions='Ясно'}, Day{id=9, location='Гуанчжоу', coordinates='23.1291, 113.2644', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:10, timeOfSunset=21:10, weatherConditions='Облачно'}, Day{id=10, location='Мумбаи', coordinates='19.0760, 72.8777', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:20, timeOfSunset=21:20, weatherConditions='Ясно'}, Day{id=11, location='Дели', coordinates='28.7041, 77.1025', dateOfSunriseSunset=2024-09-06, timeOfSunrise=06:30, timeOfSunset=21:30, weatherConditions='Облачно'}, Day{id=12, location='Лион', coordinates='34.6937, 135.502', dateOfSunriseSunset=2024-04-17, timeOfSunrise=06:34, timeOfSunset=19:33, weatherConditions='Холодно'}]
+2024-04-23 11:50:42 [http-nio-8080-exec-1] INFO  s.springdays.aop.LoggingAspect - Method: findAllSunriseSunset has completed
+2024-04-23 11:50:42 [http-nio-8080-exec-1] INFO  s.s.controller.DayController - Found 9 sunrise and sunset times
+2024-04-23 11:50:43 [http-nio-8080-exec-2] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:50:43 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:50:43 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:50:43 [http-nio-8080-exec-2] INFO  s.springdays.service.CountryService - Текущее количество запросов: 6
+2024-04-23 11:50:43 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:50:43 [http-nio-8080-exec-2] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:50:43 [http-nio-8080-exec-2] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:50:46 [http-nio-8080-exec-3] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:50:46 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:50:46 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:50:46 [http-nio-8080-exec-3] INFO  s.springdays.service.CountryService - Текущее количество запросов: 7
+2024-04-23 11:50:46 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:50:46 [http-nio-8080-exec-3] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:50:46 [http-nio-8080-exec-3] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:50:47 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Entering method: findByIdCountry
+2024-04-23 11:50:47 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Method arguments: 3
+2024-04-23 11:50:47 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Exiting method: findByIdCountry, with result: CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null)
+2024-04-23 11:50:47 [http-nio-8080-exec-5] INFO  s.springdays.aop.LoggingAspect - Method: findByIdCountry has completed
+2024-04-23 11:50:49 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:50:49 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:50:49 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:50:49 [http-nio-8080-exec-6] INFO  s.springdays.service.CountryService - Текущее количество запросов: 8
+2024-04-23 11:50:49 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:50:49 [http-nio-8080-exec-6] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:50:49 [http-nio-8080-exec-6] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:50:50 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Entering method: findByIdCountry
+2024-04-23 11:50:50 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Method arguments: 3
+2024-04-23 11:50:50 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Exiting method: findByIdCountry, with result: CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null)
+2024-04-23 11:50:50 [http-nio-8080-exec-7] INFO  s.springdays.aop.LoggingAspect - Method: findByIdCountry has completed
+2024-04-23 11:50:52 [http-nio-8080-exec-8] INFO  s.s.controller.CountryController - Finding all countries
+2024-04-23 11:50:52 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Entering method: findAll
+2024-04-23 11:50:52 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Method arguments: null
+2024-04-23 11:50:52 [http-nio-8080-exec-8] INFO  s.springdays.service.CountryService - Текущее количество запросов: 9
+2024-04-23 11:50:52 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Exiting method: findAll, with result: [CountryDto(id=3, name=Испания, capital=Мадрид, population=47190422, language=Испанский, days=null), CountryDto(id=4, name=Япония, capital=Токио, population=126476461, language=Японский, days=null), CountryDto(id=5, name=Китай, capital=Пекин, population=1439323776, language=Китайский, days=null), CountryDto(id=6, name=Индия, capital=Новая Дели, population=1380004385, language=Хинди, Английский, days=null), CountryDto(id=7, name=Франция, capital=Париж, population=68700000, language=Французский, days=null), CountryDto(id=8, name=Россия, capital=Москва, population=146980000, language=Русский, days=null)]
+2024-04-23 11:50:52 [http-nio-8080-exec-8] INFO  s.springdays.aop.LoggingAspect - Method: findAll has completed
+2024-04-23 11:50:52 [http-nio-8080-exec-8] INFO  s.s.controller.CountryController - Found 6 countries
+2024-04-23 11:55:03 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m20s316ms937µs300ns).
+2024-04-23 11:55:19 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 11:55:19 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-04-23 11:55:19 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
