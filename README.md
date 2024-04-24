@@ -47,6 +47,18 @@ This service takes the coordinates of a location and a date as input and returns
 2. Using jmeter/postman or any other means, configure the load test and make sure that the request counter is working correctly under heavy load.
 ***
 
+## Task 7
+1. Make the client part (UI) using any technologies and/or libraries (Spring MVC, JS frameworks: React, Angular, etc.) to GET a request (OneToMany/ManyToMany).
+2. Implement a UI for adding, deleting and updating.
+P.S. For inspiration, use examples of sites that you use yourself: Google, Yandex, GitHub, etc.
+***
+
+## Task 8
+1. (0 - 7 points) Launch the application in the docker.
+2. (8-9 points) Place the application on any free hosting (Render, Railway, Fly.io Openshift, etc.)
+3. (10 points + 5 points for any lab) Set up CI on GitHub (Write a script in the repository to build the source code into a jar file and place it on your hosting).
+***
+
 ## HTTP requests
 + GET localhost:8080/api/v2/country - show all saved contries
 + GET localhost:8080/api/v2/sunrise_sunset - show all saved days
