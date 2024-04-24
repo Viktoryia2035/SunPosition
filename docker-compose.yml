@@ -1,9 +1,9 @@
 version: '3.9'
 
 services:
-  postgres:
+  db:
     image: postgres
-    container_name: postgres_java
+    container_name: db
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -15,16 +15,16 @@ services:
       - text-network
 
   app:
-    image: textjava
+    image: weatherjava
     ports:
       - "8080:8080"
     environment:
       DB_USER: postgres
       DB_PASSWORD: 123
       DB_NAME: postgres
-      DB_HOST: postgres:5432
+      DB_HOST: db:5432
     depends_on:
-      - postgres
+      - db
     networks:
       - text-network
 
