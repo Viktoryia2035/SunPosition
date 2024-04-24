@@ -10,6 +10,8 @@ This service takes the coordinates of a location and a date as input and returns
 - [Task 4](#task-4)
 - [Task 5](#task-5)
 - [Task 6](#task-6)
+- [Task 7](#task-7)
+- [Task 8](#task-8)
 - [HTTP requests](#HTTP-requests)
 - [SonarCloud](#sonarCloud)
 ***
